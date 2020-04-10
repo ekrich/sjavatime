@@ -1,10 +1,10 @@
 package java.time.chrono
 
-import scala.scalajs.js
-
 import java.time.{Period, DateTimeException}
 import java.time.temporal.{ValueRange, ChronoField, TemporalAccessor}
 import java.{util => ju}
+
+import shared.PlatformSpecific
 
 trait Chronology extends Comparable[Chronology] {
   def getId(): String
@@ -24,8 +24,8 @@ trait Chronology extends Comparable[Chronology] {
   def dateEpochDay(epochDay: Long): ChronoLocalDate
 
   def dateNow(): ChronoLocalDate = {
-    val d = new js.Date()
-    date(d.getFullYear.toInt, d.getMonth.toInt, d.getDate.toInt)
+    val (year, month, day) = PlatformSpecific.chronoLocalDate()
+    date(year, month, day)
   }
 
   // Not implemented

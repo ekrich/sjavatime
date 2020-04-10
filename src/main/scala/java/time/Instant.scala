@@ -1,13 +1,13 @@
 package java.time
 
-import scala.scalajs.js
-
 import java.time.Preconditions.requireDateTimeParse
 import java.time.chrono.IsoChronology
 import java.time.format.DateTimeParseException
 import java.time.temporal._
 
 import scala.util.control.NonFatal
+
+import shared.PlatformSpecific
 
 /** Created by alonsodomin on 26/12/2015. */
 final class Instant private (private val seconds: Long, private val nanos: Int)
@@ -319,8 +319,8 @@ object Instant {
   final val MAX = ofEpochSecond(MaxSecond, MaxNanosInSecond)
 
   def now(): Instant = {
-    val date = new js.Date()
-    ofEpochMilli(date.getTime.toLong)
+    val epochMilli = PlatformSpecific.epochMilli()
+    ofEpochMilli(epochMilli)
   }
 
   // Not implemented

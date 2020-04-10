@@ -1,12 +1,12 @@
 package java.time
 
-import scala.scalajs.js
-
 import java.time.chrono._
 import java.time.format.DateTimeParseException
 import java.time.temporal._
 
 import scala.util.control.NonFatal
+
+import shared.PlatformSpecific
 
 final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
     extends ChronoLocalDate with Serializable {
@@ -390,8 +390,8 @@ object LocalDate {
   final val MAX = new LocalDate(Year.MAX_VALUE, Month.DECEMBER, 31)
 
   def now(): LocalDate = {
-    val d = new js.Date()
-    of(d.getFullYear.toInt, d.getMonth.toInt + 1, d.getDate.toInt)
+    val (year, month, day) = PlatformSpecific.localDate()
+    of(year, month, day)
   }
 
   // Not implemented

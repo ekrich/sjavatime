@@ -1,8 +1,8 @@
 package java.time
 
-import scala.scalajs.js
-
 import java.time.temporal._
+
+import shared.PlatformSpecific
 
 final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
     extends Temporal with TemporalAdjuster with Comparable[LocalTime]
@@ -322,10 +322,8 @@ object LocalTime {
   val NOON = new LocalTime(12, 0, 0, 0)
 
   def now(): LocalTime = {
-    val date = new js.Date()
-    val nano = date.getMilliseconds.toInt * 1000000
-    new LocalTime(date.getHours.toInt, date.getMinutes.toInt,
-        date.getSeconds.toInt, nano)
+    val (hour, minute, second, nano) = PlatformSpecific.localTime()
+    new LocalTime(hour, minute, second, nano)
   }
 
   // Not implemented
