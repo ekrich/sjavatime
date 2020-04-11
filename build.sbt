@@ -1,12 +1,7 @@
 import sbtcrossproject.crossProject
 
-crossScalaVersions in ThisBuild := {
-  val allVersions = Seq("2.12.10", "2.11.12", "2.10.7", "2.13.1")
-  if (scalaJSVersion.startsWith("0.6."))
-    allVersions
-  else
-    allVersions.filter(!_.startsWith("2.10."))
-}
+crossScalaVersions in ThisBuild := Seq("2.12.10", "2.11.12", "2.13.1")
+
 scalaVersion in ThisBuild := (crossScalaVersions in ThisBuild).value.head
 
 val commonSettings: Seq[Setting[_]] = Seq(
@@ -22,12 +17,17 @@ val commonSettings: Seq[Setting[_]] = Seq(
       "scm:git:git@github.com:scala-js/scala-js-java-time.git",
       Some("scm:git:git@github.com:scala-js/scala-js-java-time.git")))
 )
+lazy val root = (project in file("."))
+  .aggregate(
+    sjavatime,
+    testSuiteJVM,
+    testSuiteJS,
+  )
 
-lazy val root: Project = project.in(file(".")).
-  enablePlugins(ScalaJSPlugin).
-  settings(commonSettings).
-  settings(
-    name := "scalajs-java-time",
+lazy val sjavatime = project
+  .enablePlugins(ScalaJSPlugin)
+  .settings(commonSettings)
+  .settings(
 
     mappings in (Compile, packageBin) ~= {
       _.filter(!_._2.endsWith(".class"))
@@ -75,7 +75,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform).
   jsSettings(
     name := "java.time testSuite on JS"
   ).
-  jsConfigure(_.dependsOn(root)).
+  jsConfigure(_.dependsOn(sjavatime)).
   jvmSettings(
     name := "java.time testSuite on JVM",
     libraryDependencies +=
