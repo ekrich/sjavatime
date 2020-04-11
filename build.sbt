@@ -21,12 +21,13 @@ val commonSettings: Seq[Setting[_]] = Seq(
 )
 lazy val root = (project in file("."))
   .aggregate(
-    sjavatime,
+    sjavatime.js,
     testSuiteJVM,
     testSuiteJS
   )
 
-lazy val sjavatime = project
+lazy val sjavatime = crossProject(JSPlatform)
+  .crossType(CrossType.Pure)
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings)
   .settings(
@@ -79,7 +80,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
   .jsSettings(
     name := "java.time testSuite on JS"
   )
-  .jsConfigure(_.dependsOn(sjavatime))
+  .jsConfigure(_.dependsOn(sjavatime.js))
   .jvmSettings(
     name := "java.time testSuite on JVM",
     libraryDependencies +=
