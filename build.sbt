@@ -8,32 +8,32 @@ val commonSettings: Seq[Setting[_]] = Seq(
   version := "1.0.1-SNAPSHOT",
   organization := "org.scala-js",
   scalacOptions ++= Seq("-deprecation", "-feature", "-Xfatal-warnings"),
-
   homepage := Some(url("http://scala-js.org/")),
   licenses += ("BSD New",
-      url("https://github.com/scala-js/scala-js-java-time/blob/master/LICENSE")),
-  scmInfo := Some(ScmInfo(
+  url("https://github.com/scala-js/scala-js-java-time/blob/master/LICENSE")),
+  scmInfo := Some(
+    ScmInfo(
       url("https://github.com/scala-js/scala-js-java-time"),
       "scm:git:git@github.com:scala-js/scala-js-java-time.git",
-      Some("scm:git:git@github.com:scala-js/scala-js-java-time.git")))
+      Some("scm:git:git@github.com:scala-js/scala-js-java-time.git")
+    )
+  )
 )
 lazy val root = (project in file("."))
   .aggregate(
     sjavatime,
     testSuiteJVM,
-    testSuiteJS,
+    testSuiteJS
   )
 
 lazy val sjavatime = project
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings)
   .settings(
-
     mappings in (Compile, packageBin) ~= {
       _.filter(!_._2.endsWith(".class"))
     },
     exportJars := true,
-
     publishMavenStyle := true,
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
@@ -43,7 +43,7 @@ lazy val sjavatime = project
         Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
     pomExtra := (
-        <developers>
+      <developers>
           <developer>
             <id>sjrd</id>
             <name>Sébastien Doeraene</name>
@@ -64,19 +64,23 @@ lazy val sjavatime = project
     pomIncludeRepository := { _ => false }
   )
 
-lazy val testSuite = crossProject(JSPlatform, JVMPlatform).
-  jsConfigure(_ .enablePlugins(ScalaJSJUnitPlugin)).
-  settings(commonSettings: _*).
-  settings(
+lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
+  .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
+  .settings(commonSettings: _*)
+  .settings(
     testOptions +=
-      Tests.Argument(TestFramework("com.novocode.junit.JUnitFramework"), "-v", "-a"),
+      Tests.Argument(
+        TestFramework("com.novocode.junit.JUnitFramework"),
+        "-v",
+        "-a"
+      ),
     scalacOptions += "-target:jvm-1.8"
-  ).
-  jsSettings(
+  )
+  .jsSettings(
     name := "java.time testSuite on JS"
-  ).
-  jsConfigure(_.dependsOn(sjavatime)).
-  jvmSettings(
+  )
+  .jsConfigure(_.dependsOn(sjavatime))
+  .jvmSettings(
     name := "java.time testSuite on JVM",
     libraryDependencies +=
       "com.novocode" % "junit-interface" % "0.9" % "test"
