@@ -1,6 +1,13 @@
 import sbtcrossproject.crossProject
 
-crossScalaVersions in ThisBuild := Seq("2.12.10", "2.11.12", "2.13.1")
+val scala211 = "2.11.12"
+val scala212 = "2.12.11"
+val scala213 = "2.13.1"
+
+val versionsBase   = Seq(scala212, scala211, scala213)
+val versionsJS     = versionsBase
+val versionsNative = Seq(scala211)
+crossScalaVersions in ThisBuild := versionsBase
 
 scalaVersion in ThisBuild := (crossScalaVersions in ThisBuild).value.head
 
@@ -21,12 +28,13 @@ val commonSettings: Seq[Setting[_]] = Seq(
 )
 lazy val root = (project in file("."))
   .aggregate(
-    sjavatime.js,
+    sjavatimeJS,
+    sjavatimeNative,
     testSuiteJVM,
     testSuiteJS
   )
 
-lazy val sjavatime = crossProject(JSPlatform)
+lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings)
@@ -64,6 +72,17 @@ lazy val sjavatime = crossProject(JSPlatform)
     ),
     pomIncludeRepository := { _ => false }
   )
+  .nativeSettings(
+    crossScalaVersions := versionsNative,
+    scalaVersion := scala211, // allows to compile if scalaVersion set not 2.11
+    nativeLinkStubs := true,
+    logLevel := Level.Info, // Info or Debug
+    //libraryDependencies += "com.github.lolgab" %%% "minitest" % "2.5.0-5f3852e" % Test,
+    //testFrameworks += new TestFramework("minitest.runner.Framework")
+  )
+
+lazy val sjavatimeJS = sjavatime.js
+lazy val sjavatimeNative = sjavatime.native
 
 lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
   .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
