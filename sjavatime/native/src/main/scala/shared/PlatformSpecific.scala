@@ -2,15 +2,7 @@ package shared
 
 import java.time.Month
 
-
-
 object PlatformSpecific extends PlatformCommon {
-  def epochMilli(): Long = ???
-  // {
-  //   val date = new js.Date()
-  //   date.getTime.toLong
-  // }
-
   def localDate(): (Int, Int, Int) = ???
   // {
   //   val d = new js.Date()

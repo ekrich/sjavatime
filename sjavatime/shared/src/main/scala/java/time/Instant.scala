@@ -318,10 +318,8 @@ object Instant {
   final val MIN = ofEpochSecond(MinSecond)
   final val MAX = ofEpochSecond(MaxSecond, MaxNanosInSecond)
 
-  def now(): Instant = {
-    val epochMilli = PlatformSpecific.epochMilli()
-    ofEpochMilli(epochMilli)
-  }
+  def now(): Instant =
+    ofEpochMilli(System.currentTimeMillis())
 
   // Not implemented
   // def now(zoneId: ZoneId): Instant

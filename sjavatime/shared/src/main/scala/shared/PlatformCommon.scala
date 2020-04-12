@@ -1,8 +1,6 @@
 package shared
 
 trait PlatformCommon {
-  def epochMilli(): Long
-
   /**
     * The local date tuple with month values 1 to 12
     *

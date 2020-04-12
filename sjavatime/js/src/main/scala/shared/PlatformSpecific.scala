@@ -5,11 +5,6 @@ import java.time.Month
 import scala.scalajs.js
 
 object PlatformSpecific extends PlatformCommon {
-  def epochMilli(): Long = {
-    val date = new js.Date()
-    date.getTime.toLong
-  }
-
   def localDate(): (Int, Int, Int) = {
     val d = new js.Date()
     (d.getFullYear.toInt, d.getMonth.toInt + 1, d.getDate.toInt)
