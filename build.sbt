@@ -27,7 +27,7 @@ lazy val root = (project in file("."))
   )
 
 lazy val sjavatime = crossProject(JSPlatform)
-  .crossType(CrossType.Pure)
+  .crossType(CrossType.Full)
   .enablePlugins(ScalaJSPlugin)
   .settings(commonSettings)
   .settings(
