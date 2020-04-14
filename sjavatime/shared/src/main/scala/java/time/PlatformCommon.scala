@@ -6,21 +6,21 @@ private[time] trait PlatformCommon {
     *
     * @return year, month, day
     */
-  private[time] def localDate(): (Int, Int, Int)
+  def localDate(): (Int, Int, Int)
 
   /**
     * The local date tuple with month values 0 to 11
     *
     * @return year, month, day
     */
-  private[time] def chronoLocalDate(): (Int, Int, Int)
+  def chronoLocalDate(): (Int, Int, Int)
 
   /**
     * The local time tuple
     *
     * @return hour, minute, second, nano
     */
-  private[time] def localTime(): (Int, Int, Int, Int)
+  def localTime(): (Int, Int, Int, Int)
 
   /**
     * The min of the day or the last day of the month
@@ -29,5 +29,5 @@ private[time] trait PlatformCommon {
     * @param lastDayOfMonth or max day in this month
     * @return dayOfMonth
     */
-  private[time] def minDay(day: Int, lastDayOfMonth: Int): Int
+  def minDay(day: Int, lastDayOfMonth: Int): Int
 }
