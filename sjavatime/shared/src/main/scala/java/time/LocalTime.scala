@@ -2,8 +2,6 @@ package java.time
 
 import java.time.temporal._
 
-import shared.PlatformSpecific
-
 final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
     extends Temporal with TemporalAdjuster with Comparable[LocalTime]
     with java.io.Serializable {

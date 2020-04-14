@@ -1,10 +1,8 @@
 package java.time.chrono
 
-import java.time.{Period, DateTimeException}
+import java.time.{Period, DateTimeException, PlatformSpecific}
 import java.time.temporal.{ValueRange, ChronoField, TemporalAccessor}
 import java.{util => ju}
-
-import shared.PlatformSpecific
 
 trait Chronology extends Comparable[Chronology] {
   def getId(): String

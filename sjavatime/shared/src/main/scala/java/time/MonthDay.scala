@@ -4,8 +4,6 @@ import java.time.chrono.IsoChronology
 
 import java.time.temporal._
 
-import shared.PlatformSpecific
-
 /** Created by alonsodomin on 22/12/2015. */
 final class MonthDay private (month: Int, day: Int)
     extends TemporalAccessor with TemporalAdjuster with Comparable[MonthDay]

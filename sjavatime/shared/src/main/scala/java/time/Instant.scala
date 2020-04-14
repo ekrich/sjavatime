@@ -7,8 +7,6 @@ import java.time.temporal._
 
 import scala.util.control.NonFatal
 
-import shared.PlatformSpecific
-
 /** Created by alonsodomin on 26/12/2015. */
 final class Instant private (private val seconds: Long, private val nanos: Int)
     extends TemporalAccessor with Temporal with TemporalAdjuster

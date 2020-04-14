@@ -6,8 +6,6 @@ import java.time.temporal._
 
 import scala.util.control.NonFatal
 
-import shared.PlatformSpecific
-
 final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
     extends ChronoLocalDate with Serializable {
   import Preconditions.requireDateTime
