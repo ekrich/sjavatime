@@ -1,11 +1,11 @@
 package java.time
 
 private[time] object PlatformSpecific extends PlatformCommon {
-  def localDate(): (Int, Int, Int) = ???
-  // {
-  //   val d = new js.Date()
-  //   (d.getFullYear.toInt, d.getMonth.toInt + 1, d.getDate.toInt)
-  // }
+  def localDate(): LocalDate = {
+    val epochSecond = Instant.toEpochSecond(System.currentTimeMillis())
+    val epochDay = Instant.toEpochDay(epochSecond)
+    LocalDate.ofEpochDay(epochDay)
+  }
 
   def chronoLocalDate(): (Int, Int, Int) = ???
   // {

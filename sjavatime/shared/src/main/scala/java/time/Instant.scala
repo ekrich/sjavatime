@@ -255,7 +255,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
     }
 
     def dateTime(epochSecond: Long): (LocalDate, LocalTime) = {
-      val epochDay = Math.floorDiv(epochSecond, SECONDS_IN_DAY)
+      val epochDay = toEpochDay(epochSecond)
       val secondsOfDay = Math.floorMod(epochSecond, SECONDS_IN_DAY).toInt
       (LocalDate.ofEpochDay(epochDay), LocalTime.ofSecondOfDay(secondsOfDay).withNano(nanos))
     }
@@ -334,10 +334,16 @@ object Instant {
   }
 
   def ofEpochMilli(epochMilli: Long): Instant = {
-    val seconds = Math.floorDiv(epochMilli, MILLIS_IN_SECOND)
+    val seconds = toEpochSecond(epochMilli)
     val nanos = Math.floorMod(epochMilli, MILLIS_IN_SECOND)
     new Instant(seconds, nanos.toInt * NANOS_IN_MILLI)
   }
+
+  private[time] def toEpochSecond(epochMilli: Long): Long =
+    Math.floorDiv(epochMilli, MILLIS_IN_SECOND)
+
+  private[time] def toEpochDay(epochSecond: Long): Long =
+    Math.floorDiv(epochSecond, SECONDS_IN_DAY)
 
   def from(temporal: TemporalAccessor): Instant = temporal match {
     case temporal: Instant => temporal

@@ -2,11 +2,11 @@ package java.time
 
 private[time] trait PlatformCommon {
   /**
-    * The local date tuple with month values 1 to 12
+    * The local date for now
     *
-    * @return year, month, day
+    * @return now as a LocalDate
     */
-  def localDate(): (Int, Int, Int)
+  def localDate(): LocalDate
 
   /**
     * The local date tuple with month values 0 to 11

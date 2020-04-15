@@ -3,9 +3,9 @@ package java.time
 import scala.scalajs.js
 
 private[time] object PlatformSpecific extends PlatformCommon {
-  def localDate(): (Int, Int, Int) = {
+  def localDate(): LocalDate = {
     val d = new js.Date()
-    (d.getFullYear.toInt, d.getMonth.toInt + 1, d.getDate.toInt)
+    LocalDate.of(d.getFullYear.toInt, d.getMonth.toInt + 1, d.getDate.toInt)
   }
 
   def chronoLocalDate(): (Int, Int, Int) = {

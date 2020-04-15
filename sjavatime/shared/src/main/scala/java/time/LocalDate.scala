@@ -387,10 +387,7 @@ object LocalDate {
   final val MIN = new LocalDate(Year.MIN_VALUE, Month.JANUARY, 1)
   final val MAX = new LocalDate(Year.MAX_VALUE, Month.DECEMBER, 31)
 
-  def now(): LocalDate = {
-    val (year, month, day) = PlatformSpecific.localDate()
-    of(year, month, day)
-  }
+  def now(): LocalDate = PlatformSpecific.localDate()
 
   // Not implemented
   // def now(zone: ZoneId): LocalDate
