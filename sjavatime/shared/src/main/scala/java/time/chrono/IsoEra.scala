@@ -4,7 +4,7 @@ import java.time.DateTimeException
 
 final class IsoEra private (name: String, ordinal: Int)
     extends Enum[IsoEra](name, ordinal) with Era {
-  def getValue: Int = ordinal
+  def getValue(): Int = ordinal
 }
 
 object IsoEra {

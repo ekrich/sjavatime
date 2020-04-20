@@ -5,8 +5,6 @@ import java.time.chrono.{IsoEra, IsoChronology}
 import java.time.format.DateTimeParseException
 import java.time.temporal._
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class LocalDateTest extends TemporalTest[LocalDate] {
@@ -43,7 +41,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_getLong(): Unit = {
+  test("test_getLong") {
     for (d <- samples) {
       assertEquals(d.getDayOfWeek.getValue.toLong, d.getLong(DAY_OF_WEEK))
       assertEquals(d.getDayOfMonth.toLong, d.getLong(DAY_OF_MONTH))
@@ -83,45 +81,45 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     assertEquals(999999999L, MAX.getLong(YEAR_OF_ERA))
   }
 
-  @Test def test_getChronology(): Unit = {
+  test("test_getChronology") {
     for (d <- samples)
       assertEquals(IsoChronology.INSTANCE, d.getChronology)
   }
 
-  @Test def test_getEra(): Unit = {
-    assertEquals(IsoEra.BCE, MIN.getEra)
-    assertEquals(IsoEra.CE, someDate.getEra)
-    assertEquals(IsoEra.CE, leapDate.getEra)
-    assertEquals(IsoEra.CE, MAX.getEra)
+  test("test_getEra") {
+    assertEquals(MIN.getEra, IsoEra.BCE)
+    assertEquals(someDate.getEra, IsoEra.CE)
+    assertEquals(leapDate.getEra, IsoEra.CE)
+    assertEquals(MAX.getEra, IsoEra.CE)
   }
 
-  @Test def test_getYear(): Unit = {
+  test("test_getYear") {
     assertEquals(-999999999, MIN.getYear)
     assertEquals(2011, someDate.getYear)
     assertEquals(2012, leapDate.getYear)
     assertEquals(999999999, MAX.getYear)
   }
 
-  @Test def test_getMonthValue(): Unit = {
+  test("test_getMonthValue") {
     for (d <- samples)
       assertEquals(d.getMonth.getValue, d.getMonthValue)
   }
 
-  @Test def test_getMonth(): Unit = {
+  test("test_getMonth") {
     assertEquals(Month.JANUARY, MIN.getMonth)
     assertEquals(Month.FEBRUARY, someDate.getMonth)
     assertEquals(Month.FEBRUARY, leapDate.getMonth)
     assertEquals(Month.DECEMBER, MAX.getMonth)
   }
 
-  @Test def test_getDayOfMonth(): Unit = {
+  test("test_getDayOfMonth") {
     assertEquals(1, MIN.getDayOfMonth)
     assertEquals(28, someDate.getDayOfMonth)
     assertEquals(29, leapDate.getDayOfMonth)
     assertEquals(31, MAX.getDayOfMonth)
   }
 
-  @Test def test_getDayOfYear(): Unit = {
+  test("test_getDayOfYear") {
     assertEquals(1, MIN.getDayOfYear)
     assertEquals(59, someDate.getDayOfYear)
     assertEquals(60, leapDate.getDayOfYear)
@@ -129,36 +127,36 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     assertEquals(365, MAX.getDayOfYear)
   }
 
-  @Test def test_getDayOfWeek(): Unit = {
+  test("test_getDayOfWeek") {
     assertEquals(DayOfWeek.MONDAY, MIN.getDayOfWeek)
     assertEquals(DayOfWeek.MONDAY, someDate.getDayOfWeek)
     assertEquals(DayOfWeek.WEDNESDAY, leapDate.getDayOfWeek)
     assertEquals(DayOfWeek.FRIDAY, MAX.getDayOfWeek)
   }
 
-  @Test def test_isLeapYear(): Unit = {
-    assertFalse(MIN.isLeapYear)
-    assertTrue(of(-400, 6, 30).isLeapYear)
-    assertFalse(of(-100, 3, 1).isLeapYear)
-    assertTrue(of(0, 1, 1).isLeapYear)
-    assertFalse(of(1900, 9, 30).isLeapYear)
-    assertTrue(of(2000, 1, 1).isLeapYear)
-    assertFalse(someDate.isLeapYear)
-    assertTrue(leapDate.isLeapYear)
-    assertFalse(MAX.isLeapYear)
+  test("test_isLeapYear") {
+    assert(!MIN.isLeapYear)
+    assert(of(-400, 6, 30).isLeapYear)
+    assert(!of(-100, 3, 1).isLeapYear)
+    assert(of(0, 1, 1).isLeapYear)
+    assert(!of(1900, 9, 30).isLeapYear)
+    assert(of(2000, 1, 1).isLeapYear)
+    assert(!someDate.isLeapYear)
+    assert(leapDate.isLeapYear)
+    assert(!MAX.isLeapYear)
   }
 
-  @Test def test_lengthOfMonth(): Unit = {
+  test("test_lengthOfMonth") {
     for (d <- samples ++ Seq(of(2001, 2, 1), of(2012, 9, 30)))
       assertEquals(d.getMonth.length(d.isLeapYear), d.lengthOfMonth)
   }
 
-  @Test def test_lengthOfYear(): Unit = {
+  test("test_lengthOfYear") {
     for (d <- samples)
       assertEquals(if (d.isLeapYear) 366 else 365, d.lengthOfYear)
   }
 
-  @Test def test_with(): Unit = {
+  test("test_with") {
     testDateTime(MAX.`with`(DAY_OF_WEEK, 1))(of(999999999, 12, 27))
     testDateTime(MAX.`with`(DAY_OF_WEEK, 5))(MAX)
     testDateTime(MIN.`with`(DAY_OF_WEEK, 1))(MIN)
@@ -280,7 +278,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_withYear(): Unit = {
+  test("test_withYear") {
     testDateTime(MIN.withYear(-999999999))(MIN)
     testDateTime(MIN.withYear(999999999))(of(999999999, 1, 1))
     testDateTime(MAX.withYear(-999999999))(of(-999999999, 12, 31))
@@ -295,7 +293,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_withMonth(): Unit = {
+  test("test_withMonth") {
     testDateTime(MAX.withMonth(2))(of(999999999, 2, 28))
     testDateTime(MAX.withMonth(11))(of(999999999, 11, 30))
     testDateTime(someDate.withMonth(1))(of(2011, 1, 28))
@@ -310,7 +308,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_withDayOfMonth(): Unit = {
+  test("test_withDayOfMonth") {
     testDateTime(someDate.withDayOfMonth(1))(of(2011, 2, 1))
     testDateTime(leapDate.withDayOfMonth(28))(of(2012, 2, 28))
 
@@ -326,7 +324,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_withDayOfYear(): Unit = {
+  test("test_withDayOfYear") {
     testDateTime(someDate.withDayOfYear(1))(of(2011, 1, 1))
     testDateTime(someDate.withDayOfYear(365))(of(2011, 12, 31))
     testDateTime(leapDate.withDayOfYear(366))(of(2012, 12, 31))
@@ -341,7 +339,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_plus(): Unit = {
+  test("test_plus") {
     val values = Seq(Long.MinValue, Int.MinValue.toLong, -1000L, -366L, -365L,
         -100L, -12L, -10L, -7L, -1L, 0L, 1L, 7L, 10L, 12L, 100L,
         365L, 366L, 1000L, Int.MaxValue.toLong, Long.MaxValue)
@@ -361,7 +359,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_plusYears(): Unit = {
+  test("test_plusYears") {
     for (d <- samples)
       testDateTime(d.plusYears(0))(d)
     testDateTime(someDate.plusYears(-2))(of(2009, 2, 28))
@@ -382,7 +380,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], MAX.plusYears(Long.MaxValue))
   }
 
-  @Test def test_plusMonths(): Unit = {
+  test("test_plusMonths") {
     for (d <- samples)
       testDateTime(d.plusMonths(0))(d)
     testDateTime(someDate.plusMonths(-12))(of(2010, 2, 28))
@@ -409,7 +407,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], MAX.plusMonths(Long.MaxValue))
   }
 
-  @Test def test_plusWeeks(): Unit = {
+  test("test_plusWeeks") {
     for (d <- samples)
       testDateTime(d.plusWeeks(0))(d)
     testDateTime(someDate.plusWeeks(-53))(of(2010, 2, 22))
@@ -434,7 +432,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[ArithmeticException], MAX.plusWeeks(Long.MaxValue))
   }
 
-  @Test def test_plusDays(): Unit = {
+  test("test_plusDays") {
     for (d <- samples)
       testDateTime(d.plusDays(0))(d)
     testDateTime(someDate.plusDays(-365))(of(2010, 2, 28))
@@ -464,7 +462,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
         ofEpochDay(1).plusDays(Long.MaxValue))
   }
 
-  @Test def test_minusYears(): Unit = {
+  test("test_minusYears") {
     for (d <- samples)
       testDateTime(d.minusYears(0))(d)
     testDateTime(someDate.minusYears(2))(of(2009, 2, 28))
@@ -485,7 +483,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], MAX.minusYears(Long.MinValue))
   }
 
-  @Test def test_minusMonths(): Unit = {
+  test("test_minusMonths") {
     for (d <- samples)
       testDateTime(d.minusMonths(0))(d)
     testDateTime(someDate.minusMonths(12))(of(2010, 2, 28))
@@ -512,7 +510,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], MAX.minusMonths(Long.MinValue))
   }
 
-  @Test def test_minusWeeks(): Unit = {
+  test("test_minusWeeks") {
     for (d <- samples)
       testDateTime(d.minusWeeks(0))(d)
     testDateTime(someDate.minusWeeks(53))(of(2010, 2, 22))
@@ -537,7 +535,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[ArithmeticException], MAX.minusWeeks(Long.MinValue))
   }
 
-  @Test def test_minusDays(): Unit = {
+  test("test_minusDays") {
     for (d <- samples)
       testDateTime(d.minusDays(0))(d)
     testDateTime(someDate.minusDays(365))(of(2010, 2, 28))
@@ -563,7 +561,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
         ofEpochDay(1).minusDays(Long.MinValue))
   }
 
-  @Test def test_adjustInto(): Unit = {
+  test("test_adjustInto") {
     for {
       d1 <- samples
       d2 <- samples
@@ -580,7 +578,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_until(): Unit = {
+  test("test_until") {
     val samples1 = samples ++ Seq(of(2012, 1, 29), of(2012, 1, 30), of(2012, 2, 28),
         of(2013, 2, 28), of(2013, 3, 1), of(0, 12, 31), of(1, 1, 1))
 
@@ -640,7 +638,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     assertEquals(Period.of(0, -1, -1), of(2013, 5, 1).until(of(2013, 3, 31)))
   }
 
-  @Test def test_toEpochDay(): Unit = {
+  test("test_toEpochDay") {
     assertEquals(-365243219162L, MIN.toEpochDay)
     assertEquals(-1L, of(1969, 12, 31).toEpochDay)
     assertEquals(0L, of(1970, 1, 1).toEpochDay)
@@ -649,43 +647,43 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     assertEquals(365241780471L, MAX.toEpochDay)
   }
 
-  @Test def test_compareTo(): Unit = {
+  test("test_compareTo") {
     assertEquals(0, MIN.compareTo(MIN))
-    assertTrue(MIN.compareTo(someDate) < 0)
-    assertTrue(MIN.compareTo(MAX) < 0)
-    assertTrue(someDate.compareTo(MIN) > 0)
+    assert(MIN.compareTo(someDate) < 0)
+    assert(MIN.compareTo(MAX) < 0)
+    assert(someDate.compareTo(MIN) > 0)
     assertEquals(0, someDate.compareTo(someDate))
-    assertTrue(someDate.compareTo(MAX) < 0)
-    assertTrue(MAX.compareTo(MIN) > 0)
-    assertTrue(MAX.compareTo(someDate) > 0)
+    assert(someDate.compareTo(MAX) < 0)
+    assert(MAX.compareTo(MIN) > 0)
+    assert(MAX.compareTo(someDate) > 0)
     assertEquals(0, MAX.compareTo(MAX))
   }
 
-  @Test def test_isAfter(): Unit = {
-    assertFalse(MIN.isAfter(MIN))
-    assertFalse(MIN.isAfter(someDate))
-    assertFalse(MIN.isAfter(MAX))
-    assertTrue(someDate.isAfter(MIN))
-    assertFalse(someDate.isAfter(someDate))
-    assertFalse(someDate.isAfter(MAX))
-    assertTrue(MAX.isAfter(MIN))
-    assertTrue(MAX.isAfter(someDate))
-    assertFalse(MAX.isAfter(MAX))
+  test("test_isAfter") {
+    assert(!MIN.isAfter(MIN))
+    assert(!MIN.isAfter(someDate))
+    assert(!MIN.isAfter(MAX))
+    assert(someDate.isAfter(MIN))
+    assert(!someDate.isAfter(someDate))
+    assert(!someDate.isAfter(MAX))
+    assert(MAX.isAfter(MIN))
+    assert(MAX.isAfter(someDate))
+    assert(!MAX.isAfter(MAX))
   }
 
-  @Test def test_isBefore(): Unit = {
-    assertFalse(MIN.isBefore(MIN))
-    assertTrue(MIN.isBefore(someDate))
-    assertTrue(MIN.isBefore(MAX))
-    assertFalse(someDate.isBefore(MIN))
-    assertFalse(someDate.isBefore(someDate))
-    assertTrue(someDate.isBefore(MAX))
-    assertFalse(MAX.isBefore(MIN))
-    assertFalse(MAX.isBefore(someDate))
-    assertFalse(MAX.isBefore(MAX))
+  test("test_isBefore") {
+    assert(!MIN.isBefore(MIN))
+    assert(MIN.isBefore(someDate))
+    assert(MIN.isBefore(MAX))
+    assert(!someDate.isBefore(MIN))
+    assert(!someDate.isBefore(someDate))
+    assert(someDate.isBefore(MAX))
+    assert(!MAX.isBefore(MIN))
+    assert(!MAX.isBefore(someDate))
+    assert(!MAX.isBefore(MAX))
   }
 
-  @Test def test_toString(): Unit = {
+  test("test_toString") {
     assertEquals("-999999999-01-01", MIN.toString)
     assertEquals("-0001-12-31", of(-1, 12, 31).toString)
     assertEquals("0000-01-01", of(0, 1, 1).toString)
@@ -696,11 +694,11 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     assertEquals("+999999999-12-31", MAX.toString)
   }
 
-  @Test def test_now(): Unit = {
-    assertEquals(IsoEra.CE, now().getEra)
+  test("test_now") {
+    assertEquals(now().getEra, IsoEra.CE)
   }
 
-  @Test def test_of(): Unit = {
+  test("test_of") {
     val years = Seq(Int.MinValue, -1000000000, -999999999, 0, 999999999,
         1000000000, Int.MaxValue)
     val days = Seq(Int.MinValue, 0, 1, 28, 29, 30, 31, 32, Int.MaxValue)
@@ -732,7 +730,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     }
   }
 
-  @Test def test_ofYearDay(): Unit = {
+  test("test_ofYearDay") {
     testDateTime(ofYearDay(2011, 1))(of(2011, 1, 1))
     testDateTime(ofYearDay(2011, 31))(of(2011, 1, 31))
     testDateTime(ofYearDay(2011, 32))(of(2011, 2, 1))
@@ -793,7 +791,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], ofYearDay(2011, Int.MaxValue))
   }
 
-  @Test def test_ofEpochDay(): Unit = {
+  test("test_ofEpochDay") {
     testDateTime(ofEpochDay(-365243219162L))(MIN)
     testDateTime(ofEpochDay(-1))(of(1969, 12, 31))
     testDateTime(ofEpochDay(0))(of(1970, 1, 1))
@@ -806,7 +804,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], ofEpochDay(Long.MaxValue))
   }
 
-  @Test def test_from(): Unit = {
+  test("test_from") {
     for (d <- samples)
       testDateTime(from(d))(d)
 
@@ -814,7 +812,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
       expectThrows(classOf[DateTimeException], from(t))
   }
 
-  @Test def test_parse(): Unit = {
+  test("test_parse") {
     assertEquals(parse("-999999999-01-01"), MIN)
     assertEquals(parse("-0001-12-31"), of(-1, 12, 31))
     assertEquals(parse("0000-01-01"), of(0, 1, 1))
