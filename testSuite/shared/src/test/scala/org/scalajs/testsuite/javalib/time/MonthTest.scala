@@ -15,7 +15,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
   def isSupported(field: ChronoField): Boolean =
     field == ChronoField.MONTH_OF_YEAR
 
-  @Test def test_getValue(): Unit = {
+  test("test_getValue") {
     assertEquals(1, JANUARY.getValue)
     assertEquals(2, FEBRUARY.getValue)
     assertEquals(3, MARCH.getValue)

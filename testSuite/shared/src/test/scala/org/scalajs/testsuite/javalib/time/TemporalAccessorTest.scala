@@ -6,13 +6,14 @@ import java.time.temporal._
 import org.junit.Test
 import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
+import munit.FunSuite
 
-abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
+abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] extends FunSuite {
   val samples: Seq[TempAcc]
 
   def isSupported(field: ChronoField): Boolean
 
-  @Test def isSupported_TemporalField(): Unit = {
+  test("isSupported_TemporalField") {
     for {
       accessor <- samples
       field <- ChronoField.values
@@ -28,7 +29,7 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
 
   def expectedRangeFor(accessor: TempAcc, field: TemporalField): ValueRange = field.range()
 
-  @Test final def range(): Unit = {
+  test("range") {
     for {
       accessor <- samples
       field <- ChronoField.values
@@ -42,7 +43,7 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
     }
   }
 
-  @Test def get(): Unit = {
+  test("get") {
     for {
       accessor <- samples
       field <- ChronoField.values
@@ -56,7 +57,7 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
     }
   }
 
-  @Test def getLong_unsupported_field(): Unit = {
+  test("getLong_unsupported_field") {
     for {
       accessor <- samples
       field <- ChronoField.values() if !accessor.isSupported(field)
