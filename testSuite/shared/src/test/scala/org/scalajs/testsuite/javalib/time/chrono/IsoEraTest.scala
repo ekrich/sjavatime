@@ -4,8 +4,6 @@ import java.time.DateTimeException
 import java.time.chrono.IsoEra
 import java.time.temporal.ChronoField
 
-import munit.Assertions._
-
 import org.scalajs.testsuite.javalib.time.TemporalAccessorTest
 import org.scalajs.testsuite.utils.AssertThrows._
 

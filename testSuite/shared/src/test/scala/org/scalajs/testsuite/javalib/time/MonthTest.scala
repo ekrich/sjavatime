@@ -3,8 +3,6 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.temporal.ChronoField
 
-import munit.Assertions._
-
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class MonthTest extends TemporalAccessorTest[Month] {
