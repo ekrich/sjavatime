@@ -92,7 +92,8 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
     scalacOptions += "-target:jvm-1.8"
   )
   .jsSettings(
-    name := "java.time testSuite on JS"
+    name := "java.time testSuite on JS",
+    scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
   )
   .jsConfigure(_.dependsOn(sjavatime.js))
   .jvmSettings(
