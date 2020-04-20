@@ -77,23 +77,18 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     scalaVersion := scala211, // allows to compile if scalaVersion set not 2.11
     nativeLinkStubs := true,
     logLevel := Level.Info, // Info or Debug
-    //libraryDependencies += "com.github.lolgab" %%% "minitest" % "2.5.0-5f3852e" % Test,
-    //testFrameworks += new TestFramework("minitest.runner.Framework")
   )
 
 lazy val sjavatimeJS = sjavatime.js
 lazy val sjavatimeNative = sjavatime.native
+    .enablePlugins(ScalaNativePlugin)
 
 lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
-  .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
   .settings(commonSettings: _*)
   .settings(
-    testOptions +=
-      Tests.Argument(
-        TestFramework("com.novocode.junit.JUnitFramework"),
-        "-v",
-        "-a"
-      ),
+    testFrameworks += new TestFramework("munit.Framework"),
+    libraryDependencies +=
+      "org.scalameta" %%% "munit" % "0.7.2" % Test,
     scalacOptions += "-target:jvm-1.8"
   )
   .jsSettings(
@@ -101,9 +96,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
   )
   .jsConfigure(_.dependsOn(sjavatime.js))
   .jvmSettings(
-    name := "java.time testSuite on JVM",
-    libraryDependencies +=
-      "com.novocode" % "junit-interface" % "0.9" % "test"
+    name := "java.time testSuite on JVM"
   )
 
 lazy val testSuiteJS = testSuite.js
