@@ -3,20 +3,18 @@ package org.scalajs.testsuite.javalib.time.chrono
 import java.time.DateTimeException
 import java.time.chrono.{IsoChronology, Chronology}
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
-class ChronologyTest {
+class ChronologyTest extends munit.FunSuite {
   import Chronology._
 
-  @Test def test_of(): Unit = {
-    assertEquals(IsoChronology.INSTANCE, of("ISO"))
+  test("test_of") {
+    assertEquals(of("ISO"), IsoChronology.INSTANCE)
     expectThrows(classOf[DateTimeException], of(""))
   }
 
-  @Test def test_getAvailableChronologies(): Unit = {
+  test("test_getAvailableChronologies") {
     val chronologies = Chronology.getAvailableChronologies
-    assertTrue(chronologies.contains(IsoChronology.INSTANCE))
+    assert(chronologies.contains(IsoChronology.INSTANCE))
   }
 }

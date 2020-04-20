@@ -3,8 +3,6 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.temporal._
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class LocalTimeTest extends TemporalTest[LocalTime] {
@@ -20,7 +18,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
 
   def isSupported(field: ChronoField): Boolean = field.isTimeBased
 
-  @Test def test_getLong(): Unit = {
+  test("test_getLong") {
     assertEquals(0L, MIN.getLong(NANO_OF_SECOND))
     assertEquals(0L, MIN.getLong(NANO_OF_DAY))
     assertEquals(0L, MIN.getLong(MICRO_OF_SECOND))
@@ -54,30 +52,30 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     assertEquals(1L, MAX.getLong(AMPM_OF_DAY))
   }
 
-  @Test def test_getHour(): Unit = {
+  test("test_getHour") {
     assertEquals(0, MIN.getHour)
     assertEquals(12, NOON.getHour)
     assertEquals(23, MAX.getHour)
   }
 
-  @Test def test_getMinute(): Unit = {
+  test("test_getMinute") {
     assertEquals(0, MIN.getMinute)
     assertEquals(30, of(0, 30).getMinute)
     assertEquals(59, MAX.getMinute)
   }
 
-  @Test def test_getSecond(): Unit = {
+  test("test_getSecond") {
     assertEquals(0, MIN.getSecond)
     assertEquals(30, of(0, 0, 30).getSecond)
     assertEquals(59, MAX.getSecond)
   }
 
-  @Test def test_getNano(): Unit = {
+  test("test_getNano") {
     assertEquals(0, MIN.getNano)
     assertEquals(999999999, MAX.getNano)
   }
 
-  @Test def test_with(): Unit = {
+  test("test_with") {
     for (t <- samples) {
       for (n <- Seq(0, 999, 999999, 999999999))
         testDateTime(t.`with`(NANO_OF_SECOND, n))(t.withNano(n))
@@ -152,7 +150,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_withHour(): Unit = {
+  test("test_withHour") {
     testDateTime(MIN.withHour(0))(MIN)
     testDateTime(MIN.withHour(12))(NOON)
     testDateTime(MIN.withHour(23))(of(23, 0))
@@ -167,7 +165,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_withMinute(): Unit = {
+  test("test_withMinute") {
     testDateTime(MIN.withMinute(0))(MIN)
     testDateTime(MIN.withMinute(30))(of(0, 30))
     testDateTime(MIN.withMinute(59))(of(0, 59))
@@ -182,7 +180,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_withSecond(): Unit = {
+  test("test_withSecond") {
     testDateTime(MIN.withSecond(0))(MIN)
     testDateTime(MIN.withSecond(30))(of(0, 0, 30))
     testDateTime(MIN.withSecond(59))(of(0, 0, 59))
@@ -197,7 +195,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_withNano(): Unit = {
+  test("test_withNano") {
     testDateTime(MIN.withNano(0))(MIN)
     testDateTime(MIN.withNano(500000000))(of(0, 0, 0, 500000000))
     testDateTime(MIN.withNano(999999999))(of(0, 0, 0, 999999999))
@@ -212,7 +210,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_truncatedTo(): Unit = {
+  test("test_truncatedTo") {
     testDateTime(MIN.truncatedTo(NANOS))(MIN)
     testDateTime(MAX.truncatedTo(NANOS))(MAX)
     testDateTime(MIN.truncatedTo(MICROS))(MIN)
@@ -239,7 +237,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_plus(): Unit = {
+  test("test_plus") {
     val values = Seq(Long.MinValue, -1000000000L, -86400L, -3600L, -60L, -1L, 0L,
         1L, 60L, 3600L, 86400L, 1000000000L, Long.MaxValue)
 
@@ -257,7 +255,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_plusHours(): Unit = {
+  test("test_plusHours") {
     testDateTime(MIN.plusHours(Long.MinValue))(of(16, 0))
     testDateTime(MIN.plusHours(-24))(MIN)
     testDateTime(MIN.plusHours(-1))(of(23, 0))
@@ -274,7 +272,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.plusHours(Long.MaxValue))(of(6, 59, 59, 999999999))
   }
 
-  @Test def test_plusMinutes(): Unit = {
+  test("test_plusMinutes") {
     testDateTime(MIN.plusMinutes(Long.MinValue))(of(5, 52))
     testDateTime(MIN.plusMinutes(-1440))(MIN)
     testDateTime(MIN.plusMinutes(-60))(of(23, 0))
@@ -295,7 +293,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.plusMinutes(Long.MaxValue))(of(18, 6, 59, 999999999))
   }
 
-  @Test def test_plusSeconds(): Unit = {
+  test("test_plusSeconds") {
     testDateTime(MIN.plusSeconds(Long.MinValue))(of(8, 29, 52))
     testDateTime(MIN.plusSeconds(-86400))(MIN)
     testDateTime(MIN.plusSeconds(-60))(of(23, 59))
@@ -316,7 +314,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.plusSeconds(Long.MaxValue))(of(15, 30, 6, 999999999))
   }
 
-  @Test def test_plusNanos(): Unit = {
+  test("test_plusNanos") {
     testDateTime(MIN.plusNanos(Long.MinValue))(of(0, 12, 43, 145224192))
     testDateTime(MIN.plusNanos(-86400000000000L))(MIN)
     testDateTime(MIN.plusNanos(-1000000000))(of(23, 59, 59))
@@ -337,7 +335,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.plusNanos(Long.MaxValue))(of(23, 47, 16, 854775806))
   }
 
-  @Test def test_minusHours(): Unit = {
+  test("test_minusHours") {
     testDateTime(MIN.minusHours(Long.MinValue))(of(8, 0))
     testDateTime(MIN.minusHours(-24))(MIN)
     testDateTime(MIN.minusHours(-1))(of(1, 0))
@@ -354,7 +352,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.minusHours(Long.MaxValue))(of(16, 59, 59, 999999999))
   }
 
-  @Test def test_minusMinutes(): Unit = {
+  test("test_minusMinutes") {
     testDateTime(MIN.minusMinutes(Long.MinValue))(of(18, 8))
     testDateTime(MIN.minusMinutes(-1440))(MIN)
     testDateTime(MIN.minusMinutes(-60))(of(1, 0))
@@ -375,7 +373,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.minusMinutes(Long.MaxValue))(of(5, 52, 59, 999999999))
   }
 
-  @Test def test_minusSeconds(): Unit = {
+  test("test_minusSeconds") {
     testDateTime(MIN.minusSeconds(Long.MinValue))(of(15, 30, 8))
     testDateTime(MIN.minusSeconds(-86400))(MIN)
     testDateTime(MIN.minusSeconds(-60))(of(0, 1))
@@ -396,7 +394,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.minusSeconds(Long.MaxValue))(of(8, 29, 52, 999999999))
   }
 
-  @Test def test_minusNanos(): Unit = {
+  test("test_minusNanos") {
     testDateTime(MIN.minusNanos(Long.MinValue))(of(23, 47, 16, 854775808))
     testDateTime(MIN.minusNanos(-86400000000000L))(MIN)
     testDateTime(MIN.minusNanos(-1000000000))(of(0, 0, 1))
@@ -417,7 +415,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.minusNanos(Long.MaxValue))(of(0, 12, 43, 145224192))
   }
 
-  @Test def test_adjustInto(): Unit = {
+  test("test_adjustInto") {
     for {
       t1 <- samples
       t2 <- samples
@@ -434,7 +432,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_until(): Unit = {
+  test("test_until") {
     assertEquals(86399999999999L, MIN.until(MAX, NANOS))
     assertEquals(86399999999L, MIN.until(MAX, MICROS))
     assertEquals(86399999L, MIN.until(MAX, MILLIS))
@@ -450,38 +448,38 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     }
   }
 
-  @Test def test_toSecondOfDay(): Unit = {
+  test("test_toSecondOfDay") {
     assertEquals(0, MIN.toSecondOfDay)
     assertEquals(86399, MAX.toSecondOfDay)
   }
 
-  @Test def test_toNanoOfDay(): Unit = {
+  test("test_toNanoOfDay") {
     assertEquals(0L, MIN.toNanoOfDay)
     assertEquals(86399999999999L, MAX.toNanoOfDay)
   }
 
-  @Test def test_compareTo(): Unit = {
+  test("test_compareTo") {
     assertEquals(0, MIN.compareTo(MIN))
-    assertTrue(MIN.compareTo(MAX) < 0)
-    assertTrue(MAX.compareTo(MIN) > 0)
+    assert(MIN.compareTo(MAX) < 0)
+    assert(MAX.compareTo(MIN) > 0)
     assertEquals(0, MAX.compareTo(MAX))
   }
 
-  @Test def test_isAfter(): Unit = {
-    assertFalse(MIN.isAfter(MIN))
-    assertFalse(MIN.isAfter(MAX))
-    assertTrue(MAX.isAfter(MIN))
-    assertFalse(MAX.isAfter(MAX))
+  test("test_isAfter") {
+    assert(!MIN.isAfter(MIN))
+    assert(!MIN.isAfter(MAX))
+    assert(MAX.isAfter(MIN))
+    assert(!MAX.isAfter(MAX))
   }
 
-  @Test def test_isBefore(): Unit = {
-    assertFalse(MIN.isBefore(MIN))
-    assertTrue(MIN.isBefore(MAX))
-    assertFalse(MAX.isBefore(MIN))
-    assertFalse(MAX.isBefore(MAX))
+  test("test_isBefore") {
+    assert(!MIN.isBefore(MIN))
+    assert(MIN.isBefore(MAX))
+    assert(!MAX.isBefore(MIN))
+    assert(!MAX.isBefore(MAX))
   }
 
-  @Test def test_toString(): Unit = {
+  test("test_toString") {
     assertEquals("00:00", MIN.toString)
     assertEquals("23:59:59.999999999", MAX.toString)
     assertEquals("01:01", of(1, 1).toString)
@@ -492,11 +490,11 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     assertEquals("01:01:01.100100100", of(1, 1, 1, 100100100).toString)
   }
 
-  @Test def test_now(): Unit = {
-    assertNotNull(now())
+  test("test_now") {
+    assert(now() != null)
   }
 
-  @Test def test_of(): Unit = {
+  test("test_of") {
     testDateTime(of(0, 0))(MIN)
     testDateTime(of(0, 0, 0))(MIN)
     testDateTime(of(0, 0, 0, 0))(MIN)
@@ -514,7 +512,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     expectThrows(classOf[DateTimeException], of(0, 0, 0, 1000000000))
   }
 
-  @Test def test_ofSecondOfDay(): Unit = {
+  test("test_ofSecondOfDay") {
     testDateTime(ofSecondOfDay(0))(MIN)
     testDateTime(ofSecondOfDay(1))(of(0, 0, 1))
     testDateTime(ofSecondOfDay(60))(of(0, 1))
@@ -524,7 +522,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     expectThrows(classOf[DateTimeException], ofSecondOfDay(86400))
   }
 
-  @Test def test_ofNanoOfDay(): Unit = {
+  test("test_ofNanoOfDay") {
     testDateTime(ofNanoOfDay(0))(MIN)
     testDateTime(ofNanoOfDay(1))(of(0, 0, 0, 1))
     testDateTime(ofNanoOfDay(1000000000))(of(0, 0, 1))
@@ -534,7 +532,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     expectThrows(classOf[DateTimeException], ofNanoOfDay(86400000000000L))
   }
 
-  @Test def test_from(): Unit = {
+  test("test_from") {
     for (t <- samples)
       testDateTime(from(t))(t)
 

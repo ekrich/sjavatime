@@ -3,8 +3,6 @@ package org.scalajs.testsuite.javalib.time
 import java.time.DateTimeException
 import java.time.temporal._
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 import munit.FunSuite
 
@@ -19,12 +17,12 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] extends FunSuit
       field <- ChronoField.values
     } {
       if (isSupported(field))
-        assertTrue(accessor.isSupported(field))
+        assert(accessor.isSupported(field))
       else
-        assertFalse(accessor.isSupported(field))
+        assert(!accessor.isSupported(field))
     }
     for (accessor <- samples)
-      assertFalse(accessor.isSupported(null))
+      assert(!accessor.isSupported(null))
   }
 
   def expectedRangeFor(accessor: TempAcc, field: TemporalField): ValueRange = field.range()

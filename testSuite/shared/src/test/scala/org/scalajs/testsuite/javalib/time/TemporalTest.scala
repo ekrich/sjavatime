@@ -2,8 +2,6 @@ package org.scalajs.testsuite.javalib.time
 
 import java.time.temporal._
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp] {
@@ -17,21 +15,21 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       1L, 7L, 24L, 60L, 365L, 366L, 3600L, 86400L, 1000000000L,
       Int.MaxValue.toLong, Long.MaxValue)
 
-  @Test def isSupported_TemporalUnit(): Unit = {
+  test("isSupported_TemporalUnit") {
     for {
       temporal <- samples
       unit <- ChronoUnit.values
     } {
       if (isSupported(unit))
-        assertTrue(temporal.isSupported(unit))
+        assert(temporal.isSupported(unit))
       else
-        assertFalse(temporal.isSupported(unit))
+        assert(!temporal.isSupported(unit))
     }
     for (temporal <- samples)
-      assertFalse(temporal.isSupported(null: TemporalUnit))
+      assert(!temporal.isSupported(null: TemporalUnit))
   }
 
-  @Test def with_unsupported_field(): Unit = {
+  test("with_unsupported_field") {
     for {
       temporal <- samples
       field <- ChronoField.values if !temporal.isSupported(field)
@@ -42,7 +40,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
     }
   }
 
-  @Test def plus_unsupported_unit(): Unit = {
+  test("plus_unsupported_unit") {
     for {
       temporal <- samples
       unit <- ChronoUnit.values if !temporal.isSupported(unit)
@@ -53,7 +51,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
     }
   }
 
-  @Test def minus(): Unit = {
+  test("minus") {
     for {
       temporal <- samples
       unit <- ChronoUnit.values if temporal.isSupported(unit)
@@ -66,7 +64,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
     }
   }
 
-  @Test def minus_unsupported_unit(): Unit = {
+  test("minus_unsupported_unit") {
     for {
       temporal <- samples
       unit <- ChronoUnit.values if !temporal.isSupported(unit)
@@ -77,7 +75,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
     }
   }
 
-  @Test def until_unsupported_unit(): Unit = {
+  test("until_unsupported_unit") {
     for {
       temporal1 <- samples
       temporal2 <- samples

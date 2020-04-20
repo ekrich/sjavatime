@@ -3,8 +3,6 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.temporal._
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 import scala.annotation.tailrec
@@ -45,7 +43,7 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def getLong(): Unit = {
+  test("getLong") {
     for {
       t <- samples
       field <- ChronoField.values()
@@ -72,7 +70,7 @@ class YearTest extends TemporalTest[Year] {
     assertEquals(0L, negativeYear.getLong(ERA))
   }
 
-  @Test def length(): Unit = {
+  test("length") {
     assertEquals(366, leapYear.length())
     assertEquals(365, nonLeapYear.length())
 
@@ -82,7 +80,7 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def `with`(): Unit = {
+  test("`with`") {
     assertEquals(lastBCYear, lastBCYear.`with`(YEAR, 0))
     assertEquals(Year.of(0), lastBCYear.`with`(YEAR_OF_ERA, 1))
     assertEquals(Year.of(-50), lastBCYear.`with`(YEAR, -50))
@@ -124,12 +122,12 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def plus(): Unit = {
+  test("plus") {
     for {
       t <- samples
       u <- ChronoUnit.values() if isSupported(u)
     } {
-      assertSame(t, t.plus(0, u))
+      assertEquals(t, t.plus(0, u))
     }
 
     assertEquals(Year.of(10), lastBCYear.plus(1, DECADES))
@@ -166,9 +164,9 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def plusYears(): Unit = {
+  test("plusYears") {
     for (t <- samples) {
-      assertSame(t, t.plusYears(0))
+      assertEquals(t, t.plusYears(0))
     }
 
     assertEquals(firstACYear, lastBCYear.plusYears(1))
@@ -184,9 +182,9 @@ class YearTest extends TemporalTest[Year] {
     expectThrows(classOf[DateTimeException], max.plusYears(Long.MaxValue))
   }
 
-  @Test def minusYears(): Unit = {
+  test("minusYears") {
     for (t <- samples) {
-      assertSame(t, t.minusYears(0))
+      assertEquals(t, t.minusYears(0))
     }
 
     assertEquals(lastBCYear, firstACYear.minusYears(1))
@@ -202,20 +200,20 @@ class YearTest extends TemporalTest[Year] {
     expectThrows(classOf[DateTimeException], max.minusYears(Long.MaxValue))
   }
 
-  @Test def adjustInto(): Unit = {
+  test("adjustInto") {
     val aDate = LocalDate.of(2015, 1, 1)
-    assertEquals(LocalDate.of(0, 1, 1), lastBCYear.adjustInto(aDate))
-    assertEquals(LocalDate.of(1, 1, 1), firstACYear.adjustInto(aDate))
-    assertEquals(LocalDate.of(-100, 1, 1), negativeYear.adjustInto(aDate))
-    assertEquals(LocalDate.of(Year.MIN_VALUE, 1, 1), min.adjustInto(aDate))
-    assertEquals(LocalDate.of(Year.MAX_VALUE, 1, 1), max.adjustInto(aDate))
+    assertEquals(lastBCYear.adjustInto(aDate), LocalDate.of(0, 1, 1))
+    assertEquals(firstACYear.adjustInto(aDate), LocalDate.of(1, 1, 1))
+    assertEquals(negativeYear.adjustInto(aDate), LocalDate.of(-100, 1, 1))
+    assertEquals(min.adjustInto(aDate), LocalDate.of(Year.MIN_VALUE, 1, 1))
+    assertEquals(max.adjustInto(aDate), LocalDate.of(Year.MAX_VALUE, 1, 1))
 
     val leapDate = LocalDate.of(2012, 2, 29)
-    assertEquals(LocalDate.of(2016, 2, 29), leapYear.adjustInto(leapDate))
-    assertEquals(LocalDate.of(2015, 2, 28), nonLeapYear.adjustInto(leapDate))
+    assertEquals(leapYear.adjustInto(leapDate), LocalDate.of(2016, 2, 29))
+    assertEquals(nonLeapYear.adjustInto(leapDate), LocalDate.of(2015, 2, 28))
   }
 
-  @Test def until(): Unit = {
+  test("until") {
     for {
       t <- samples
       unit <- ChronoUnit.values() if isSupported(unit)
@@ -299,7 +297,7 @@ class YearTest extends TemporalTest[Year] {
     assertEquals(-1L, max.until(min, ERAS))
   }
 
-  @Test def atDay(): Unit = {
+  test("atDay") {
     for (t <- samples) {
       assertEquals(LocalDate.of(t.getValue, 1, 1), t.atDay(1))
       assertEquals(LocalDate.of(t.getValue, 12, 31), t.atDay(t.length()))
@@ -317,7 +315,7 @@ class YearTest extends TemporalTest[Year] {
     expectThrows(classOf[DateTimeException], nonLeapYear.atDay(366))
   }
 
-  @Test def atMonth(): Unit = {
+  test("atMonth") {
     for {
       t <- samples
       month <- Month.values()
@@ -329,28 +327,28 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def isLeap(): Unit = {
-    assertTrue(leapYear.isLeap)
-    assertFalse(nonLeapYear.isLeap)
+  test("isLeap") {
+    assert(leapYear.isLeap)
+    assert(!nonLeapYear.isLeap)
 
-    assertTrue(Year.isLeap(leapYear.getValue))
-    assertFalse(Year.isLeap(nonLeapYear.getValue))
+    assert(Year.isLeap(leapYear.getValue))
+    assert(!Year.isLeap(nonLeapYear.getValue))
   }
 
-  @Test def isValidMonthDay(): Unit = {
+  test("isValidMonthDay") {
     val leapMonthDay = MonthDay.of(2, 29)
-    assertTrue(leapYear.isValidMonthDay(leapMonthDay))
-    assertFalse(nonLeapYear.isValidMonthDay(leapMonthDay))
+    assert(leapYear.isValidMonthDay(leapMonthDay))
+    assert(!nonLeapYear.isValidMonthDay(leapMonthDay))
 
     for {
       t <- samples
       monthDay <- monthDaySamples
     } {
-      assertTrue(t.isValidMonthDay(monthDay))
+      assert(t.isValidMonthDay(monthDay))
     }
   }
 
-  @Test def atMonthDay(): Unit = {
+  test("atMonthDay") {
     val leapMonthDay = MonthDay.of(2, 29)
     val leapDate = LocalDate.of(leapYear.getValue(),
         leapMonthDay.getMonthValue, leapMonthDay.getDayOfMonth)
@@ -369,7 +367,7 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def compareTo(): Unit = {
+  test("compareTo") {
     assertEquals(0, min.compareTo(min))
     assertEquals(-1999999998, min.compareTo(max))
     assertEquals(1999999998, max.compareTo(min))
@@ -384,21 +382,21 @@ class YearTest extends TemporalTest[Year] {
     assertEquals(1, firstACYear.compareTo(lastBCYear))
   }
 
-  @Test def isAfter(): Unit = {
-    assertFalse(min.isAfter(min))
-    assertFalse(min.isAfter(max))
-    assertTrue(max.isAfter(min))
-    assertFalse(max.isAfter(max))
+  test("isAfter") {
+    assert(!min.isAfter(min))
+    assert(!min.isAfter(max))
+    assert(max.isAfter(min))
+    assert(!max.isAfter(max))
   }
 
-  @Test def isBefore(): Unit = {
-    assertFalse(min.isBefore(min))
-    assertTrue(min.isBefore(max))
-    assertFalse(max.isBefore(min))
-    assertFalse(max.isBefore(max))
+  test("isBefore") {
+    assert(!min.isBefore(min))
+    assert(min.isBefore(max))
+    assert(!max.isBefore(min))
+    assert(!max.isBefore(max))
   }
 
-  @Test def now(): Unit = {
+  test("now") {
     val now = LocalDate.now()
     val year = Year.now()
 
@@ -408,7 +406,7 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def of(): Unit = {
+  test("of") {
     assertEquals(lastBCYear, Year.of(0))
     assertEquals(0, Year.of(0).getValue)
 
@@ -422,9 +420,9 @@ class YearTest extends TemporalTest[Year] {
     assertEquals(999999999, Year.of(MAX_VALUE).getValue)
   }
 
-  @Test def from(): Unit = {
+  test("from") {
     for (t <- samples)
-      assertSame(t, Year.from(t))
+      assertEquals(t, Year.from(t))
 
     val dateSamples = Seq(LocalDate.MIN, LocalDate.MAX, LocalDate.of(0, 1, 1))
     for (d <- dateSamples) {
@@ -432,7 +430,7 @@ class YearTest extends TemporalTest[Year] {
     }
   }
 
-  @Test def toStringOutput(): Unit = {
+  test("toStringOutput") {
     for (t <- samples) {
       val expected = t.getValue.toString
       assertEquals(expected, t.toString)

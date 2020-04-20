@@ -3,14 +3,12 @@ package org.scalajs.testsuite.javalib.time.chrono
 import java.time.{DateTimeException, LocalTime, LocalDate}
 import java.time.chrono.ChronoLocalDate
 
-import org.junit.Test
-import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
-class ChronoLocalDateTest {
+class ChronoLocalDateTest extends munit.FunSuite {
   import ChronoLocalDate._
 
-  @Test def test_timeLineOrder(): Unit = {
+  test("test_timeLineOrder") {
     val ord = timeLineOrder
     val ds = Seq(LocalDate.MIN, LocalDate.of(2011, 2, 28), LocalDate.MAX)
 
@@ -23,9 +21,9 @@ class ChronoLocalDateTest {
     }
   }
 
-  @Test def test_from(): Unit = {
+  test("test_from") {
     for (d <- Seq(LocalDate.MIN, LocalDate.of(2011, 2, 28), LocalDate.MAX))
-      assertEquals(d, from(d))
+      assertEquals(from(d), d)
 
     for (t <- Seq(LocalTime.MIN, LocalTime.NOON, LocalTime.MAX))
       expectThrows(classOf[DateTimeException], from(t))
