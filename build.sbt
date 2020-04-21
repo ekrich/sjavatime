@@ -31,7 +31,8 @@ lazy val root = (project in file("."))
     sjavatimeJS,
     sjavatimeNative,
     testSuiteJVM,
-    testSuiteJS
+    testSuiteJS,
+    testSuiteNative
   )
 
 lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
@@ -83,7 +84,7 @@ lazy val sjavatimeJS = sjavatime.js
 lazy val sjavatimeNative = sjavatime.native
     .enablePlugins(ScalaNativePlugin)
 
-lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
+lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings: _*)
   .settings(
     testFrameworks += new TestFramework("munit.Framework"),
@@ -95,10 +96,16 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform)
     name := "java.time testSuite on JS",
     scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
   )
-  .jsConfigure(_.dependsOn(sjavatime.js))
+  .jsConfigure(_.dependsOn(sjavatimeJS))
   .jvmSettings(
     name := "java.time testSuite on JVM"
+  )
+  .nativeSettings(
+    crossScalaVersions := versionsNative,
+    scalaVersion := scala211, // allows to compile if scalaVersion set not 2.11
   )
 
 lazy val testSuiteJS = testSuite.js
 lazy val testSuiteJVM = testSuite.jvm
+lazy val testSuiteNative = testSuite.native
+    .dependsOn(sjavatimeNative)
