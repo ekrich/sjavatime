@@ -13,10 +13,10 @@ private[time] object PlatformSpecific extends PlatformCommon {
     (d.getFullYear.toInt, d.getMonth.toInt, d.getDate.toInt)
   }
 
-  def localTime(): (Int, Int, Int, Int) = {
+  def localTime(): LocalTime = {
     val date = new js.Date()
     val nano = date.getMilliseconds.toInt * 1000000
-    (date.getHours.toInt, date.getMinutes.toInt, date.getSeconds.toInt, nano)
+    LocalTime.of(date.getHours.toInt, date.getMinutes.toInt, date.getSeconds.toInt, nano)
   }
 
   def minDay(day: Int, lastDayOfMonth: Int): Int = {

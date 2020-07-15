@@ -1,6 +1,7 @@
 package java.time
 
 private[time] trait PlatformCommon {
+
   /**
     * The local date for now
     *
@@ -20,7 +21,7 @@ private[time] trait PlatformCommon {
     *
     * @return hour, minute, second, nano
     */
-  def localTime(): (Int, Int, Int, Int)
+  def localTime(): LocalTime
 
   /**
     * The min of the day or the last day of the month

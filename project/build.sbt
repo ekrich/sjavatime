@@ -1,7 +1,7 @@
 // versions
 val crossVer = "0.6.1"
 val scalaJSVersion =
-  Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.0.0")
+  Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.1.1")
 val scalaNativeVersion = "0.4.0-M2"
 
 // Scala.js support

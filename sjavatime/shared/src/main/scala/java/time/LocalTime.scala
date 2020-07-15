@@ -319,10 +319,7 @@ object LocalTime {
 
   val NOON = new LocalTime(12, 0, 0, 0)
 
-  def now(): LocalTime = {
-    val (hour, minute, second, nano) = PlatformSpecific.localTime()
-    new LocalTime(hour, minute, second, nano)
-  }
+  def now(): LocalTime = PlatformSpecific.localTime()
 
   // Not implemented
   // def now(zone: ZoneId): LocalTime
