@@ -10,7 +10,7 @@ private[time] object PlatformSpecific extends PlatformCommon {
 
   def chronoLocalDate(): (Int, Int, Int) = {
     val d = new js.Date()
-    (d.getFullYear.toInt, d.getMonth.toInt, d.getDate.toInt)
+    (d.getFullYear.toInt, d.getMonth.toInt + 1, d.getDate.toInt)
   }
 
   def localTime(): LocalTime = {
