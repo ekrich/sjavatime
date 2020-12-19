@@ -1,8 +1,8 @@
 import sbtcrossproject.crossProject
 
 val scala211 = "2.11.12"
-val scala212 = "2.12.11"
-val scala213 = "2.13.1"
+val scala212 = "2.12.12"
+val scala213 = "2.13.4"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
 val versionsJS     = versionsBase
