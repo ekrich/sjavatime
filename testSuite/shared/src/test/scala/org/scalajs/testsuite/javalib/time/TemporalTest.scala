@@ -1,7 +1,5 @@
 package org.scalajs.testsuite.javalib.time
 
-package org.scalajs.testsuite.javalib.time
-
 import java.time.temporal._
 
 import org.junit.Test

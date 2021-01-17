@@ -442,7 +442,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(somePositiveInstant, Instant.parse("1999-06-03T06:56:23.942Z"))
     assertEquals(someNegativeInstant, Instant.parse("-0687-08-07T23:38:33.088936253Z"))
 
-    val charSequence: CharSequence = "1999-06-03T06:56:23.942Z".toCharArray
+    val charSequence: CharSequence = "1999-06-03T06:56:23.942Z"
     assertEquals(somePositiveInstant, Instant.parse(charSequence))
 
     expectThrows(classOf[DateTimeParseException], Instant.parse("+1000000001-12-31T23:59:59.999999999Z"))
