@@ -5,6 +5,8 @@ import java.time.chrono.IsoEra
 import java.time.temporal.ChronoField
 
 import org.scalajs.testsuite.javalib.time.TemporalAccessorTest
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class IsoEraTest extends TemporalAccessorTest[IsoEra] {
@@ -15,35 +17,35 @@ class IsoEraTest extends TemporalAccessorTest[IsoEra] {
   def isSupported(field: ChronoField): Boolean =
     field == ChronoField.ERA
 
-  test("test_getValue") {
+  @Test def test_getValue(): Unit = {
     assertEquals(0, BCE.getValue)
     assertEquals(1, CE.getValue)
   }
 
-  test("test_getLong") {
+  @Test def test_getLong(): Unit = {
     for (era <- samples)
       assertEquals(era.getValue.toLong, era.getLong(ChronoField.ERA))
   }
 
-  test("test_compareTo") {
+  @Test def test_compareTo(): Unit = {
     assertEquals(0, BCE.compareTo(BCE))
     assert(BCE.compareTo(CE) < 0)
     assert(CE.compareTo(BCE) > 0)
     assertEquals(0, CE.compareTo(CE))
   }
 
-  test("test_values") {
+  @Test def test_values(): Unit = {
     val eras = Array[AnyRef](BCE, CE)
     assertEquals(eras, values.asInstanceOf[Array[AnyRef]])
   }
 
-  test("test_valueOf") {
+  @Test def test_valueOf(): Unit = {
     assertEquals(BCE, valueOf("BCE"))
     assertEquals(CE, valueOf("CE"))
     expectThrows(classOf[IllegalArgumentException], valueOf(""))
   }
 
-  test("test_of") {
+  @Test def test_of(): Unit = {
     assertEquals(BCE, of(0))
     assertEquals(CE, of(1))
 

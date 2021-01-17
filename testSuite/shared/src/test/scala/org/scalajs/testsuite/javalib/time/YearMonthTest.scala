@@ -1,8 +1,12 @@
 package org.scalajs.testsuite.javalib.time
 
+package org.scalajs.testsuite.javalib.time
+
 import java.time._
 import java.time.temporal.{TemporalField, ValueRange, ChronoUnit, ChronoField}
 
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 /** Created by alonsodomin on 25/12/2015. */
@@ -45,7 +49,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("getLong") {
+  @Test def getLong(): Unit = {
     for (ym <- samples) {
       assertEquals(ym.getYear.toLong, ym.getLong(YEAR))
       assertEquals(ym.getMonthValue.toLong, ym.getLong(MONTH_OF_YEAR))
@@ -70,13 +74,13 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(1L, janFirstAC.getLong(ERA))
   }
 
-  test("isLeapYear") {
+  @Test def isLeapYear(): Unit = {
     assert(!someYearMonth.isLeapYear)
     assert(febLeapYear.isLeapYear)
     assert(!febNonLeapYear.isLeapYear)
   }
 
-  test("isValidDay") {
+  @Test def isValidDay(): Unit = {
     for (ym <- samples) {
       assert(!ym.isValidDay(0))
       assert(ym.isValidDay(ym.lengthOfMonth()))
@@ -88,7 +92,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assert(!someYearMonth.isValidDay(31))
   }
 
-  test("lenghtOfMonth") {
+  @Test def lenghtOfMonth(): Unit = {
     assertEquals(31, min.lengthOfMonth())
     assertEquals(31, max.lengthOfMonth())
     assertEquals(30, someYearMonth.lengthOfMonth())
@@ -96,13 +100,13 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(28, febNonLeapYear.lengthOfMonth())
   }
 
-  test("lengthOfYear") {
+  @Test def lengthOfYear(): Unit = {
     assertEquals(365, someYearMonth.lengthOfYear())
     assertEquals(366, febLeapYear.lengthOfYear())
     assertEquals(365, febNonLeapYear.lengthOfYear())
   }
 
-  test("`with`") {
+  @Test def `with`(): Unit = {
     testDateTime(max.`with`(YEAR, 999999999))(max)
     testDateTime(max.`with`(YEAR, -999999999))(YearMonth.of(-999999999, 12))
     testDateTime(max.`with`(MONTH_OF_YEAR, 1))(YearMonth.of(999999999, 1))
@@ -155,7 +159,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("withYear") {
+  @Test def withYear(): Unit = {
     assertEquals(min, min.withYear(-999999999))
     assertEquals(YearMonth.of(999999999, 1), min.withYear(999999999))
 
@@ -175,7 +179,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("withMonth") {
+  @Test def withMonth(): Unit = {
     assertEquals(min, min.withMonth(1))
     assertEquals(max, max.withMonth(12))
 
@@ -192,7 +196,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("plus") {
+  @Test def plus(): Unit = {
     for (ym <- samples;n <- sampleLongs) {
       testDateTime(ym.plus(n, YEARS))(ym.plusYears(n))
       testDateTime(ym.plus(n, MONTHS))(ym.plusMonths(n))
@@ -203,7 +207,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("plusYears") {
+  @Test def plusYears(): Unit = {
     for (ym <- samples) {
       assertEquals(ym, ym.plusYears(0))
     }
@@ -223,7 +227,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     expectThrows(classOf[DateTimeException], max.plusYears(Long.MaxValue))
   }
 
-  test("plusMonths") {
+  @Test def plusMonths(): Unit = {
     for (ym <- samples) {
       assertEquals(ym, ym.plusMonths(0))
     }
@@ -244,7 +248,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     expectThrows(classOf[DateTimeException], max.plusMonths(Long.MaxValue))
   }
 
-  test("minusYears") {
+  @Test def minusYears(): Unit = {
     for (ym <- samples) {
       assertEquals(ym, ym.minusYears(0))
     }
@@ -262,7 +266,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     expectThrows(classOf[DateTimeException], max.minusYears(Long.MinValue))
   }
 
-  test("minusMonths") {
+  @Test def minusMonths(): Unit = {
     for (ym <- samples) {
       assertEquals(ym, ym.minusMonths(0))
     }
@@ -281,7 +285,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     expectThrows(classOf[DateTimeException], max.minusMonths(Long.MinValue))
   }
 
-  test("adjustInto") {
+  @Test def adjustInto(): Unit = {
     for (ym1 <- samples; ym2 <- samples) {
       testDateTime(ym1.adjustInto(ym2))(ym1)
     }
@@ -292,7 +296,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("until") {
+  @Test def until(): Unit = {
     for {
       ym <- samples
       unit <- ChronoUnit.values() if isSupported(unit)
@@ -325,7 +329,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("atDay") {
+  @Test def atDay(): Unit = {
     for {
       ym <- samples
       day <- 1 to ym.lengthOfMonth()
@@ -339,14 +343,14 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("atEndOfMonth") {
+  @Test def atEndOfMonth(): Unit = {
     for (ym <- samples) {
       val endOfMonth = ym.lengthOfMonth()
       assertEquals(LocalDate.of(ym.getYear, ym.getMonthValue, endOfMonth), ym.atEndOfMonth())
     }
   }
 
-  test("compareTo") {
+  @Test def compareTo(): Unit = {
     assertEquals(0, min.compareTo(min))
     assertEquals(-1999999998, min.compareTo(max))
     assertEquals(-11, min.compareTo(YearMonth.of(Year.MIN_VALUE, 12)))
@@ -355,21 +359,21 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(0, max.compareTo(max))
   }
 
-  test("isAfter") {
+  @Test def isAfter(): Unit = {
     assert(!min.isAfter(min))
     assert(!min.isAfter(max))
     assert(max.isAfter(min))
     assert(!max.isAfter(max))
   }
 
-  test("isBefore") {
+  @Test def isBefore(): Unit = {
     assert(!min.isBefore(min))
     assert(min.isBefore(max))
     assert(!max.isBefore(min))
     assert(!max.isBefore(max))
   }
 
-  test("equalsHashCode") {
+  @Test def equalsHashCode(): Unit = {
     assertEquals(YearMonth.of(Year.MIN_VALUE, 1), min)
     assertEquals(YearMonth.of(Year.MIN_VALUE, 1).hashCode(), min.hashCode())
     assertEquals(YearMonth.of(Year.MAX_VALUE, 12), max)
@@ -387,7 +391,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("toStringOutput") {
+  @Test def toStringOutput(): Unit = {
     assertEquals("-999999999-01", min.toString)
     assertEquals("999999999-12", max.toString)
     assertEquals("-10000-01", YearMonth.of(-10000, 1).toString)
@@ -399,7 +403,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals("0001-12", decFirstAC.toString)
   }
 
-  test("ofMonth") {
+  @Test def ofMonth(): Unit = {
     val yearMonth = YearMonth.of(23, Month.JANUARY)
     assertEquals(23, yearMonth.getYear)
     assertEquals(1, yearMonth.getMonthValue)
@@ -421,7 +425,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("of") {
+  @Test def of(): Unit = {
     val yearMonth = YearMonth.of(293, 11)
     assertEquals(293, yearMonth.getYear)
     assertEquals(11, yearMonth.getMonthValue)
@@ -444,7 +448,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     expectThrows(classOf[DateTimeException], YearMonth.of(max.getYear, 13))
   }
 
-  test("now") {
+  @Test def now(): Unit = {
     val now = LocalDate.now()
     val yearMonth = YearMonth.now()
     if (yearMonth.getMonthValue != now.getMonthValue) {
@@ -456,7 +460,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
   }
 
-  test("from") {
+  @Test def from(): Unit = {
     for (ym <- samples) {
       assertEquals(ym, YearMonth.from(ym))
     }

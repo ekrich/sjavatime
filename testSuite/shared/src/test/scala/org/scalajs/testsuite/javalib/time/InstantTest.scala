@@ -4,6 +4,8 @@ import java.time._
 import java.time.format.DateTimeParseException
 import java.time.temporal.{UnsupportedTemporalTypeException, ChronoUnit, ChronoField}
 
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 /** Created by alonsodomin on 26/12/2015. */
@@ -25,7 +27,7 @@ class InstantTest extends TemporalTest[Instant] {
   def isSupported(unit: ChronoUnit): Boolean =
     unit.isTimeBased || unit == DAYS
 
-  test("getLong") {
+  @Test def getLong(): Unit = {
     for (field <- ChronoField.values() if isSupported(field))
       assertEquals(0L, Instant.EPOCH.getLong(field))
 
@@ -50,7 +52,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(88L, someNegativeInstant.getLong(MILLI_OF_SECOND))
   }
 
-  test("getEpochSecond") {
+  @Test def getEpochSecond(): Unit = {
     assertEquals(0L, Instant.EPOCH.getEpochSecond)
     assertEquals(-31557014167219200L, Instant.MIN.getEpochSecond)
     assertEquals(31556889864403199L, Instant.MAX.getEpochSecond)
@@ -58,7 +60,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(-83827873287L, someNegativeInstant.getEpochSecond)
   }
 
-  test("getNano") {
+  @Test def getNano(): Unit = {
     assertEquals(0, Instant.EPOCH.getNano)
     assertEquals(0, Instant.MIN.getNano)
     assertEquals(999999999, Instant.MAX.getNano)
@@ -66,7 +68,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(88936253, someNegativeInstant.getNano)
   }
 
-  test("`with`") {
+  @Test def `with`(): Unit = {
     for (i <- samples) {
       for (value <- Seq(0L, 999L, 999999L, 999999999L)) {
         assertEquals(value, i.`with`(NANO_OF_SECOND, value).getLong(NANO_OF_SECOND))
@@ -91,7 +93,7 @@ class InstantTest extends TemporalTest[Instant] {
     }
   }
 
-  test("truncatedTo") {
+  @Test def truncatedTo(): Unit = {
     for (i <- samples)
       assertEquals(i, i.truncatedTo(NANOS))
 
@@ -124,7 +126,7 @@ class InstantTest extends TemporalTest[Instant] {
       expectThrows(classOf[UnsupportedTemporalTypeException], i.truncatedTo(u))
   }
 
-  test("plus") {
+  @Test def plus(): Unit = {
     for {
       i <- samples
       u <- ChronoUnit.values() if isSupported(u)
@@ -140,7 +142,7 @@ class InstantTest extends TemporalTest[Instant] {
     }
   }
 
-  test("plusSeconds") {
+  @Test def plusSeconds(): Unit = {
     for (i <- samples)
       assertEquals(i, i.plusSeconds(0))
 
@@ -162,7 +164,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827873288L, 88936253), someNegativeInstant.plusSeconds(-1))
   }
 
-  test("plusMillis") {
+  @Test def plusMillis(): Unit = {
     for (i <- samples)
       assertEquals(i, i.plusMillis(0))
 
@@ -188,7 +190,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827873287L, 87936253), someNegativeInstant.plusMillis(-1))
   }
 
-  test("plusNanos") {
+  @Test def plusNanos(): Unit = {
     for (i <- samples)
       assertEquals(i, i.plusNanos(0))
 
@@ -214,7 +216,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827873287L, 88936252), someNegativeInstant.plusNanos(-1))
   }
 
-  test("minusSeconds") {
+  @Test def minusSeconds(): Unit = {
     for (i <- samples)
       assertEquals(i, i.minusSeconds(0))
 
@@ -236,7 +238,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827873286L, 88936253), someNegativeInstant.minusSeconds(-1))
   }
 
-  test("minusMillis") {
+  @Test def minusMillis(): Unit = {
     for (i <- samples)
       assertEquals(i, i.minusMillis(0))
 
@@ -262,7 +264,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827873287L, 89936253), someNegativeInstant.minusMillis(-1))
   }
 
-  test("minusNanos") {
+  @Test def minusNanos(): Unit = {
     for (i <- samples)
       assertEquals(i, i.minusNanos(0))
 
@@ -288,7 +290,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827873287L, 88936254), someNegativeInstant.minusNanos(-1))
   }
 
-  test("adjustInto") {
+  @Test def adjustInto(): Unit = {
     for {
       i1 <- samples
       i2 <- samples
@@ -304,7 +306,7 @@ class InstantTest extends TemporalTest[Instant] {
     }
   }
 
-  test("until") {
+  @Test def until(): Unit = {
     expectThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, NANOS))
     expectThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MICROS))
     expectThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MILLIS))
@@ -335,7 +337,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(980975L, someNegativeInstant.until(somePositiveInstant, DAYS))
   }
 
-  test("compareTo") {
+  @Test def compareTo(): Unit = {
     for (i <- samples)
       assertEquals(0, i.compareTo(i))
 
@@ -345,7 +347,7 @@ class InstantTest extends TemporalTest[Instant] {
     assert(Instant.MAX.compareTo(Instant.EPOCH) > 0)
   }
 
-  test("isAfter") {
+  @Test def isAfter(): Unit = {
     assert(!Instant.MIN.isAfter(Instant.MIN))
     assert(!Instant.MIN.isAfter(Instant.MAX))
     assert(!Instant.MIN.isAfter(Instant.EPOCH))
@@ -354,7 +356,7 @@ class InstantTest extends TemporalTest[Instant] {
     assert(Instant.MAX.isAfter(Instant.EPOCH))
   }
 
-  test("isBefore") {
+  @Test def isBefore(): Unit = {
     assert(!Instant.MIN.isBefore(Instant.MIN))
     assert(Instant.MIN.isBefore(Instant.MAX))
     assert(Instant.MIN.isBefore(Instant.EPOCH))
@@ -363,13 +365,13 @@ class InstantTest extends TemporalTest[Instant] {
     assert(!Instant.MAX.isBefore(Instant.EPOCH))
   }
 
-  test("toEpochMilli") {
+  @Test def toEpochMilli(): Unit = {
     assertEquals(0L, Instant.EPOCH.toEpochMilli)
     assertEquals(928392983942L, somePositiveInstant.toEpochMilli)
     assertEquals(-83827873286912L, someNegativeInstant.toEpochMilli)
   }
 
-  test("toStringOutput") {
+  @Test def toStringOutput(): Unit = {
     assertEquals("1970-01-01T00:00:00Z", Instant.EPOCH.toString)
     assertEquals("-1000000000-01-01T00:00:00Z", Instant.MIN.toString)
     assertEquals("-999999999-01-01T00:00:00Z", Instant.MIN.plus(366, DAYS).toString)
@@ -384,11 +386,11 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals("-0687-08-07T23:38:33.088936253Z", someNegativeInstant.toString)
   }
 
-  test("now") {
+  @Test def now(): Unit = {
     assert(Instant.now != null)
   }
 
-  test("ofEpochSecond") {
+  @Test def ofEpochSecond(): Unit = {
     assertEquals(Instant.EPOCH, Instant.ofEpochSecond(0))
     assertEquals(Instant.EPOCH, Instant.ofEpochSecond(0, 0))
 
@@ -408,11 +410,11 @@ class InstantTest extends TemporalTest[Instant] {
       expectThrows(classOf[DateTimeException], Instant.ofEpochSecond(s, n))
   }
 
-  test("ofEpochMilli") {
+  @Test def ofEpochMilli(): Unit = {
     assertEquals(Instant.EPOCH, Instant.ofEpochMilli(0))
   }
 
-  test("from") {
+  @Test def from(): Unit = {
     for (i <- samples)
       assertEquals(i, Instant.from(i))
 
@@ -426,7 +428,7 @@ class InstantTest extends TemporalTest[Instant] {
     expectThrows(classOf[DateTimeException], Instant.from(aYear))
   }
 
-  test("parse") {
+  @Test def parse(): Unit = {
     assertEquals(Instant.EPOCH, Instant.parse("1970-01-01T00:00:00Z"))
     assertEquals(Instant.MIN, Instant.parse("-1000000000-01-01T00:00:00Z"))
     assertEquals(Instant.MIN.plus(366, DAYS), Instant.parse("-999999999-01-01T00:00:00Z"))

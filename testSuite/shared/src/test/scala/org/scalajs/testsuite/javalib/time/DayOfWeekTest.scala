@@ -3,7 +3,8 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.temporal.ChronoField
 
-
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
@@ -14,7 +15,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
   def isSupported(field: ChronoField): Boolean =
     field == ChronoField.DAY_OF_WEEK
 
-  test("test_getValue") {
+  @Test def test_getValue(): Unit = {
     assertEquals(1, MONDAY.getValue)
     assertEquals(2, TUESDAY.getValue)
     assertEquals(3, WEDNESDAY.getValue)
@@ -24,12 +25,12 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     assertEquals(7, SUNDAY.getValue)
   }
 
-  test("test_getLong") {
+  @Test def test_getLong(): Unit = {
     for (d <- samples)
       assertEquals(d.getValue.toLong, d.getLong(ChronoField.DAY_OF_WEEK))
   }
 
-  test("test_plus") {
+  @Test def test_plus(): Unit = {
     assertEquals(FRIDAY, SATURDAY.plus(Long.MinValue))
     assertEquals(THURSDAY, THURSDAY.plus(-7))
     assertEquals(SUNDAY, WEDNESDAY.plus(-3))
@@ -41,7 +42,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     assertEquals(SUNDAY, SUNDAY.plus(Long.MaxValue))
   }
 
-  test("test_minus") {
+  @Test def test_minus(): Unit = {
     assertEquals(SUNDAY, SATURDAY.minus(Long.MinValue))
     assertEquals(THURSDAY, THURSDAY.minus(-7))
     assertEquals(MONDAY, FRIDAY.minus(-3))
@@ -53,19 +54,19 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     assertEquals(SUNDAY, SUNDAY.plus(Long.MaxValue))
   }
 
-  test("test_compareTo") {
+  @Test def test_compareTo(): Unit = {
     assertEquals(0, WEDNESDAY.compareTo(WEDNESDAY))
     assert(MONDAY.compareTo(SUNDAY) < 0)
     assert(SATURDAY.compareTo(TUESDAY) > 0)
   }
 
-  test("test_values") {
+  @Test def test_values(): Unit = {
     val days: Array[AnyRef] =
       Array(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)
     assertEquals(days, values.asInstanceOf[Array[AnyRef]])
   }
 
-  test("test_valueOf") {
+  @Test def test_valueOf(): Unit = {
     assertEquals(MONDAY, valueOf("MONDAY"))
     assertEquals(TUESDAY, valueOf("TUESDAY"))
     assertEquals(WEDNESDAY, valueOf("WEDNESDAY"))
@@ -77,7 +78,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     expectThrows(classOf[IllegalArgumentException], valueOf(""))
   }
 
-  test("test_of") {
+  @Test def test_of(): Unit = {
     assertEquals(MONDAY, of(1))
     assertEquals(TUESDAY, of(2))
     assertEquals(WEDNESDAY, of(3))
@@ -90,7 +91,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
       expectThrows(classOf[DateTimeException], of(n))
   }
 
-  test("test_from") {
+  @Test def test_from(): Unit = {
     for (d <- samples)
       assertEquals(d, from(d))
     for (d <- Seq(LocalDate.MIN, LocalDate.of(2012, 2, 29), LocalDate.MAX))

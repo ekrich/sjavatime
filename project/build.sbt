@@ -1,8 +1,7 @@
 // versions
-val crossVer = "0.6.1"
-val scalaJSVersion =
-  Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.1.1")
-val scalaNativeVersion = "0.4.0-M2"
+val crossVer = "1.0.0"
+val scalaJSVersion = "1.4.0"
+val scalaNativeVersion = "0.4.0-SNAPSHOT"
 
 // Scala.js support
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
@@ -12,4 +11,5 @@ addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % crossVer)
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % scalaNativeVersion)
 addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % crossVer)
 
-addSbtPlugin("org.scalastyle" % "scalastyle-sbt-plugin" % "1.0.0")
+// Dotty - Scala 3
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.1")

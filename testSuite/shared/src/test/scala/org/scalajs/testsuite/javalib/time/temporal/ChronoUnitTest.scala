@@ -2,16 +2,19 @@ package org.scalajs.testsuite.javalib.time.temporal
 
 import java.time.temporal.ChronoUnit
 
+import org.junit.Test
+import org.junit.Assert._
+import org.scalajs.testsuite.utils.AssertThrows._
 
-class ChronoUnitTest extends munit.FunSuite {
+class ChronoUnitTest {
   import ChronoUnit._
 
-  test("test_isDurationEstimated") {
+  @Test def test_isDurationEstimated(): Unit = {
     for (u <- ChronoUnit.values)
       assert(u.isDurationEstimated != u.isTimeBased)
   }
 
-  test("test_isDateBased") {
+  @Test def test_isDateBased(): Unit = {
     assert(!NANOS.isDateBased)
     assert(!MICROS.isDateBased)
     assert(!MILLIS.isDateBased)
@@ -30,7 +33,7 @@ class ChronoUnitTest extends munit.FunSuite {
     assert(!FOREVER.isDateBased)
   }
 
-  test("test_isTimeBased") {
+  @Test def test_isTimeBased(): Unit = {
     assert(NANOS.isTimeBased)
     assert(MICROS.isTimeBased)
     assert(MILLIS.isTimeBased)
@@ -49,14 +52,14 @@ class ChronoUnitTest extends munit.FunSuite {
     assert(!FOREVER.isTimeBased)
   }
 
-  test("test_values") {
+  @Test def test_values(): Unit = {
     val units = Array[AnyRef](NANOS, MICROS, MILLIS, SECONDS, MINUTES, HOURS,
         HALF_DAYS, DAYS, WEEKS, MONTHS, YEARS, DECADES, CENTURIES, MILLENNIA,
         ERAS, FOREVER)
     assertEquals(units, values.asInstanceOf[Array[AnyRef]])
   }
 
-  test("test_valueOf") {
+  @Test def test_valueOf(): Unit = {
     assertEquals(NANOS, valueOf("NANOS"))
     assertEquals(MICROS, valueOf("MICROS"))
     assertEquals(MILLIS, valueOf("MILLIS"))

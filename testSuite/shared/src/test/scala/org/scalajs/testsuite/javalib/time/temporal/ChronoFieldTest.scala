@@ -2,11 +2,14 @@ package org.scalajs.testsuite.javalib.time.temporal
 
 import java.time.temporal.ChronoField
 
+import org.junit.Test
+import org.junit.Assert._
+import org.scalajs.testsuite.utils.AssertThrows._
 
-class ChronoFieldTest extends munit.FunSuite {
+class ChronoFieldTest {
   import ChronoField._
 
-  test("test_isDateBased") {
+  @Test def test_isDateBased(): Unit = {
     assert(!NANO_OF_SECOND.isDateBased)
     assert(!NANO_OF_DAY.isDateBased)
     assert(!MICRO_OF_SECOND.isDateBased)
@@ -39,7 +42,7 @@ class ChronoFieldTest extends munit.FunSuite {
     assert(!OFFSET_SECONDS.isDateBased)
   }
 
-  test("test_isTimeBased") {
+  @Test def test_isTimeBased(): Unit = {
     assert(NANO_OF_SECOND.isTimeBased)
     assert(NANO_OF_DAY.isTimeBased)
     assert(MICRO_OF_SECOND.isTimeBased)
@@ -72,7 +75,7 @@ class ChronoFieldTest extends munit.FunSuite {
     assert(!OFFSET_SECONDS.isTimeBased)
   }
 
-  test("test_values") {
+  @Test def test_values(): Unit = {
     val fields = Array[AnyRef](NANO_OF_SECOND, NANO_OF_DAY, MICRO_OF_SECOND,
         MICRO_OF_DAY, MILLI_OF_SECOND, MILLI_OF_DAY, SECOND_OF_MINUTE,
         SECOND_OF_DAY, MINUTE_OF_HOUR, MINUTE_OF_DAY, HOUR_OF_AMPM,
@@ -84,7 +87,7 @@ class ChronoFieldTest extends munit.FunSuite {
     assertEquals(fields, values.asInstanceOf[Array[AnyRef]])
   }
 
-  test("test_valueOf") {
+  @Test def test_valueOf(): Unit = {
     assertEquals(NANO_OF_SECOND, valueOf("NANO_OF_SECOND"))
     assertEquals(NANO_OF_DAY, valueOf("NANO_OF_DAY"))
     assertEquals(MICRO_OF_SECOND, valueOf("MICRO_OF_SECOND"))

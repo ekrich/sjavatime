@@ -1,20 +1,18 @@
-import sbtcrossproject.crossProject
-
 val scala211 = "2.11.12"
 val scala212 = "2.12.12"
 val scala213 = "2.13.4"
+val scala300 = "3.0.0-M3"
 
-val versionsBase   = Seq(scala212, scala211, scala213)
-val versionsJS     = versionsBase
-val versionsNative = Seq(scala211)
-crossScalaVersions in ThisBuild := versionsBase
+val versionsBase = Seq(scala212, scala211, scala213)
+val versionsNative = versionsBase
+val versionsJS = versionsBase // :+ scala300
 
-scalaVersion in ThisBuild := (crossScalaVersions in ThisBuild).value.head
+ThisBuild / scalaVersion := scala213
 
 val commonSettings: Seq[Setting[_]] = Seq(
   version := "1.0.1-SNAPSHOT",
   organization := "org.scala-js",
-  scalacOptions ++= Seq("-deprecation", "-feature", "-Xfatal-warnings"),
+  scalacOptions ++= Seq("-deprecation", "-feature"), // "-Xfatal-warnings"),
   homepage := Some(url("http://scala-js.org/")),
   licenses += ("BSD New",
   url("https://github.com/scala-js/scala-js-java-time/blob/master/LICENSE")),
@@ -27,6 +25,7 @@ val commonSettings: Seq[Setting[_]] = Seq(
   )
 )
 lazy val root = (project in file("."))
+  .settings(name := "sjavatime-root")
   .aggregate(
     sjavatimeJS,
     sjavatimeNative,
@@ -73,23 +72,24 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     ),
     pomIncludeRepository := { _ => false }
   )
+  .jsSettings(
+    crossScalaVersions := versionsJS
+  )
   .nativeSettings(
     crossScalaVersions := versionsNative,
-    scalaVersion := scala211, // allows to compile if scalaVersion set not 2.11
     nativeLinkStubs := true,
-    logLevel := Level.Info, // Info or Debug
+    logLevel := Level.Info // Info or Debug
   )
 
 lazy val sjavatimeJS = sjavatime.js
 lazy val sjavatimeNative = sjavatime.native
-    .enablePlugins(ScalaNativePlugin)
+  .enablePlugins(ScalaNativePlugin)
 
 lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+  .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
   .settings(commonSettings: _*)
   .settings(
-    testFrameworks += new TestFramework("munit.Framework"),
-    libraryDependencies +=
-      "org.scalameta" %%% "munit" % "0.7.2" % Test,
+    testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
     scalacOptions += "-target:jvm-1.8"
   )
   .jsSettings(
@@ -98,14 +98,19 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jsConfigure(_.dependsOn(sjavatimeJS))
   .jvmSettings(
-    name := "java.time testSuite on JVM"
+    name := "java.time testSuite on JVM",
+    libraryDependencies +=
+      "com.novocode" % "junit-interface" % "0.11" % Test
   )
   .nativeSettings(
-    crossScalaVersions := versionsNative,
-    scalaVersion := scala211, // allows to compile if scalaVersion set not 2.11
+    name := "java.time testSuite on Native",
+    addCompilerPlugin(
+      "org.scala-native" % "junit-plugin" % nativeVersion cross CrossVersion.full
+    ),
+    libraryDependencies += "org.scala-native" %%% "junit-runtime" % nativeVersion
   )
 
 lazy val testSuiteJS = testSuite.js
-lazy val testSuiteJVM = testSuite.jvm
 lazy val testSuiteNative = testSuite.native
-    .dependsOn(sjavatimeNative)
+  .dependsOn(sjavatimeNative)
+lazy val testSuiteJVM = testSuite.jvm

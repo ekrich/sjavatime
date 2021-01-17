@@ -3,7 +3,7 @@ package org.scalajs.testsuite.javalib.time
 import java.time.DateTimeException
 import java.time.temporal.{ChronoUnit, Temporal, UnsupportedTemporalTypeException}
 
-import munit.Assertions._
+import org.junit.Assert._
 
 object DateTimeTestUtil {
   import org.scalajs.testsuite.utils.AssertThrows._

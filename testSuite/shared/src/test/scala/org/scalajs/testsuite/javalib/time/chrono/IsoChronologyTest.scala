@@ -4,21 +4,23 @@ import java.time.{Period, LocalDate, DateTimeException}
 import java.time.chrono.{IsoChronology, IsoEra}
 import java.time.temporal.ChronoField
 
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 import org.scalajs.testsuite.javalib.time.DateTimeTestUtil._
 
-class IsoChronologyTest extends munit.FunSuite {
+class IsoChronologyTest {
   final val iso = IsoChronology.INSTANCE
 
-  test("test_getId") {
+  @Test def test_getId(): Unit = {
     assertEquals("ISO", iso.getId)
   }
 
-  test("test_getCalendarType") {
+  @Test def test_getCalendarType(): Unit = {
     assertEquals("iso8601", iso.getCalendarType)
   }
 
-  test("test_date") {
+  @Test def test_date(): Unit = {
     val years = Seq(Int.MinValue, -1000000000, -999999999, -1, 0,
         1, 999999999, 1000000000, Int.MaxValue)
     val months = Seq(Int.MinValue, 0, 1, 12, 13, Int.MaxValue)
@@ -36,7 +38,7 @@ class IsoChronologyTest extends munit.FunSuite {
     }
   }
 
-  test("test_dateYearDay") {
+  @Test def test_dateYearDay(): Unit = {
     val years = Seq(Int.MinValue, -1000000000, -999999999, -1, 0,
         1, 999999999, 1000000000, Int.MaxValue)
     val months = Seq(Int.MinValue, 0, 1, 12, 13, Int.MaxValue)
@@ -53,18 +55,18 @@ class IsoChronologyTest extends munit.FunSuite {
     }
   }
 
-  test("test_dateEpochDay") {
+  @Test def test_dateEpochDay(): Unit = {
     for (day <- Seq(Long.MinValue, -365243219163L, -365243219162L, -1L, 0L,
         1L, 365241780471L, 365241780472L, Long.MaxValue)) {
       testDateTime(iso.dateEpochDay(day))(LocalDate.ofEpochDay(day))
     }
   }
 
-  test("test_dateNow") {
+  @Test def test_dateNow(): Unit = {
     assertEquals(iso.dateNow().getEra, IsoEra.CE)
   }
 
-  test("test_isLeapYear") {
+  @Test def test_isLeapYear(): Unit = {
     for (year <- Seq(Int.MinValue, -400, -104, -96, -4, 0, 4, 1896, 1904,
         1996, 2000, 2004, 2147483644)) {
       assert(iso.isLeapYear(year))
@@ -75,14 +77,14 @@ class IsoChronologyTest extends munit.FunSuite {
     }
   }
 
-  test("test_prolepticYear") {
+  @Test def test_prolepticYear(): Unit = {
     for (year <- Seq(-Int.MinValue, -1, 0, 1, Int.MaxValue)) {
       assertEquals(year, iso.prolepticYear(IsoEra.CE, year))
       assertEquals(1 - year, iso.prolepticYear(IsoEra.BCE, year))
     }
   }
 
-  test("test_eraOf") {
+  @Test def test_eraOf(): Unit = {
     assertEquals(IsoEra.BCE, iso.eraOf(0))
     assertEquals(IsoEra.CE, iso.eraOf(1))
 
@@ -90,19 +92,19 @@ class IsoChronologyTest extends munit.FunSuite {
       expectThrows(classOf[DateTimeException], iso.eraOf(n))
   }
 
-  test("test_eras") {
+  @Test def test_eras(): Unit = {
     val eras = iso.eras
     assertEquals(2, eras.size)
     assertEquals(eras.get(0), IsoEra.BCE)
     assertEquals(eras.get(1), IsoEra.CE)
   }
 
-  test("test_range") {
+  @Test def test_range(): Unit = {
     for (f <- ChronoField.values)
       assertEquals(f.range, iso.range(f))
   }
 
-  test("test_period") {
+  @Test def test_period(): Unit = {
     val yearss = Seq(Int.MinValue, -1, 0, 1, Int.MaxValue)
     val monthss = Seq(Int.MinValue, -1, 0, 1, Int.MaxValue)
     val dayss = Seq(Int.MinValue, -1, 0, 1, Int.MaxValue)
@@ -116,7 +118,7 @@ class IsoChronologyTest extends munit.FunSuite {
     }
   }
 
-  test("test_toString") {
+  @Test def test_toString(): Unit = {
     assertEquals("ISO", iso.toString)
   }
 }

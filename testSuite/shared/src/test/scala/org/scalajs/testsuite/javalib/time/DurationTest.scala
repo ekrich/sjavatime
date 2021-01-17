@@ -3,6 +3,8 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.temporal.{ChronoUnit, UnsupportedTemporalTypeException}
 
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 import org.scalajs.testsuite.utils.Platform.executingInJVM
 
@@ -25,20 +27,20 @@ class DurationTest extends TemporalAmountTest {
   val illegalUnits =
     ChronoUnit.values.filterNot(_.isTimeBased).filterNot(_ == DAYS)
 
-  test("test_get") {
+  @Test def test_get(): Unit = {
     for (d <- samples) {
       assertEquals(d.getSeconds, d.get(SECONDS))
       assertEquals(d.getNano.toLong, d.get(NANOS))
     }
   }
 
-  test("test_isZero") {
+  @Test def test_isZero(): Unit = {
     for (d <- samples if d != ZERO)
       assert(!d.isZero)
     assert(ZERO.isZero)
   }
 
-  test("test_isNegative") {
+  @Test def test_isNegative(): Unit = {
     assert(dmin.isNegative)
     assert(oneSecond.negated.isNegative)
     assert(oneNano.negated.isNegative)
@@ -48,7 +50,7 @@ class DurationTest extends TemporalAmountTest {
     assert(!dmax.isNegative)
   }
 
-  test("test_getSeconds") {
+  @Test def test_getSeconds(): Unit = {
     assertEquals(Long.MinValue, dmin.getSeconds)
     assertEquals(-1L, oneNano.negated.getSeconds)
     assertEquals(0L, ZERO.getSeconds)
@@ -57,7 +59,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(Long.MaxValue, dmax.getSeconds)
   }
 
-  test("test_getNano") {
+  @Test def test_getNano(): Unit = {
     assertEquals(0, dmin.getNano)
     assertEquals(999999999, oneNano.negated.getNano)
     assertEquals(0, ZERO.getNano)
@@ -65,13 +67,13 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(999999999, dmax.getNano)
   }
 
-  test("test_withSeconds") {
+  @Test def test_withSeconds(): Unit = {
     assertEquals(ZERO, dmin.withSeconds(0))
     assertEquals(ofSeconds(2, -1), dmax.withSeconds(1))
     assertEquals(dmin, ZERO.withSeconds(Long.MinValue))
   }
 
-  test("test_withNanos") {
+  @Test def test_withNanos(): Unit = {
     val d0 = ofSeconds(1, 1)
 
     assertEquals(ofSeconds(Long.MinValue + 1, -1), dmin.withNanos(999999999))
@@ -88,7 +90,7 @@ class DurationTest extends TemporalAmountTest {
     }
   }
 
-  test("test_plus") {
+  @Test def test_plus(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(1, 999999999)
     val d3 = ofSeconds(-2, 1)
@@ -127,7 +129,7 @@ class DurationTest extends TemporalAmountTest {
     }
   }
 
-  test("test_plusDays") {
+  @Test def test_plusDays(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 86400, 999999999)
     val d3 = ofSeconds(Long.MinValue + 86400)
@@ -152,7 +154,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.plusDays(-2))
   }
 
-  test("test_plusHours") {
+  @Test def test_plusHours(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 3600, 999999999)
     val d3 = ofSeconds(Long.MinValue + 3600)
@@ -177,7 +179,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.plusHours(-2))
   }
 
-  test("test_plusMinutes") {
+  @Test def test_plusMinutes(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 60, 999999999)
     val d3 = ofSeconds(Long.MinValue + 60)
@@ -202,7 +204,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.plusMinutes(-2))
   }
 
-  test("test_plusSeconds") {
+  @Test def test_plusSeconds(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 1, 999999999)
     val d3 = ofSeconds(Long.MinValue + 1)
@@ -227,7 +229,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.plusSeconds(-2))
   }
 
-  test("test_plusMillis") {
+  @Test def test_plusMillis(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue, 998999999)
     val d3 = ofSeconds(Long.MinValue, 1000000)
@@ -252,7 +254,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.plusMillis(-2))
   }
 
-  test("test_plusNanos") {
+  @Test def test_plusNanos(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue, 999999998)
     val d3 = ofSeconds(Long.MinValue, 1)
@@ -275,7 +277,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.plusNanos(-2))
   }
 
-  test("test_minus") {
+  @Test def test_minus(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(1, 999999999)
     val d3 = ofSeconds(-2, 1)
@@ -312,7 +314,7 @@ class DurationTest extends TemporalAmountTest {
     }
   }
 
-  test("test_minusDays") {
+  @Test def test_minusDays(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 86400, 999999999)
     val d3 = ofSeconds(Long.MinValue + 86400)
@@ -337,7 +339,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.minusDays(2))
   }
 
-  test("test_minusHours") {
+  @Test def test_minusHours(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 3600, 999999999)
     val d3 = ofSeconds(Long.MinValue + 3600)
@@ -362,7 +364,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.minusHours(2))
   }
 
-  test("test_minusMinutes") {
+  @Test def test_minusMinutes(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 60, 999999999)
     val d3 = ofSeconds(Long.MinValue + 60)
@@ -387,7 +389,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.minusMinutes(2))
   }
 
-  test("test_minusSeconds") {
+  @Test def test_minusSeconds(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue - 1, 999999999)
     val d3 = ofSeconds(Long.MinValue + 1)
@@ -412,7 +414,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.minusSeconds(2))
   }
 
-  test("test_minusMillis") {
+  @Test def test_minusMillis(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue, 998999999)
     val d3 = ofSeconds(Long.MinValue, 1000000)
@@ -437,7 +439,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.minusMillis(2))
   }
 
-  test("test_minusNanos") {
+  @Test def test_minusNanos(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(Long.MaxValue, 999999998)
     val d3 = ofSeconds(Long.MinValue, 1)
@@ -460,7 +462,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d3.minusNanos(2))
   }
 
-  test("test_multipliedBy") {
+  @Test def test_multipliedBy(): Unit = {
     val d1 = ofSeconds(1, 1)
     val d2 = ofSeconds(-1, -1)
 
@@ -490,7 +492,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], d1.multipliedBy(Long.MinValue))
   }
 
-  test("test_dividedBy") {
+  @Test def test_dividedBy(): Unit = {
     val d1 = ofSeconds(10, 100)
     val d2 = ofNanos(10)
     val d3 = Duration.ofSeconds(9223372036L, 999999999)
@@ -542,7 +544,7 @@ class DurationTest extends TemporalAmountTest {
       expectThrows(classOf[ArithmeticException], d.dividedBy(0))
   }
 
-  test("test_negated") {
+  @Test def test_negated(): Unit = {
     assertEquals(ZERO, ZERO.negated)
     assertEquals(ofSeconds(-1), oneSecond.negated)
     assertEquals(oneSecond, ofSeconds(-1).negated)
@@ -554,7 +556,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], dmin.negated)
   }
 
-  test("test_abs") {
+  @Test def test_abs(): Unit = {
     assertEquals(ZERO, ZERO.abs)
     assertEquals(oneSecond, oneSecond.abs)
     assertEquals(oneSecond, ofSeconds(-1).abs)
@@ -566,7 +568,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], dmin.abs)
   }
 
-  test("test_addTo") {
+  @Test def test_addTo(): Unit = {
     val t = LocalTime.NOON
     val d = LocalDate.MIN
 
@@ -579,7 +581,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.addTo(d))
   }
 
-  test("test_subtractFrom") {
+  @Test def test_subtractFrom(): Unit = {
     val t = LocalTime.NOON
     val d = LocalDate.MIN
 
@@ -592,7 +594,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.subtractFrom(d))
   }
 
-  test("test_toDays") {
+  @Test def test_toDays(): Unit = {
     assertEquals(-106751991167300L, dmin.toDays)
     assertEquals(-2L, ofSeconds(-172799, -1).toDays)
     assertEquals(-1L, ofSeconds(-172799).toDays)
@@ -608,7 +610,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(106751991167300L, dmax.toDays)
   }
 
-  test("test_toHours") {
+  @Test def test_toHours(): Unit = {
     assertEquals(-2562047788015215L, dmin.toHours)
     assertEquals(-2L, ofSeconds(-7199, -1).toHours)
     assertEquals(-1L, ofSeconds(-7199).toHours)
@@ -624,7 +626,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(2562047788015215L, dmax.toHours)
   }
 
-  test("test_toMinutes") {
+  @Test def test_toMinutes(): Unit = {
     assertEquals(-153722867280912930L, dmin.toMinutes)
     assertEquals(-2L, ofSeconds(-119, -1).toMinutes)
     assertEquals(-1L, ofSeconds(-119).toMinutes)
@@ -640,7 +642,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(153722867280912930L, dmax.toMinutes)
   }
 
-  test("test_toMillis") {
+  @Test def test_toMillis(): Unit = {
     assertEquals(-9223372036854775000L, ofSeconds(-9223372036854775L).toMillis)
     assertEquals(-1000L, ofSeconds(-1).toMillis)
     assertEquals(-2L, ofNanos(-1000001).toMillis)
@@ -664,7 +666,7 @@ class DurationTest extends TemporalAmountTest {
         ofSeconds(9223372036854775L, 808000000).toMillis)
   }
 
-  test("test_toNanos") {
+  @Test def test_toNanos(): Unit = {
     assertEquals(-9223372036000000000L, ofSeconds(-9223372036L).toNanos)
     assertEquals(Int.MinValue.toLong, ofNanos(Int.MinValue).toNanos)
     assertEquals(-1000L, ofNanos(-1000).toNanos)
@@ -684,7 +686,7 @@ class DurationTest extends TemporalAmountTest {
         ofSeconds(9223372036L, 854775808).toNanos)
   }
 
-  test("test_compareTo") {
+  @Test def test_compareTo(): Unit = {
     val d1 = ofSeconds(0, -1)
     val d0 = ZERO
     val d2 = ofSeconds(0, 1)
@@ -716,7 +718,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(0, dmax.compareTo(dmax))
   }
 
-  test("test_toString") {
+  @Test def test_toString(): Unit = {
     assertEquals("PT0S", ZERO.toString)
     assertEquals("PT-0.999999999S", ofSeconds(-1, 1).toString)
     assertEquals("PT-1.000000001S", ofSeconds(-1, -1).toString)
@@ -734,7 +736,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals("PT2562047788015215H30M7.999999999S", dmax.toString)
   }
 
-  test("test_ofDays") {
+  @Test def test_ofDays(): Unit = {
     val maxDays = 106751991167300L
     val maxSecs = maxDays * 86400
 
@@ -748,7 +750,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], ofDays(maxDays + 1))
   }
 
-  test("test_ofHours") {
+  @Test def test_ofHours(): Unit = {
     val maxHrs = 2562047788015215L
     val maxSecs = maxHrs * 3600
 
@@ -762,7 +764,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], ofHours(maxHrs + 1))
   }
 
-  test("test_ofMinutes") {
+  @Test def test_ofMinutes(): Unit = {
     val maxMins = 153722867280912930L
     val maxSecs = maxMins * 60
 
@@ -776,7 +778,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], ofMinutes(maxMins + 1))
   }
 
-  test("test_ofSeconds") {
+  @Test def test_ofSeconds(): Unit = {
     assertEquals(ofSeconds(-11, 999999999), ofSeconds(-10, -1))
     assertEquals(ofSeconds(-1), ofSeconds(-1, 0))
     assertEquals(ZERO, ofSeconds(-1, 1000000000))
@@ -791,7 +793,7 @@ class DurationTest extends TemporalAmountTest {
         ofSeconds(Long.MaxValue, 1000000000))
   }
 
-  test("test_ofMillis") {
+  @Test def test_ofMillis(): Unit = {
     assertEquals(ofSeconds(-9223372036854776L, 192000000),
         ofMillis(Long.MinValue))
     assertEquals(ofSeconds(-1), ofMillis(-1000))
@@ -803,7 +805,7 @@ class DurationTest extends TemporalAmountTest {
         ofMillis(Long.MaxValue))
   }
 
-  test("test_ofNanos") {
+  @Test def test_ofNanos(): Unit = {
     assertEquals(ofSeconds(-9223372037L, 145224192), ofNanos(Long.MinValue))
     assertEquals(ofSeconds(-1), ofNanos(-1000000000))
     assertEquals(ofSeconds(0, -1), ofNanos(-1))
@@ -813,7 +815,7 @@ class DurationTest extends TemporalAmountTest {
     assertEquals(ofSeconds(9223372036L, 854775807), ofNanos(Long.MaxValue))
   }
 
-  test("test_of") {
+  @Test def test_of(): Unit = {
     for (n <- Seq(-100000000000000L, -1L, 0L, 1L, 100000000000000L)) {
       assertEquals(ofNanos(n), of(n, NANOS))
       assertEquals(ofNanos(n * 1000), of(n, MICROS))
@@ -851,7 +853,7 @@ class DurationTest extends TemporalAmountTest {
     }
   }
 
-  test("test_from") {
+  @Test def test_from(): Unit = {
     assertEquals(dmin, from(dmin))
     assertEquals(ZERO, from(ZERO))
     assertEquals(dmax, from(dmax))
@@ -859,7 +861,7 @@ class DurationTest extends TemporalAmountTest {
     expectThrows(classOf[UnsupportedTemporalTypeException], from(Period.ZERO))
   }
 
-  test("test_between") {
+  @Test def test_between(): Unit = {
     val MIN = LocalTime.MIN
     val MAX = LocalTime.MAX
 

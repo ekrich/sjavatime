@@ -4,6 +4,8 @@ import java.time._
 import java.time.chrono.IsoChronology
 import java.time.temporal.ChronoUnit
 
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class PeriodTest extends TemporalAmountTest {
@@ -25,7 +27,7 @@ class PeriodTest extends TemporalAmountTest {
 
   val units = Seq(YEARS, MONTHS, DAYS)
 
-  test("test_get") {
+  @Test def test_get(): Unit = {
     for (p <- samples) {
       assertEquals(p.getYears.toLong, p.get(YEARS))
       assertEquals(p.getMonths.toLong, p.get(MONTHS))
@@ -33,20 +35,20 @@ class PeriodTest extends TemporalAmountTest {
     }
   }
 
-  test("test_getChronology") {
+  @Test def test_getChronology(): Unit = {
     for (p <- samples) {
       assertEquals(IsoChronology.INSTANCE, p.getChronology)
     }
   }
 
-  test("test_isZero") {
+  @Test def test_isZero(): Unit = {
     for (p <- samples) {
       if (p == ZERO) assert(p.isZero)
       else assert(!p.isZero)
     }
   }
 
-  test("test_isNegative") {
+  @Test def test_isNegative(): Unit = {
     for (p <- Seq(ZERO, oneYear, oneMonth, oneDay, pmax))
       assert(!p.isNegative)
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneDay.negated, pmin, pmin1))
@@ -55,7 +57,7 @@ class PeriodTest extends TemporalAmountTest {
       assert(p.isNegative)
   }
 
-  test("test_getYears") {
+  @Test def test_getYears(): Unit = {
     assertEquals(1, oneYear.getYears)
     assertEquals(0, oneMonth.getYears)
     assertEquals(0, oneDay.getYears)
@@ -64,7 +66,7 @@ class PeriodTest extends TemporalAmountTest {
     assertEquals(Int.MaxValue, pmax.getYears)
   }
 
-  test("test_getMonths") {
+  @Test def test_getMonths(): Unit = {
     assertEquals(0, oneYear.getMonths)
     assertEquals(1, oneMonth.getMonths)
     assertEquals(0, oneDay.getMonths)
@@ -73,7 +75,7 @@ class PeriodTest extends TemporalAmountTest {
     assertEquals(Int.MaxValue, pmax.getMonths)
   }
 
-  test("test_getDays") {
+  @Test def test_getDays(): Unit = {
     assertEquals(0, oneYear.getDays)
     assertEquals(0, oneMonth.getDays)
     assertEquals(1, oneDay.getDays)
@@ -82,7 +84,7 @@ class PeriodTest extends TemporalAmountTest {
     assertEquals(Int.MaxValue, pmax.getDays)
   }
 
-  test("test_withYears") {
+  @Test def test_withYears(): Unit = {
     for {
       p <- samples
       n <- Seq(Int.MinValue, 0, Int.MaxValue)
@@ -94,7 +96,7 @@ class PeriodTest extends TemporalAmountTest {
     }
   }
 
-  test("test_withMonths") {
+  @Test def test_withMonths(): Unit = {
     for {
       p <- samples
       n <- Seq(Int.MinValue, 0, Int.MaxValue)
@@ -106,7 +108,7 @@ class PeriodTest extends TemporalAmountTest {
     }
   }
 
-  test("test_withDays") {
+  @Test def test_withDays(): Unit = {
     for {
       p <- samples
       n <- Seq(Int.MinValue, 0, Int.MaxValue)
@@ -118,7 +120,7 @@ class PeriodTest extends TemporalAmountTest {
     }
   }
 
-  test("test_plus") {
+  @Test def test_plus(): Unit = {
     for {
       p1 <- samples1 :+ pmin1
       p2 <- if (p1 != pmin1) samples1 :+ pmin1 else samples1
@@ -137,7 +139,7 @@ class PeriodTest extends TemporalAmountTest {
       expectThrows(classOf[DateTimeException], p.plus(Duration.ZERO))
   }
 
-  test("test_plusYears") {
+  @Test def test_plusYears(): Unit = {
     for {
       p <- samples1
       n <- Seq(Int.MinValue + 1, -1, 0, 1, Int.MaxValue - 1)
@@ -155,7 +157,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmin.plusYears(-1))
   }
 
-  test("test_plusMonths") {
+  @Test def test_plusMonths(): Unit = {
     for {
       p <- samples1
       n <- Seq(Int.MinValue + 1, -1, 0, 1, Int.MaxValue - 1)
@@ -173,7 +175,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmin.plusMonths(-1))
   }
 
-  test("test_plusDays") {
+  @Test def test_plusDays(): Unit = {
     for {
       p <- samples1
       n <- Seq(Int.MinValue + 1, -1, 0, 1, Int.MaxValue - 1)
@@ -191,7 +193,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmin.plusDays(-1))
   }
 
-  test("test_minus") {
+  @Test def test_minus(): Unit = {
     for {
       p1 <- samples1 :+ pmin1
       p2 <- if (p1.isNegative) samples1 :+ pmin1 else samples1
@@ -210,7 +212,7 @@ class PeriodTest extends TemporalAmountTest {
       expectThrows(classOf[DateTimeException], p.minus(Duration.ZERO))
   }
 
-  test("test_minusYears") {
+  @Test def test_minusYears(): Unit = {
     for {
       p <- samples1
       n <- Seq(Int.MinValue + 2, -1, 0, 1, Int.MaxValue)
@@ -227,7 +229,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmax.minusYears(-1))
   }
 
-  test("test_minusMonths") {
+  @Test def test_minusMonths(): Unit = {
     for {
       p <- samples1
       n <- Seq(Int.MinValue + 2, -1, 0, 1, Int.MaxValue)
@@ -244,7 +246,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmax.minusMonths(-1))
   }
 
-  test("test_minusDays") {
+  @Test def test_minusDays(): Unit = {
     for {
       p <- samples1
       n <- Seq(Int.MinValue + 2, -1, 0, 1, Int.MaxValue)
@@ -261,7 +263,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmax.minusDays(-1))
   }
 
-  test("test_multipliedBy") {
+  @Test def test_multipliedBy(): Unit = {
     for {
       p <- samples1
       min = if (p.isNegative) Int.MinValue + 1 else Int.MinValue
@@ -294,7 +296,7 @@ class PeriodTest extends TemporalAmountTest {
       expectThrows(classOf[ArithmeticException], p.multipliedBy(Int.MinValue))
   }
 
-  test("test_negated") {
+  @Test def test_negated(): Unit = {
     for (p <- samples if p != pmin) {
       val p1 = p.negated
       assertEquals(-p.getYears, p1.getYears)
@@ -305,7 +307,7 @@ class PeriodTest extends TemporalAmountTest {
     expectThrows(classOf[ArithmeticException], pmin.negated)
   }
 
-  test("test_normalized") {
+  @Test def test_normalized(): Unit = {
     val ps = samples1 ++ Seq(of(1, -1, 0), of(-1, 1, 0)) ++
         Seq(of(1, -25, 1), of(-1, 25, -1), of(1, 13, 1), of(-1, -13, -1))
     for (p <- ps) {
@@ -322,12 +324,12 @@ class PeriodTest extends TemporalAmountTest {
       expectThrows(classOf[ArithmeticException], p.normalized)
   }
 
-  test("test_toTotalMonths") {
+  @Test def test_toTotalMonths(): Unit = {
     for (p <- samples)
       assertEquals(p.getYears.toLong * 12 + p.getMonths, p.toTotalMonths)
   }
 
-  test("test_addTo") {
+  @Test def test_addTo(): Unit = {
     val ds = Seq(LocalDate.MIN, LocalDate.MAX, LocalDate.of(2011, 2, 28),
         LocalDate.of(2012, 2, 29))
     val ts = Seq(LocalTime.MIN, LocalTime.NOON, LocalTime.MAX)
@@ -362,7 +364,7 @@ class PeriodTest extends TemporalAmountTest {
     }
   }
 
-  test("test_subtractFrom") {
+  @Test def test_subtractFrom(): Unit = {
     val ds = Seq(LocalDate.MIN, LocalDate.MAX, LocalDate.of(2012, 2, 29))
     val ts = Seq(LocalTime.MIN, LocalTime.NOON, LocalTime.MAX)
 
@@ -394,7 +396,7 @@ class PeriodTest extends TemporalAmountTest {
     }
   }
 
-  test("test_toString") {
+  @Test def test_toString(): Unit = {
     assertEquals("P0D", ZERO.toString)
     assertEquals("P-2147483648Y-2147483648M-2147483648D", pmin.toString)
     assertEquals("P2147483647Y2147483647M2147483647D", pmax.toString)

@@ -3,6 +3,8 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.temporal.ChronoField
 
+import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class MonthTest extends TemporalAccessorTest[Month] {
@@ -13,7 +15,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
   def isSupported(field: ChronoField): Boolean =
     field == ChronoField.MONTH_OF_YEAR
 
-  test("test_getValue") {
+  @Test def test_getValue(): Unit = {
     assertEquals(1, JANUARY.getValue)
     assertEquals(2, FEBRUARY.getValue)
     assertEquals(3, MARCH.getValue)
@@ -28,12 +30,12 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(12, DECEMBER.getValue)
   }
 
-  test("test_getLong") {
+  @Test def test_getLong(): Unit = {
     for (m <- samples)
       assertEquals(m.getValue.toLong, m.getLong(ChronoField.MONTH_OF_YEAR))
   }
 
-  test("test_plus") {
+  @Test def test_plus(): Unit = {
     assertEquals(MAY, JANUARY.plus(Long.MinValue))
     assertEquals(FEBRUARY, FEBRUARY.plus(-12))
     assertEquals(FEBRUARY, MARCH.plus(-1))
@@ -43,7 +45,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(FEBRUARY, JULY.plus(Long.MaxValue))
   }
 
-  test("test_minus") {
+  @Test def test_minus(): Unit = {
     assertEquals(SEPTEMBER, JANUARY.minus(Long.MinValue))
     assertEquals(FEBRUARY, FEBRUARY.minus(-12))
     assertEquals(APRIL, MARCH.minus(-1))
@@ -53,7 +55,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(DECEMBER, JULY.minus(Long.MaxValue))
   }
 
-  test("test_minLength") {
+  @Test def test_minLength(): Unit = {
     assertEquals(31, JANUARY.minLength)
     assertEquals(28, FEBRUARY.minLength)
     assertEquals(31, MARCH.minLength)
@@ -68,7 +70,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(31, DECEMBER.minLength)
   }
 
-  test("test_maxLength") {
+  @Test def test_maxLength(): Unit = {
     assertEquals(31, JANUARY.maxLength)
     assertEquals(29, FEBRUARY.maxLength)
     assertEquals(31, MARCH.maxLength)
@@ -83,14 +85,14 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(31, DECEMBER.maxLength)
   }
 
-  test("test_length") {
+  @Test def test_length(): Unit = {
     for (m <- samples) {
       assertEquals(m.minLength, m.length(false))
       assertEquals(m.maxLength, m.length(true))
     }
   }
 
-  test("test_firstDayOfYear") {
+  @Test def test_firstDayOfYear(): Unit = {
     assertEquals(1, JANUARY.firstDayOfYear(false))
     assertEquals(1, JANUARY.firstDayOfYear(true))
     assertEquals(32, FEBRUARY.firstDayOfYear(false))
@@ -117,7 +119,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(336, DECEMBER.firstDayOfYear(true))
   }
 
-  test("test_firstMonthOfQuarter") {
+  @Test def test_firstMonthOfQuarter(): Unit = {
     assertEquals(JANUARY, JANUARY.firstMonthOfQuarter)
     assertEquals(JANUARY, FEBRUARY.firstMonthOfQuarter)
     assertEquals(JANUARY, MARCH.firstMonthOfQuarter)
@@ -132,19 +134,19 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(OCTOBER, DECEMBER.firstMonthOfQuarter)
   }
 
-  test("test_compareTo") {
+  @Test def test_compareTo(): Unit = {
     assertEquals(0, JULY.compareTo(JULY))
     assert(JANUARY.compareTo(MARCH) < 0)
     assert(DECEMBER.compareTo(OCTOBER) > 0)
   }
 
-  test("test_values") {
+  @Test def test_values(): Unit = {
     val months: Array[AnyRef] = Array(JANUARY, FEBRUARY, MARCH, APRIL, MAY,
         JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER)
     assertEquals(months, values.asInstanceOf[Array[AnyRef]])
   }
 
-  test("test_valueOf") {
+  @Test def test_valueOf(): Unit = {
     assertEquals(JANUARY, valueOf("JANUARY"))
     assertEquals(FEBRUARY, valueOf("FEBRUARY"))
     assertEquals(MARCH, valueOf("MARCH"))
@@ -161,7 +163,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     expectThrows(classOf[IllegalArgumentException], valueOf(""))
   }
 
-  test("test_of") {
+  @Test def test_of(): Unit = {
     assertEquals(JANUARY, of(1))
     assertEquals(FEBRUARY, of(2))
     assertEquals(MARCH, of(3))
@@ -179,7 +181,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
       expectThrows(classOf[DateTimeException], of(n))
   }
 
-  test("test_from") {
+  @Test def test_from(): Unit = {
     for (m <- samples) {
       assertEquals(m, from(m))
       assertEquals(m, from(LocalDate.of(1, m, 1)))
