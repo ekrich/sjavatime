@@ -11,7 +11,7 @@ ThisBuild / scalaVersion := scala213
 
 val commonSettings: Seq[Setting[_]] = Seq(
   version := "1.0.1-SNAPSHOT",
-  organization := "org.scala-js",
+  organization := "org.ekrich",
   scalacOptions ++= Seq("-deprecation", "-feature"), // "-Xfatal-warnings"),
   homepage := Some(url("http://scala-js.org/")),
   licenses += ("BSD New",
