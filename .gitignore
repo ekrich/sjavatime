@@ -8,3 +8,6 @@
 
 # vscode
 /.vscode/
+
+# project generated
+/scripts/.*
