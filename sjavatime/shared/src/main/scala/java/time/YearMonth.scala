@@ -189,8 +189,8 @@ final class YearMonth private (year: Int, month: Int)
     atDay(getMonth().length(isLeapYear()))
 
   def compareTo(other: YearMonth): Int =
-    if (year == other.getYear) month - other.getMonthValue
-    else year - other.getYear
+    if (year == other.getYear()) month - other.getMonthValue()
+    else year - other.getYear()
 
   def isAfter(other: YearMonth): Boolean = compareTo(other) > 0
 
@@ -198,7 +198,7 @@ final class YearMonth private (year: Int, month: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: YearMonth =>
-      year == that.getYear && month == that.getMonthValue
+      year == that.getYear() && month == that.getMonthValue()
 
     case _ => false
   }
@@ -223,7 +223,7 @@ object YearMonth {
 
   def of(year: Int, month: Month): YearMonth = {
     if (month == null) throw new NullPointerException("month")
-    of(year, month.getValue)
+    of(year, month.getValue())
   }
 
   def of(year: Int, month: Int): YearMonth = {

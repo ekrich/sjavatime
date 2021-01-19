@@ -18,13 +18,13 @@ trait ChronoLocalDate
   def lengthOfYear(): Int
 
   def isSupported(field: TemporalField): Boolean = field match {
-    case _: ChronoField => field.isDateBased
+    case _: ChronoField => field.isDateBased()
     case null           => false
     case _              => field.isSupportedBy(this)
   }
 
   def isSupported(unit: TemporalUnit): Boolean = unit match {
-    case _: ChronoUnit => unit.isDateBased
+    case _: ChronoUnit => unit.isDateBased()
     case null          => false
     case _             => unit.isSupportedBy(this)
   }
@@ -60,7 +60,7 @@ trait ChronoLocalDate
   // def query[R](query: TemporalQuery[R]): R
 
   def adjustInto(temporal: Temporal): Temporal =
-    temporal.`with`(EPOCH_DAY, toEpochDay)
+    temporal.`with`(EPOCH_DAY, toEpochDay())
 
   def until(end: Temporal, unit: TemporalUnit): Long
 
@@ -75,23 +75,23 @@ trait ChronoLocalDate
   def toEpochDay(): Long = getLong(EPOCH_DAY)
 
   def compareTo(other: ChronoLocalDate): Int = {
-    val r = toEpochDay.compareTo(other.toEpochDay)
-    if (r == 0) getChronology().compareTo(other.getChronology)
+    val r = toEpochDay().compareTo(other.toEpochDay())
+    if (r == 0) getChronology().compareTo(other.getChronology())
     else r
   }
 
   def isAfter(other: ChronoLocalDate): Boolean =
-    toEpochDay > other.toEpochDay
+    toEpochDay() > other.toEpochDay()
 
   def isBefore(other: ChronoLocalDate): Boolean =
-    toEpochDay < other.toEpochDay
+    toEpochDay() < other.toEpochDay()
 
   def isEqual(other: ChronoLocalDate): Boolean =
-    other.toEpochDay == toEpochDay
+    other.toEpochDay() == toEpochDay()
 
   override def equals(other: Any): Boolean = other match {
     case other: ChronoLocalDate =>
-      isEqual(other) && getChronology == other.getChronology
+      isEqual(other) && getChronology() == other.getChronology()
 
     case _ => false
   }
@@ -102,7 +102,7 @@ trait ChronoLocalDate
 object ChronoLocalDate {
   private val tlo = new ju.Comparator[ChronoLocalDate] {
     def compare(date1: ChronoLocalDate, date2: ChronoLocalDate): Int =
-      date1.toEpochDay.compareTo(date2.toEpochDay)
+      date1.toEpochDay().compareTo(date2.toEpochDay())
   }
 
   def timeLineOrder(): ju.Comparator[ChronoLocalDate] = tlo

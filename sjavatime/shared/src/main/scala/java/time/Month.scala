@@ -8,7 +8,7 @@ final class Month private (name: String, value: Int, defaultLength: Int)
   import Month._
 
   private lazy val defaultFirstDayOfYear =
-    months.take(value - 1).foldLeft(1)(_ + _.minLength)
+    months.take(value - 1).foldLeft(1)(_ + _.minLength())
 
   def getValue(): Int = value
 
@@ -46,7 +46,7 @@ final class Month private (name: String, value: Int, defaultLength: Int)
     of((ordinal - offset.toInt) % 12 + 1)
   }
 
-  def length(leapYear: Boolean): Int = if (leapYear) maxLength else minLength
+  def length(leapYear: Boolean): Int = if (leapYear) maxLength() else minLength()
 
   def minLength(): Int = defaultLength
 

@@ -43,9 +43,9 @@ final class Period private (years: Int, months: Int, days: Int)
 
   def plus(amount: TemporalAmount): Period = {
     val other = Period.from(amount)
-    val years1 = Math.addExact(years, other.getYears)
-    val months1 = Math.addExact(months, other.getMonths)
-    val days1 = Math.addExact(days, other.getDays)
+    val years1 = Math.addExact(years, other.getYears())
+    val months1 = Math.addExact(months, other.getMonths())
+    val days1 = Math.addExact(days, other.getDays())
     new Period(years1, months1, days1)
   }
 
@@ -66,9 +66,9 @@ final class Period private (years: Int, months: Int, days: Int)
 
   def minus(amount: TemporalAmount): Period = {
     val other = Period.from(amount)
-    val years1 = Math.subtractExact(years, other.getYears)
-    val months1 = Math.subtractExact(months, other.getMonths)
-    val days1 = Math.subtractExact(days, other.getDays)
+    val years1 = Math.subtractExact(years, other.getYears())
+    val months1 = Math.subtractExact(months, other.getMonths())
+    val days1 = Math.subtractExact(days, other.getDays())
     new Period(years1, months1, days1)
   }
 
@@ -114,7 +114,7 @@ final class Period private (years: Int, months: Int, days: Int)
     // TODO: Check chronology (needs TemporalQuery)
     val t1 = {
       if (months == 0 && years != 0) temporal.plus(years, YEARS)
-      else if (months != 0) temporal.plus(toTotalMonths, MONTHS)
+      else if (months != 0) temporal.plus(toTotalMonths(), MONTHS)
       else temporal
     }
     if (days != 0) t1.plus(days, DAYS) else t1
@@ -124,7 +124,7 @@ final class Period private (years: Int, months: Int, days: Int)
     // TODO: Check chronology (needs TemporalQueries)
     val t1 = {
       if (months == 0 && years != 0) temporal.minus(years, YEARS)
-      else if (months != 0) temporal.minus(toTotalMonths, MONTHS)
+      else if (months != 0) temporal.minus(toTotalMonths(), MONTHS)
       else temporal
     }
     if (days != 0) t1.minus(days, DAYS) else t1
@@ -132,7 +132,7 @@ final class Period private (years: Int, months: Int, days: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: Period =>
-      years == that.getYears && months == that.getMonths && days == that.getDays
+      years == that.getYears() && months == that.getMonths() && days == that.getDays()
 
     case _ => false
   }
@@ -141,7 +141,7 @@ final class Period private (years: Int, months: Int, days: Int)
     31 * (31 * years.hashCode + months.hashCode) + days.hashCode
 
   override def toString(): String = {
-    if (isZero) "P0D"
+    if (isZero()) "P0D"
     else {
       val yearPart = if (years != 0) years.toString + "Y" else ""
       val monthPart = if (months != 0) months.toString + "M" else ""

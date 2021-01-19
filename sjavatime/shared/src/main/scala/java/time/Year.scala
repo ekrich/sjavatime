@@ -51,7 +51,7 @@ final class Year private (year: Int)
   def isValidMonthDay(monthDay: MonthDay): Boolean =
     monthDay.isValidYear(year)
 
-  def length(): Int = if (isLeap) 366 else 365
+  def length(): Int = if (isLeap()) 366 else 365
 
   def `with`(field: TemporalField, value: Long): Year = {
     def withYear(newYear: Int): Year = {
@@ -125,7 +125,7 @@ final class Year private (year: Int)
 
   def until(end: Temporal, unit: TemporalUnit): Long = {
     val other = Year.from(end)
-    val yearsDiff: Int = other.getValue - year
+    val yearsDiff: Int = other.getValue() - year
 
     unit match {
       case YEARS     => yearsDiff
@@ -153,14 +153,14 @@ final class Year private (year: Int)
 
   def atMonthDay(monthDay: MonthDay): LocalDate = monthDay.atYear(year)
 
-  def compareTo(other: Year): Int = year - other.getValue
+  def compareTo(other: Year): Int = year - other.getValue()
 
   def isAfter(other: Year): Boolean = compareTo(other) > 0
 
   def isBefore(other: Year): Boolean = compareTo(other) < 0
 
   override def equals(other: Any): Boolean = other match {
-    case that: Year => year == that.getValue
+    case that: Year => year == that.getValue()
     case _          => false
   }
 

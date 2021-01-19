@@ -21,13 +21,13 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
   requireDateTime(nano >= 0 && nano <= 999999999, s"Invalid value for nanoOfSecond $nano")
 
   def isSupported(field: TemporalField): Boolean = field match {
-    case _: ChronoField => field.isTimeBased
+    case _: ChronoField => field.isTimeBased()
     case null           => false
     case _              => field.isSupportedBy(this)
   }
 
   def isSupported(unit: TemporalUnit): Boolean = unit match {
-    case _: ChronoUnit => unit.isTimeBased
+    case _: ChronoUnit => unit.isTimeBased()
     case null          => false
     case _             => unit.isSupportedBy(this)
   }
@@ -157,13 +157,13 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
     new LocalTime(hour, minute, second, nanoOfSecond)
 
   def truncatedTo(unit: TemporalUnit): LocalTime = {
-    if (unit.getDuration.getSeconds > SECONDS_IN_DAY) {
+    if (unit.getDuration().getSeconds() > SECONDS_IN_DAY) {
       throw new UnsupportedTemporalTypeException("Unit too large")
-    } else if (NANOS_IN_DAY % unit.getDuration.toNanos != 0) {
+    } else if (NANOS_IN_DAY % unit.getDuration().toNanos() != 0) {
       val msg = "Unit must divide into a standard day without remainder"
       throw new UnsupportedTemporalTypeException(msg)
     } else {
-      val unitNanos = unit.getDuration.toNanos
+      val unitNanos = unit.getDuration().toNanos()
       ofNanoOfDay(totalNanos / unitNanos * unitNanos)
     }
   }

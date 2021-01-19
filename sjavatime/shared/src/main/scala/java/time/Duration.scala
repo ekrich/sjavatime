@@ -46,8 +46,8 @@ final class Duration private (seconds: Long, nanos: Int)
     new Duration(seconds, nanosOfSecond)
 
   def plus(duration: Duration): Duration = {
-    val seconds1 = duration.getSeconds
-    val sumNanos = nanos + duration.getNano
+    val seconds1 = duration.getSeconds()
+    val sumNanos = nanos + duration.getNano()
     if (seconds1 >= 0) {
       val sumSeconds = Math.addExact(seconds, seconds1)
       if (sumNanos >= NANOS_IN_SECOND)
@@ -65,8 +65,8 @@ final class Duration private (seconds: Long, nanos: Int)
   }
 
   def plus(amount: Long, unit: TemporalUnit): Duration = {
-   if (!unit.isDurationEstimated || unit == DAYS)
-      plus(unit.getDuration.multipliedBy(amount))
+   if (!unit.isDurationEstimated() || unit == DAYS)
+      plus(unit.getDuration().multipliedBy(amount))
     else
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
   }
@@ -91,8 +91,8 @@ final class Duration private (seconds: Long, nanos: Int)
   }
 
   def minus(amount: Long, unit: TemporalUnit): Duration = {
-    if (!unit.isDurationEstimated || unit == DAYS)
-      minus(unit.getDuration.multipliedBy(amount))
+    if (!unit.isDurationEstimated() || unit == DAYS)
+      minus(unit.getDuration().multipliedBy(amount))
     else
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
   }
@@ -132,7 +132,7 @@ final class Duration private (seconds: Long, nanos: Int)
 
   def dividedBy(divisor: Long): Duration = divisor match {
     case 1  => this
-    case -1 => negated
+    case -1 => negated()
 
     case _ =>
       val secondsQuot = normalizedSeconds / divisor
@@ -189,14 +189,14 @@ final class Duration private (seconds: Long, nanos: Int)
         Math.multiplyExact(seconds, NANOS_IN_SECOND), nanos)
 
   def compareTo(that: Duration): Int = {
-    val secCmp = seconds.compareTo(that.getSeconds)
-    if (secCmp == 0) nanos.compareTo(that.getNano)
+    val secCmp = seconds.compareTo(that.getSeconds())
+    if (secCmp == 0) nanos.compareTo(that.getNano())
     else secCmp
   }
 
   override def equals(that: Any): Boolean = that match {
     case that: Duration =>
-      seconds == that.getSeconds && nanos == that.getNano
+      seconds == that.getSeconds() && nanos == that.getNano()
 
     case _ => false
   }
@@ -267,8 +267,8 @@ object Duration {
   def ofNanos(nanos: Long): Duration = OneNano.multipliedBy(nanos)
 
   def of(amount: Long, unit: TemporalUnit): Duration = {
-    if (!unit.isDurationEstimated || unit == ChronoUnit.DAYS)
-      unit.getDuration.multipliedBy(amount)
+    if (!unit.isDurationEstimated() || unit == ChronoUnit.DAYS)
+      unit.getDuration().multipliedBy(amount)
     else
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
   }

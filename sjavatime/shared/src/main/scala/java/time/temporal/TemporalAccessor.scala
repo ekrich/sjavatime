@@ -12,7 +12,7 @@ trait TemporalAccessor {
         if (era < 1) ValueRange.of(1, Year.MAX_VALUE + 1)
         else ValueRange.of(1, Year.MAX_VALUE)
       } else {
-        field.range
+        field.range()
       }
 
     case _: ChronoField =>
@@ -24,7 +24,7 @@ trait TemporalAccessor {
   def get(field: TemporalField): Int = {
     val r = range(field)
     val msg = s"Invalid field $field for get() method, use getLong() instead"
-    if (r.isIntValue) r.checkValidIntValue(getLong(field), field)
+    if (r.isIntValue()) r.checkValidIntValue(getLong(field), field)
     else throw new UnsupportedTemporalTypeException(msg)
   }
 

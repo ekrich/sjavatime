@@ -18,9 +18,9 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
   private val _isLeapYear = iso.isLeapYear(year)
 
-  requireDateTime(dayOfMonth > 0 && dayOfMonth <= month.maxLength,
+  requireDateTime(dayOfMonth > 0 && dayOfMonth <= month.maxLength(),
       s"Invalid value for dayOfMonth: $dayOfMonth")
-  requireDateTime(_isLeapYear || dayOfMonth <= month.minLength,
+  requireDateTime(_isLeapYear || dayOfMonth <= month.minLength(),
       s"Invalid value for dayOfMonth: $dayOfMonth")
 
   private lazy val dayOfYear =
@@ -37,18 +37,18 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   private lazy val dayOfWeek =
     Math.floorMod(epochDay + 3, 7).toInt + 1
 
-  private def prolepticMonth = year.toLong * 12 + getMonthValue - 1
+  private def prolepticMonth = year.toLong * 12 + getMonthValue() - 1
 
   // Implemented by ChronoLocalDate
   // def isSupported(field: TemporalField): Boolean
   // def isSupported(unit: TemporalUnit): Boolean
 
   override def range(field: TemporalField): ValueRange = field match {
-    case DAY_OF_MONTH => ValueRange.of(1, lengthOfMonth)
-    case DAY_OF_YEAR  => ValueRange.of(1, lengthOfYear)
+    case DAY_OF_MONTH => ValueRange.of(1, lengthOfMonth())
+    case DAY_OF_YEAR  => ValueRange.of(1, lengthOfYear())
 
     case ALIGNED_WEEK_OF_MONTH =>
-      ValueRange.of(1, if (lengthOfMonth > 28) 5 else 4)
+      ValueRange.of(1, if (lengthOfMonth() > 28) 5 else 4)
 
     case YEAR_OF_ERA =>
       ValueRange.of(1, if (year > 0) 999999999 else 1000000000)
@@ -68,7 +68,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
     case EPOCH_DAY                    => epochDay
     case ALIGNED_WEEK_OF_MONTH        => (dayOfMonth - 1) / 7 + 1
     case ALIGNED_WEEK_OF_YEAR         => (dayOfYear - 1) / 7 + 1
-    case MONTH_OF_YEAR                => getMonthValue
+    case MONTH_OF_YEAR                => getMonthValue()
     case PROLEPTIC_MONTH              => prolepticMonth
     case YEAR_OF_ERA                  => if (year > 0) year else 1 - year
     case YEAR                         => year
@@ -86,7 +86,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
   def getYear(): Int = year
 
-  def getMonthValue(): Int = month.getValue
+  def getMonthValue(): Int = month.getValue()
 
   def getMonth(): Month = month
 
@@ -145,7 +145,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
       case YEAR_OF_ERA =>
         requireDateTime(value > 0 && value <= Year.MAX_VALUE + 1, msg)
-        if (getEra == IsoEra.CE) withYear(value.toInt)
+        if (getEra() == IsoEra.CE) withYear(value.toInt)
         else withYear(1 - value.toInt)
 
       case YEAR =>
@@ -155,8 +155,8 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
       case ERA =>
         requireDateTime(value >= 0 && value <= 1, msg)
         val yearOfEra = get(YEAR_OF_ERA)
-        if (getEra == IsoEra.BCE && value == 1) withYear(yearOfEra)
-        else if (getEra == IsoEra.CE && value == 0) withYear(1 - yearOfEra)
+        if (getEra() == IsoEra.BCE && value == 1) withYear(yearOfEra)
+        else if (getEra() == IsoEra.CE && value == 0) withYear(1 - yearOfEra)
         else this
 
       case _: ChronoField =>
@@ -175,7 +175,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
   def withMonth(month: Int): LocalDate = {
     val m = Month.of(month)
-    LocalDate.of(year, m, dayOfMonth min m.length(isLeapYear))
+    LocalDate.of(year, m, dayOfMonth min m.length(isLeapYear()))
   }
 
   def withDayOfMonth(dayOfMonth: Int): LocalDate =
@@ -226,7 +226,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   }
 
   def plusMonths(months: Long): LocalDate = {
-    val month1 = getMonthValue + Math.floorMod(months, 12).toInt
+    val month1 = getMonthValue() + Math.floorMod(months, 12).toInt
     val year1 = year + Math.floorDiv(months, 12) +
         (if (month1 > 12) 1 else 0)
     requireDateTime(year1 >= Year.MIN_VALUE && year1 <= Year.MAX_VALUE,
@@ -272,21 +272,21 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
     val other = LocalDate.from(end)
     unit match {
-      case DAYS  => other.toEpochDay - epochDay
-      case WEEKS => (other.toEpochDay - epochDay) / 7
+      case DAYS  => other.toEpochDay() - epochDay
+      case WEEKS => (other.toEpochDay() - epochDay) / 7
 
       case MONTHS =>
         val dmonths = other.prolepticMonth - prolepticMonth
-        if (other.getDayOfMonth < dayOfMonth && dmonths > 0) dmonths - 1
-        else if (other.getDayOfMonth > dayOfMonth && dmonths < 0) dmonths + 1
+        if (other.getDayOfMonth() < dayOfMonth && dmonths > 0) dmonths - 1
+        else if (other.getDayOfMonth() > dayOfMonth && dmonths < 0) dmonths + 1
         else dmonths
 
       case YEARS =>
-        val dyears = other.getYear - year
-        if ((other.getMonthValue, other.getDayOfMonth) < (getMonthValue, dayOfMonth) &&
+        val dyears = other.getYear() - year
+        if ((other.getMonthValue(), other.getDayOfMonth()) < (getMonthValue(), dayOfMonth) &&
             dyears > 0)
           dyears - 1
-        else if ((other.getMonthValue, other.getDayOfMonth) > (getMonthValue, dayOfMonth) &&
+        else if ((other.getMonthValue(), other.getDayOfMonth()) > (getMonthValue(), dayOfMonth) &&
             dyears < 0)
           dyears + 1
         else
@@ -297,7 +297,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
       case MILLENNIA => until(end, YEARS) / 1000
 
       case ERAS =>
-        val year1 = other.getYear
+        val year1 = other.getYear()
         if (year <= 0 && year1 > 0) 1
         else if (year > 0 && year1 <= 0) -1
         else 0
@@ -312,7 +312,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   def until(end: ChronoLocalDate): Period = {
     val other = LocalDate.from(end)
     val dmonths = other.prolepticMonth - prolepticMonth
-    val ddays = other.getDayOfMonth - dayOfMonth
+    val ddays = other.getDayOfMonth() - dayOfMonth
     val corr = {
       if (dmonths > 0 && ddays < 0) -1
       else if (dmonths < 0 && ddays > 0) 1
@@ -321,7 +321,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
     val months = dmonths + corr
     val days = {
       if (corr < 0) plus(months, MONTHS).until(other, DAYS).toInt
-      else if (corr > 0) ddays - other.lengthOfMonth
+      else if (corr > 0) ddays - other.lengthOfMonth()
       else ddays
     }
     val years = (months / 12).toInt
@@ -366,9 +366,9 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
   override def toString(): String = {
     if (year >= 0 && year < 10000)
-      f"$year%04d-$getMonthValue%02d-$dayOfMonth%02d"
+      f"$year%04d-${getMonthValue()}%02d-$dayOfMonth%02d"
     else
-      f"$year%+05d-$getMonthValue%02d-$dayOfMonth%02d"
+      f"$year%+05d-${getMonthValue()}%02d-$dayOfMonth%02d"
   }
 }
 

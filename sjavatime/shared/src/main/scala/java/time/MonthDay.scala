@@ -47,7 +47,7 @@ final class MonthDay private (month: Int, day: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: MonthDay =>
-      that.getMonthValue == getMonthValue() && that.getDayOfMonth == getDayOfMonth()
+      that.getMonthValue() == getMonthValue() && that.getDayOfMonth() == getDayOfMonth()
 
     case _ => false
   }
@@ -89,7 +89,7 @@ final class MonthDay private (month: Int, day: Int)
   def adjustInto(temporal: Temporal): Temporal = {
     val temporalWithMonth = temporal.`with`(MONTH_OF_YEAR, month)
     val dayOfMonth: Int = PlatformSpecific.minDay(day,
-        temporalWithMonth.range(DAY_OF_MONTH).getMaximum.toInt)
+        temporalWithMonth.range(DAY_OF_MONTH).getMaximum().toInt)
     temporalWithMonth.`with`(DAY_OF_MONTH, dayOfMonth)
   }
 
@@ -97,8 +97,8 @@ final class MonthDay private (month: Int, day: Int)
     LocalDate.of(year, month, if (isValidYear(year)) day else 28)
 
   def compareTo(that: MonthDay): Int = {
-    if (month == that.getMonthValue) day - that.getDayOfMonth
-    else month - that.getMonthValue
+    if (month == that.getMonthValue()) day - that.getDayOfMonth()
+    else month - that.getMonthValue()
   }
 
   def isAfter(that: MonthDay): Boolean = compareTo(that) > 0
@@ -119,7 +119,7 @@ object MonthDay {
 
   def now(): MonthDay = {
     val date = LocalDate.now()
-    of(date.getMonthValue, date.getDayOfMonth)
+    of(date.getMonthValue(), date.getDayOfMonth())
   }
 
   // Not implemented
@@ -134,7 +134,7 @@ object MonthDay {
     DAY_OF_MONTH.checkValidValue(dayOfMonth)
     requireDateTime(dayOfMonth <= month.maxLength(),
         s"The day $dayOfMonth is invalid for month $month")
-    new MonthDay(month.getValue, dayOfMonth)
+    new MonthDay(month.getValue(), dayOfMonth)
   }
 
   def of(month: Int, dayOfMonth: Int): MonthDay = {

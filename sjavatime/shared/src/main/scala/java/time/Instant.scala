@@ -33,7 +33,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
   }
 
   def isSupported(unit: TemporalUnit): Boolean = unit match {
-    case _: ChronoUnit => unit.isTimeBased || unit == DAYS
+    case _: ChronoUnit => unit.isTimeBased() || unit == DAYS
     case null          => false
     case _             => unit.isSupportedBy(this)
   }
@@ -99,11 +99,11 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
     if (unit == NANOS) {
       this
     } else {
-      val duration = unit.getDuration
-      if (duration.getSeconds > SECONDS_IN_DAY)
+      val duration = unit.getDuration()
+      if (duration.getSeconds() > SECONDS_IN_DAY)
         throw new UnsupportedTemporalTypeException("Unit too large")
 
-      val unitNanos = duration.toNanos
+      val unitNanos = duration.toNanos()
       if ((NANOS_IN_DAY % unitNanos) != 0)
         throw new UnsupportedTemporalTypeException("Unit must be a multiple of a standard day")
 
@@ -264,7 +264,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
     val epochSecond = lo
     val (date, time) = dateTime(epochSecond)
 
-    val years = hi * 10000 + date.getYear
+    val years = hi * 10000 + date.getYear()
 
     val yearSegment = {
       if (years > 9999) s"+$years"
@@ -272,12 +272,12 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       else years.toString
     }
 
-    val monthSegement = "%02d".format(date.getMonthValue)
-    val daySegment = "%02d".format(date.getDayOfMonth)
+    val monthSegement = "%02d".format(date.getMonthValue())
+    val daySegment = "%02d".format(date.getDayOfMonth())
 
     val timePart = {
       val timeStr = time.toString
-      if (time.getSecond == 0 && time.getNano == 0) timeStr + ":00"
+      if (time.getSecond() == 0 && time.getNano() == 0) timeStr + ":00"
       else timeStr
     }
 
@@ -372,17 +372,17 @@ object Instant {
         year.toString, 0)
 
     val monthDay = MonthDay.of(month, day)
-    if (monthDay.getMonth == Month.FEBRUARY && leapYear) {
-      requireDateTimeParse(monthDay.getDayOfMonth <= 29,
+    if (monthDay.getMonth() == Month.FEBRUARY && leapYear) {
+      requireDateTimeParse(monthDay.getDayOfMonth() <= 29,
           "Day range out of bounds <= 29 for leap years", day.toString, 0)
     }
 
     if (year == MaxYear)
-      LocalDate.of(extremeLeapYear, month, day).toEpochDay + epochDaysToAccountForExtreme
+      LocalDate.of(extremeLeapYear, month, day).toEpochDay() + epochDaysToAccountForExtreme
     else if (year == MinYear)
-      LocalDate.of(-extremeLeapYear, month, day).toEpochDay - epochDaysToAccountForExtreme
+      LocalDate.of(-extremeLeapYear, month, day).toEpochDay() - epochDaysToAccountForExtreme
     else
-      LocalDate.of(year, month, day).toEpochDay
+      LocalDate.of(year, month, day).toEpochDay()
   }
 
   def parse(text: CharSequence): Instant = {

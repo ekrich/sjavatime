@@ -32,7 +32,7 @@ final class ValueRange private (minSmallest: Long, minLargest: Long,
     (minSmallest <= value) && (value <= maxLargest)
 
   def isValidIntValue(value: Long): Boolean =
-    isIntValue && isValidValue(value)
+    isIntValue() && isValidValue(value)
 
   def checkValidValue(value: Long, field: TemporalField): Long =
     if (isValidValue(value)) value
@@ -52,10 +52,10 @@ final class ValueRange private (minSmallest: Long, minLargest: Long,
 
   override def equals(that: Any): Boolean = that match {
     case that: ValueRange =>
-      getMinimum == that.getMinimum &&
-      getLargestMinimum == that.getLargestMinimum &&
-      getSmallestMaximum == that.getSmallestMaximum &&
-      getMaximum == that.getMaximum
+      getMinimum() == that.getMinimum() &&
+      getLargestMinimum() == that.getLargestMinimum() &&
+      getSmallestMaximum() == that.getSmallestMaximum() &&
+      getMaximum() == that.getMaximum()
 
     case _ => false
   }
