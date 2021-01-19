@@ -23,6 +23,6 @@ abstract class TemporalAmountTest {
 
   @Test def test_getUnits(): Unit = {
     for (amount <- samples)
-      assertEquals(units.toArray[AnyRef], amount.getUnits.toArray())
+      assertArrayEquals(units.toArray[AnyRef], amount.getUnits.toArray())
   }
 }

@@ -56,7 +56,7 @@ class ChronoUnitTest {
     val units = Array[AnyRef](NANOS, MICROS, MILLIS, SECONDS, MINUTES, HOURS,
         HALF_DAYS, DAYS, WEEKS, MONTHS, YEARS, DECADES, CENTURIES, MILLENNIA,
         ERAS, FOREVER)
-    assertEquals(units, values.asInstanceOf[Array[AnyRef]])
+    assertArrayEquals(units, values.asInstanceOf[Array[AnyRef]])
   }
 
   @Test def test_valueOf(): Unit = {

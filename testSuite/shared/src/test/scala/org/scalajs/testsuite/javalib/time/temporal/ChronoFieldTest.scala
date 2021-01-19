@@ -84,7 +84,7 @@ class ChronoFieldTest {
         DAY_OF_MONTH, DAY_OF_YEAR, EPOCH_DAY, ALIGNED_WEEK_OF_MONTH,
         ALIGNED_WEEK_OF_YEAR, MONTH_OF_YEAR, PROLEPTIC_MONTH, YEAR_OF_ERA, YEAR,
         ERA, INSTANT_SECONDS, OFFSET_SECONDS)
-    assertEquals(fields, values.asInstanceOf[Array[AnyRef]])
+    assertArrayEquals(fields, values.asInstanceOf[Array[AnyRef]])
   }
 
   @Test def test_valueOf(): Unit = {

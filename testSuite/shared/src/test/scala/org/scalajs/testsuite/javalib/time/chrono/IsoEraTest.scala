@@ -36,7 +36,7 @@ class IsoEraTest extends TemporalAccessorTest[IsoEra] {
 
   @Test def test_values(): Unit = {
     val eras = Array[AnyRef](BCE, CE)
-    assertEquals(eras, values.asInstanceOf[Array[AnyRef]])
+    assertArrayEquals(eras, values.asInstanceOf[Array[AnyRef]])
   }
 
   @Test def test_valueOf(): Unit = {

@@ -63,7 +63,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
   @Test def test_values(): Unit = {
     val days: Array[AnyRef] =
       Array(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)
-    assertEquals(days, values.asInstanceOf[Array[AnyRef]])
+    assertArrayEquals(days, values.asInstanceOf[Array[AnyRef]])
   }
 
   @Test def test_valueOf(): Unit = {
