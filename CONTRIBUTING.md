@@ -5,7 +5,7 @@ The same guidelines apply to this repository.
 
 ## Very important notice
 
-`scalajs-java-time` contains a reimplementation of part of the JDK in Scala.js itself.
+`sjavatime` contains a reimplementation of part of the JDK in Scala.
 
 ***To contribute to this code, it is strictly forbidden to even look at the
 source code of the Oracle JDK or OpenJDK!***

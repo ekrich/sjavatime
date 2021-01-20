@@ -1,32 +1,44 @@
-# scalajs-java-time
+# sjavatime
 
-[![Build Status](https://travis-ci.org/scala-js/scala-js-java-time.svg?branch=master)](https://travis-ci.org/scala-js/scala-js-java-time)
-[![Scala.js](https://www.scala-js.org/assets/badges/scalajs-0.6.29.svg)](https://www.scala-js.org/)
+![CI](https://github.com/ekrich/sjavatime/workflows/CI/badge.svg)
 [![Scala.js](https://www.scala-js.org/assets/badges/scalajs-1.0.0.svg)](https://www.scala-js.org)
 
-`scalajs-java-time` is a BSD-licensed reimplementation of the `java.time` API
-of JDK8 for Scala.js. It enables this API in Scala.js projects.
+`sjavatime` is a BSD-licensed reimplementation of the `java.time` API
+included in JDK8 for Scala.js and Scala Native projects. This project was forked from
+[scala-js-java-time](https://github.com/scala-js/scala-js-java-time)
+to allow for an alternative implementations to support
+[Scala Native](https://scala-native.readthedocs.io/).
+
+## Alternative choices
+
+This project is incomplete so consider using one of the following alternatives instead:
+
+* [scala-java-time](https://github.com/cquiroz/scala-java-time) (recommended): like this project, but better
+* [scalajs-jsjoda](https://github.com/zoepepper/scalajs-jsjoda): implementation of `java.time` on top of the JavaScript library [js-joda](https://github.com/js-joda/js-joda)
 
 ## Usage
 
 Simply add the following line to your sbt settings:
 
 ```scala
-libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
+libraryDependencies += "org.ekrich" %%% "sjavatime" % "1.0.0"
 ```
 
-If you have a `crossProject`, the setting must be used only in the JS part:
+If you have a `crossProject`, the setting must be used only in the JS and/or Native part:
 
 ```scala
 lazy val myCross = crossProject
   ...
   .jsSettings(
-    libraryDependencies += "org.scala-js" %%% "scalajs-java-time" % "1.0.0"
+    libraryDependencies += "org.ekrich" %%% "sjavatime" % "1.0.0"
+  )
+  .nativeSettings(
+    libraryDependencies += "org.ekrich" %%% "sjavatime" % "1.0.0"
   )
 ```
 
 **Requirement**: you must use a host JDK8 to *build* your project, i.e., to
-launch sbt. `scalajs-java-time` does not work on earlier JDKs.
+launch sbt. `sjavatime` does not work on earlier JDKs.
 
 ## Work in Progress / linking errors
 
@@ -39,7 +51,7 @@ classes and methods!
 
 ## License
 
-`scalajs-java-time` is distributed under the
+`sjavatime` is distributed under the
 [BSD 3-Clause license](./LICENSE.txt).
 
 ## Contributing

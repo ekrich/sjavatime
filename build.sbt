@@ -15,7 +15,8 @@ inThisBuild(
     organization := "org.ekrich",
     homepage := Some(url("https://github.com/ekrich/sjavatime")),
     licenses := List(
-      "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+      "BSD 3-Clause",
+      url("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")),
     developers := List(
       // for this fork
       Developer(id = "ekrich",
