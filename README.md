@@ -6,7 +6,7 @@
 `sjavatime` is a BSD-licensed reimplementation of the `java.time` API
 included in JDK8 for Scala.js and Scala Native projects. This project was forked from
 [scala-js-java-time](https://github.com/scala-js/scala-js-java-time)
-to allow for an alternative implementations to support
+to allow for an alternative implementation to support
 [Scala Native](https://scala-native.readthedocs.io/).
 
 ## Alternative choices
