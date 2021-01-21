@@ -41,12 +41,13 @@ inThisBuild(
 )
 
 val commonSettings: Seq[Setting[_]] = Seq(
-  version := "1.0.1-SNAPSHOT",
+  version := "1.1.0-SNAPSHOT",
   scalacOptions ++= Seq("-deprecation", "-feature") // "-Xfatal-warnings"),
 )
 
 lazy val root = (project in file("."))
   .settings(name := "sjavatime-root")
+  .settings(skipPublish: _*)
   .aggregate(
     sjavatimeJS,
     sjavatimeNative,
@@ -79,6 +80,7 @@ lazy val sjavatimeNative = sjavatime.native
 
 lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings: _*)
+  .settings(skipPublish: _*)
   .settings(
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
     scalacOptions += "-target:jvm-1.8"
@@ -106,3 +108,14 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 lazy val testSuiteJS     = testSuite.js
 lazy val testSuiteNative = testSuite.native
 lazy val testSuiteJVM    = testSuite.jvm
+
+val skipPublish = Seq(
+  // no artifacts in this project
+  publishArtifact := false,
+  // make-pom has a more specific publishArtifact setting already
+  // so needs specific override
+  makePom / publishArtifact := false,
+  // no docs to publish
+  packageDoc / publishArtifact := false,
+  publish / skip := true
+)
