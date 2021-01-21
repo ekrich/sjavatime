@@ -41,7 +41,6 @@ inThisBuild(
 )
 
 val commonSettings: Seq[Setting[_]] = Seq(
-  version := "1.1.0-SNAPSHOT",
   scalacOptions ++= Seq("-deprecation", "-feature") // "-Xfatal-warnings"),
 )
 
