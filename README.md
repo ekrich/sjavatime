@@ -17,12 +17,16 @@ This project is incomplete so consider using one of the following alternatives i
 * [scalajs-jsjoda](https://github.com/zoepepper/scalajs-jsjoda): implementation of `java.time` on top of the JavaScript library [js-joda](https://github.com/js-joda/js-joda)
 
 ## Usage
+[![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_2.11.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_2.11)
 
-Simply add the following line to your sbt settings:
+Simply add the following line to your `sbt` settings:
 
 ```scala
-libraryDependencies += "org.ekrich" %%% "sjavatime" % "1.0.0"
+libraryDependencies += "org.ekrich" %%% "sjavatime" % "x.y.z"
 ```
+
+To use in `sbt`, replace `x.y.z` with the version from Maven Central badge above.
+All available versions can be seen at the [Maven Repository](https://mvnrepository.com/artifact/org.ekrich/sjavatime).
 
 If you have a `crossProject`, the setting must be used only in the JS and/or Native part:
 
