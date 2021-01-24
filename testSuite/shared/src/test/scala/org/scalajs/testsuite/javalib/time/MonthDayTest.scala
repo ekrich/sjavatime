@@ -4,8 +4,8 @@ import java.time.chrono.IsoChronology
 import java.time.temporal.{TemporalField, UnsupportedTemporalTypeException, ValueRange, ChronoField}
 import java.time.{DateTimeException, LocalDate, Month, MonthDay}
 
-import org.junit.Assert._
 import org.junit.Test
+import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
 /** Created by alonsodomin on 22/12/2015. */
@@ -69,7 +69,7 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
       if (t == leapMonth) {
         assertEquals(leapYear(y), t.isValidYear(y))
       } else {
-        assertTrue(t.isValidYear(y))
+        assert(t.isValidYear(y))
       }
     }
   }
@@ -116,11 +116,11 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     for (t <- samples) {
       val expectedDate = LocalDate.of(leapYearDate.getYear,
           t.getMonthValue, t.getDayOfMonth)
-      assertEquals(expectedDate, t.adjustInto(leapYearDate))
+      assertEquals(t.adjustInto(leapYearDate), expectedDate)
     }
 
     val nonLeapYearDate = LocalDate.of(2015, 1, 1)
-    assertEquals(LocalDate.of(2015, 2, 28), leapMonth.adjustInto(nonLeapYearDate))
+    assertEquals(leapMonth.adjustInto(nonLeapYearDate), LocalDate.of(2015, 2, 28))
   }
 
   @Test def atYear(): Unit = {
@@ -144,24 +144,24 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   }
 
   @Test def compareTo(): Unit = {
-    assertTrue(min.compareTo(min) == 0)
-    assertTrue(min.compareTo(max) < 0)
-    assertTrue(max.compareTo(min) > 0)
-    assertTrue(max.compareTo(max) == 0)
+    assert(min.compareTo(min) == 0)
+    assert(min.compareTo(max) < 0)
+    assert(max.compareTo(min) > 0)
+    assert(max.compareTo(max) == 0)
   }
 
   @Test def isAfter(): Unit = {
-    assertFalse(min.isAfter(min))
-    assertFalse(min.isAfter(max))
-    assertTrue(max.isAfter(min))
-    assertFalse(max.isAfter(max))
+    assert(!min.isAfter(min))
+    assert(!min.isAfter(max))
+    assert(max.isAfter(min))
+    assert(!max.isAfter(max))
   }
 
   @Test def isBefore(): Unit = {
-    assertFalse(min.isBefore(min))
-    assertTrue(min.isBefore(max))
-    assertFalse(max.isBefore(min))
-    assertFalse(max.isBefore(max))
+    assert(!min.isBefore(min))
+    assert(min.isBefore(max))
+    assert(!max.isBefore(min))
+    assert(!max.isBefore(max))
   }
 
   @Test def toStringOutput(): Unit = {
@@ -198,8 +198,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   }
 
   @Test def from(): Unit = {
-    assertSame(min, MonthDay.from(min))
-    assertSame(max, MonthDay.from(max))
+    assertEquals(min, MonthDay.from(min))
+    assertEquals(max, MonthDay.from(max))
 
     val now = LocalDate.now()
     assertEquals(MonthDay.of(now.getMonthValue, now.getDayOfMonth), MonthDay.from(now))

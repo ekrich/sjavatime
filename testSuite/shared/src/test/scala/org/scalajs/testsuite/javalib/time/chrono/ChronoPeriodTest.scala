@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.chrono.ChronoPeriod
 
 import org.junit.Test
-import org.junit.Assert.assertEquals
+import org.junit.Assert._
 
 class ChronoPeriodTest {
   @Test def test_between(): Unit = {
@@ -13,7 +13,7 @@ class ChronoPeriodTest {
       d1 <- ds
       d2 <- ds
     } {
-      assertEquals(d1.until(d2), ChronoPeriod.between(d1, d2))
+      assertEquals(ChronoPeriod.between(d1, d2), d1.until(d2))
     }
   }
 }

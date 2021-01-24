@@ -11,12 +11,12 @@ class ChronologyTest {
   import Chronology._
 
   @Test def test_of(): Unit = {
-    assertEquals(IsoChronology.INSTANCE, of("ISO"))
+    assertEquals(of("ISO"), IsoChronology.INSTANCE)
     expectThrows(classOf[DateTimeException], of(""))
   }
 
   @Test def test_getAvailableChronologies(): Unit = {
     val chronologies = Chronology.getAvailableChronologies
-    assertTrue(chronologies.contains(IsoChronology.INSTANCE))
+    assert(chronologies.contains(IsoChronology.INSTANCE))
   }
 }

@@ -89,10 +89,10 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_getEra(): Unit = {
-    assertEquals(IsoEra.BCE, MIN.getEra)
-    assertEquals(IsoEra.CE, someDate.getEra)
-    assertEquals(IsoEra.CE, leapDate.getEra)
-    assertEquals(IsoEra.CE, MAX.getEra)
+    assertEquals(MIN.getEra, IsoEra.BCE)
+    assertEquals(someDate.getEra, IsoEra.CE)
+    assertEquals(leapDate.getEra, IsoEra.CE)
+    assertEquals(MAX.getEra, IsoEra.CE)
   }
 
   @Test def test_getYear(): Unit = {
@@ -137,15 +137,15 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_isLeapYear(): Unit = {
-    assertFalse(MIN.isLeapYear)
-    assertTrue(of(-400, 6, 30).isLeapYear)
-    assertFalse(of(-100, 3, 1).isLeapYear)
-    assertTrue(of(0, 1, 1).isLeapYear)
-    assertFalse(of(1900, 9, 30).isLeapYear)
-    assertTrue(of(2000, 1, 1).isLeapYear)
-    assertFalse(someDate.isLeapYear)
-    assertTrue(leapDate.isLeapYear)
-    assertFalse(MAX.isLeapYear)
+    assert(!MIN.isLeapYear)
+    assert(of(-400, 6, 30).isLeapYear)
+    assert(!of(-100, 3, 1).isLeapYear)
+    assert(of(0, 1, 1).isLeapYear)
+    assert(!of(1900, 9, 30).isLeapYear)
+    assert(of(2000, 1, 1).isLeapYear)
+    assert(!someDate.isLeapYear)
+    assert(leapDate.isLeapYear)
+    assert(!MAX.isLeapYear)
   }
 
   @Test def test_lengthOfMonth(): Unit = {
@@ -651,38 +651,38 @@ class LocalDateTest extends TemporalTest[LocalDate] {
 
   @Test def test_compareTo(): Unit = {
     assertEquals(0, MIN.compareTo(MIN))
-    assertTrue(MIN.compareTo(someDate) < 0)
-    assertTrue(MIN.compareTo(MAX) < 0)
-    assertTrue(someDate.compareTo(MIN) > 0)
+    assert(MIN.compareTo(someDate) < 0)
+    assert(MIN.compareTo(MAX) < 0)
+    assert(someDate.compareTo(MIN) > 0)
     assertEquals(0, someDate.compareTo(someDate))
-    assertTrue(someDate.compareTo(MAX) < 0)
-    assertTrue(MAX.compareTo(MIN) > 0)
-    assertTrue(MAX.compareTo(someDate) > 0)
+    assert(someDate.compareTo(MAX) < 0)
+    assert(MAX.compareTo(MIN) > 0)
+    assert(MAX.compareTo(someDate) > 0)
     assertEquals(0, MAX.compareTo(MAX))
   }
 
   @Test def test_isAfter(): Unit = {
-    assertFalse(MIN.isAfter(MIN))
-    assertFalse(MIN.isAfter(someDate))
-    assertFalse(MIN.isAfter(MAX))
-    assertTrue(someDate.isAfter(MIN))
-    assertFalse(someDate.isAfter(someDate))
-    assertFalse(someDate.isAfter(MAX))
-    assertTrue(MAX.isAfter(MIN))
-    assertTrue(MAX.isAfter(someDate))
-    assertFalse(MAX.isAfter(MAX))
+    assert(!MIN.isAfter(MIN))
+    assert(!MIN.isAfter(someDate))
+    assert(!MIN.isAfter(MAX))
+    assert(someDate.isAfter(MIN))
+    assert(!someDate.isAfter(someDate))
+    assert(!someDate.isAfter(MAX))
+    assert(MAX.isAfter(MIN))
+    assert(MAX.isAfter(someDate))
+    assert(!MAX.isAfter(MAX))
   }
 
   @Test def test_isBefore(): Unit = {
-    assertFalse(MIN.isBefore(MIN))
-    assertTrue(MIN.isBefore(someDate))
-    assertTrue(MIN.isBefore(MAX))
-    assertFalse(someDate.isBefore(MIN))
-    assertFalse(someDate.isBefore(someDate))
-    assertTrue(someDate.isBefore(MAX))
-    assertFalse(MAX.isBefore(MIN))
-    assertFalse(MAX.isBefore(someDate))
-    assertFalse(MAX.isBefore(MAX))
+    assert(!MIN.isBefore(MIN))
+    assert(MIN.isBefore(someDate))
+    assert(MIN.isBefore(MAX))
+    assert(!someDate.isBefore(MIN))
+    assert(!someDate.isBefore(someDate))
+    assert(someDate.isBefore(MAX))
+    assert(!MAX.isBefore(MIN))
+    assert(!MAX.isBefore(someDate))
+    assert(!MAX.isBefore(MAX))
   }
 
   @Test def test_toString(): Unit = {
@@ -697,7 +697,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_now(): Unit = {
-    assertEquals(IsoEra.CE, now().getEra)
+    assertEquals(now().getEra, IsoEra.CE)
   }
 
   @Test def test_of(): Unit = {

@@ -63,17 +63,17 @@ class IsoChronologyTest {
   }
 
   @Test def test_dateNow(): Unit = {
-    assertEquals(IsoEra.CE, iso.dateNow().getEra)
+    assertEquals(iso.dateNow().getEra, IsoEra.CE)
   }
 
   @Test def test_isLeapYear(): Unit = {
     for (year <- Seq(Int.MinValue, -400, -104, -96, -4, 0, 4, 1896, 1904,
         1996, 2000, 2004, 2147483644)) {
-      assertTrue(iso.isLeapYear(year))
+      assert(iso.isLeapYear(year))
     }
     for (year <- Seq(-2147483647, -100, -99, -1, 1, 1900, 1999, 2001, 2002,
         2003, 2005, Int.MaxValue)) {
-      assertFalse(iso.isLeapYear(year))
+      assert(!iso.isLeapYear(year))
     }
   }
 
@@ -95,8 +95,8 @@ class IsoChronologyTest {
   @Test def test_eras(): Unit = {
     val eras = iso.eras
     assertEquals(2, eras.size)
-    assertEquals(IsoEra.BCE, eras.get(0))
-    assertEquals(IsoEra.CE, eras.get(1))
+    assertEquals(eras.get(0), IsoEra.BCE)
+    assertEquals(eras.get(1), IsoEra.CE)
   }
 
   @Test def test_range(): Unit = {

@@ -136,8 +136,8 @@ class MonthTest extends TemporalAccessorTest[Month] {
 
   @Test def test_compareTo(): Unit = {
     assertEquals(0, JULY.compareTo(JULY))
-    assertTrue(JANUARY.compareTo(MARCH) < 0)
-    assertTrue(DECEMBER.compareTo(OCTOBER) > 0)
+    assert(JANUARY.compareTo(MARCH) < 0)
+    assert(DECEMBER.compareTo(OCTOBER) > 0)
   }
 
   @Test def test_values(): Unit = {

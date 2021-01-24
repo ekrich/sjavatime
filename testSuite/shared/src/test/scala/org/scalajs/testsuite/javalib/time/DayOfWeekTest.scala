@@ -56,8 +56,8 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
 
   @Test def test_compareTo(): Unit = {
     assertEquals(0, WEDNESDAY.compareTo(WEDNESDAY))
-    assertTrue(MONDAY.compareTo(SUNDAY) < 0)
-    assertTrue(SATURDAY.compareTo(TUESDAY) > 0)
+    assert(MONDAY.compareTo(SUNDAY) < 0)
+    assert(SATURDAY.compareTo(TUESDAY) > 0)
   }
 
   @Test def test_values(): Unit = {

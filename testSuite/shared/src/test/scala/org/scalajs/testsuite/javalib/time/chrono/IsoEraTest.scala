@@ -4,9 +4,9 @@ import java.time.DateTimeException
 import java.time.chrono.IsoEra
 import java.time.temporal.ChronoField
 
+import org.scalajs.testsuite.javalib.time.TemporalAccessorTest
 import org.junit.Test
 import org.junit.Assert._
-import org.scalajs.testsuite.javalib.time.TemporalAccessorTest
 import org.scalajs.testsuite.utils.AssertThrows._
 
 class IsoEraTest extends TemporalAccessorTest[IsoEra] {
@@ -29,8 +29,8 @@ class IsoEraTest extends TemporalAccessorTest[IsoEra] {
 
   @Test def test_compareTo(): Unit = {
     assertEquals(0, BCE.compareTo(BCE))
-    assertTrue(BCE.compareTo(CE) < 0)
-    assertTrue(CE.compareTo(BCE) > 0)
+    assert(BCE.compareTo(CE) < 0)
+    assert(CE.compareTo(BCE) > 0)
     assertEquals(0, CE.compareTo(CE))
   }
 

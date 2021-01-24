@@ -23,12 +23,12 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       unit <- ChronoUnit.values
     } {
       if (isSupported(unit))
-        assertTrue(temporal.isSupported(unit))
+        assert(temporal.isSupported(unit))
       else
-        assertFalse(temporal.isSupported(unit))
+        assert(!temporal.isSupported(unit))
     }
     for (temporal <- samples)
-      assertFalse(temporal.isSupported(null: TemporalUnit))
+      assert(!temporal.isSupported(null: TemporalUnit))
   }
 
   @Test def with_unsupported_field(): Unit = {

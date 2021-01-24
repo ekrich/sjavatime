@@ -18,17 +18,17 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
       field <- ChronoField.values
     } {
       if (isSupported(field))
-        assertTrue(accessor.isSupported(field))
+        assert(accessor.isSupported(field))
       else
-        assertFalse(accessor.isSupported(field))
+        assert(!accessor.isSupported(field))
     }
     for (accessor <- samples)
-      assertFalse(accessor.isSupported(null))
+      assert(!accessor.isSupported(null))
   }
 
   def expectedRangeFor(accessor: TempAcc, field: TemporalField): ValueRange = field.range()
 
-  @Test final def range(): Unit = {
+  @Test def range(): Unit = {
     for {
       accessor <- samples
       field <- ChronoField.values

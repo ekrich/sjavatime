@@ -462,23 +462,23 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
 
   @Test def test_compareTo(): Unit = {
     assertEquals(0, MIN.compareTo(MIN))
-    assertTrue(MIN.compareTo(MAX) < 0)
-    assertTrue(MAX.compareTo(MIN) > 0)
+    assert(MIN.compareTo(MAX) < 0)
+    assert(MAX.compareTo(MIN) > 0)
     assertEquals(0, MAX.compareTo(MAX))
   }
 
   @Test def test_isAfter(): Unit = {
-    assertFalse(MIN.isAfter(MIN))
-    assertFalse(MIN.isAfter(MAX))
-    assertTrue(MAX.isAfter(MIN))
-    assertFalse(MAX.isAfter(MAX))
+    assert(!MIN.isAfter(MIN))
+    assert(!MIN.isAfter(MAX))
+    assert(MAX.isAfter(MIN))
+    assert(!MAX.isAfter(MAX))
   }
 
   @Test def test_isBefore(): Unit = {
-    assertFalse(MIN.isBefore(MIN))
-    assertTrue(MIN.isBefore(MAX))
-    assertFalse(MAX.isBefore(MIN))
-    assertFalse(MAX.isBefore(MAX))
+    assert(!MIN.isBefore(MIN))
+    assert(MIN.isBefore(MAX))
+    assert(!MAX.isBefore(MIN))
+    assert(!MAX.isBefore(MAX))
   }
 
   @Test def test_toString(): Unit = {
@@ -493,7 +493,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
   }
 
   @Test def test_now(): Unit = {
-    assertNotNull(now())
+    assert(now() != null)
   }
 
   @Test def test_of(): Unit = {

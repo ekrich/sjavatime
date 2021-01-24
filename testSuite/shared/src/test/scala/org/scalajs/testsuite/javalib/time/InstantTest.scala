@@ -95,7 +95,7 @@ class InstantTest extends TemporalTest[Instant] {
 
   @Test def truncatedTo(): Unit = {
     for (i <- samples)
-      assertSame(i, i.truncatedTo(NANOS))
+      assertEquals(i, i.truncatedTo(NANOS))
 
     assertEquals(Instant.EPOCH, Instant.EPOCH.truncatedTo(MICROS))
     assertEquals(Instant.EPOCH, Instant.EPOCH.truncatedTo(MILLIS))
@@ -348,21 +348,21 @@ class InstantTest extends TemporalTest[Instant] {
   }
 
   @Test def isAfter(): Unit = {
-    assertFalse(Instant.MIN.isAfter(Instant.MIN))
-    assertFalse(Instant.MIN.isAfter(Instant.MAX))
-    assertFalse(Instant.MIN.isAfter(Instant.EPOCH))
-    assertTrue(Instant.MAX.isAfter(Instant.MIN))
-    assertFalse(Instant.MAX.isAfter(Instant.MAX))
-    assertTrue(Instant.MAX.isAfter(Instant.EPOCH))
+    assert(!Instant.MIN.isAfter(Instant.MIN))
+    assert(!Instant.MIN.isAfter(Instant.MAX))
+    assert(!Instant.MIN.isAfter(Instant.EPOCH))
+    assert(Instant.MAX.isAfter(Instant.MIN))
+    assert(!Instant.MAX.isAfter(Instant.MAX))
+    assert(Instant.MAX.isAfter(Instant.EPOCH))
   }
 
   @Test def isBefore(): Unit = {
-    assertFalse(Instant.MIN.isBefore(Instant.MIN))
-    assertTrue(Instant.MIN.isBefore(Instant.MAX))
-    assertTrue(Instant.MIN.isBefore(Instant.EPOCH))
-    assertFalse(Instant.MAX.isBefore(Instant.MIN))
-    assertFalse(Instant.MAX.isBefore(Instant.MAX))
-    assertFalse(Instant.MAX.isBefore(Instant.EPOCH))
+    assert(!Instant.MIN.isBefore(Instant.MIN))
+    assert(Instant.MIN.isBefore(Instant.MAX))
+    assert(Instant.MIN.isBefore(Instant.EPOCH))
+    assert(!Instant.MAX.isBefore(Instant.MIN))
+    assert(!Instant.MAX.isBefore(Instant.MAX))
+    assert(!Instant.MAX.isBefore(Instant.EPOCH))
   }
 
   @Test def toEpochMilli(): Unit = {
@@ -387,7 +387,7 @@ class InstantTest extends TemporalTest[Instant] {
   }
 
   @Test def now(): Unit = {
-    assertNotNull(Instant.now)
+    assert(Instant.now != null)
   }
 
   @Test def ofEpochSecond(): Unit = {
@@ -416,7 +416,7 @@ class InstantTest extends TemporalTest[Instant] {
 
   @Test def from(): Unit = {
     for (i <- samples)
-      assertSame(i, Instant.from(i))
+      assertEquals(i, Instant.from(i))
 
     val aTime = LocalTime.ofNanoOfDay(98392983293L)
     expectThrows(classOf[DateTimeException], Instant.from(aTime))
@@ -442,7 +442,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(somePositiveInstant, Instant.parse("1999-06-03T06:56:23.942Z"))
     assertEquals(someNegativeInstant, Instant.parse("-0687-08-07T23:38:33.088936253Z"))
 
-    val charSequence: CharSequence = "1999-06-03T06:56:23.942Z".toCharArray
+    val charSequence: CharSequence = "1999-06-03T06:56:23.942Z"
     assertEquals(somePositiveInstant, Instant.parse(charSequence))
 
     expectThrows(classOf[DateTimeParseException], Instant.parse("+1000000001-12-31T23:59:59.999999999Z"))

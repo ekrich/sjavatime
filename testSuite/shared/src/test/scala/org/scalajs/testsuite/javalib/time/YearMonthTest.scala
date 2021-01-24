@@ -73,21 +73,21 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   }
 
   @Test def isLeapYear(): Unit = {
-    assertFalse(someYearMonth.isLeapYear)
-    assertTrue(febLeapYear.isLeapYear)
-    assertFalse(febNonLeapYear.isLeapYear)
+    assert(!someYearMonth.isLeapYear)
+    assert(febLeapYear.isLeapYear)
+    assert(!febNonLeapYear.isLeapYear)
   }
 
   @Test def isValidDay(): Unit = {
     for (ym <- samples) {
-      assertFalse(ym.isValidDay(0))
-      assertTrue(ym.isValidDay(ym.lengthOfMonth()))
-      assertFalse(ym.isValidDay(ym.lengthOfMonth() + 1))
+      assert(!ym.isValidDay(0))
+      assert(ym.isValidDay(ym.lengthOfMonth()))
+      assert(!ym.isValidDay(ym.lengthOfMonth() + 1))
     }
 
-    assertTrue(febLeapYear.isValidDay(29))
-    assertFalse(febNonLeapYear.isValidDay(29))
-    assertFalse(someYearMonth.isValidDay(31))
+    assert(febLeapYear.isValidDay(29))
+    assert(!febNonLeapYear.isValidDay(29))
+    assert(!someYearMonth.isValidDay(31))
   }
 
   @Test def lenghtOfMonth(): Unit = {
@@ -158,10 +158,10 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   }
 
   @Test def withYear(): Unit = {
-    assertSame(min, min.withYear(-999999999))
+    assertEquals(min, min.withYear(-999999999))
     assertEquals(YearMonth.of(999999999, 1), min.withYear(999999999))
 
-    assertSame(max, max.withYear(999999999))
+    assertEquals(max, max.withYear(999999999))
     assertEquals(YearMonth.of(-999999999, 12), max.withYear(-999999999))
 
     assertEquals(YearMonth.of(1, 1), janLastBC.withYear(1))
@@ -178,8 +178,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   }
 
   @Test def withMonth(): Unit = {
-    assertSame(min, min.withMonth(1))
-    assertSame(max, max.withMonth(12))
+    assertEquals(min, min.withMonth(1))
+    assertEquals(max, max.withMonth(12))
 
     assertEquals(YearMonth.of(0, 12), janLastBC.withMonth(12))
     assertEquals(YearMonth.of(0, 1), decLastBC.withMonth(1))
@@ -207,7 +207,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
 
   @Test def plusYears(): Unit = {
     for (ym <- samples) {
-      assertSame(ym, ym.plusYears(0))
+      assertEquals(ym, ym.plusYears(0))
     }
 
     assertEquals(YearMonth.of(0, 1), min.plusYears(max.getYear))
@@ -227,7 +227,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
 
   @Test def plusMonths(): Unit = {
     for (ym <- samples) {
-      assertSame(ym, ym.plusMonths(0))
+      assertEquals(ym, ym.plusMonths(0))
     }
 
     assertEquals(janFirstAC, decLastBC.plusMonths(1))
@@ -248,7 +248,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
 
   @Test def minusYears(): Unit = {
     for (ym <- samples) {
-      assertSame(ym, ym.minusYears(0))
+      assertEquals(ym, ym.minusYears(0))
     }
 
     assertEquals(febNonLeapYear, febLeapYear.minusYears(2))
@@ -266,7 +266,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
 
   @Test def minusMonths(): Unit = {
     for (ym <- samples) {
-      assertSame(ym, ym.minusMonths(0))
+      assertEquals(ym, ym.minusMonths(0))
     }
 
     assertEquals(decLastBC, janFirstAC.minusMonths(1))
@@ -358,17 +358,17 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   }
 
   @Test def isAfter(): Unit = {
-    assertFalse(min.isAfter(min))
-    assertFalse(min.isAfter(max))
-    assertTrue(max.isAfter(min))
-    assertFalse(max.isAfter(max))
+    assert(!min.isAfter(min))
+    assert(!min.isAfter(max))
+    assert(max.isAfter(min))
+    assert(!max.isAfter(max))
   }
 
   @Test def isBefore(): Unit = {
-    assertFalse(min.isBefore(min))
-    assertTrue(min.isBefore(max))
-    assertFalse(max.isBefore(min))
-    assertFalse(max.isBefore(max))
+    assert(!min.isBefore(min))
+    assert(min.isBefore(max))
+    assert(!max.isBefore(min))
+    assert(!max.isBefore(max))
   }
 
   @Test def equalsHashCode(): Unit = {
@@ -382,9 +382,9 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       ym2 <- samples
     } {
       if (ym1.hashCode() == ym2.hashCode()) {
-        assertTrue(ym1.equals(ym2))
+        assert(ym1.equals(ym2))
       } else {
-        assertFalse(ym1.equals(ym2))
+        assert(!ym1.equals(ym2))
       }
     }
   }
@@ -460,7 +460,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
 
   @Test def from(): Unit = {
     for (ym <- samples) {
-      assertSame(ym, YearMonth.from(ym))
+      assertEquals(ym, YearMonth.from(ym))
     }
 
     val someDate = LocalDate.of(2015, 1, 1)

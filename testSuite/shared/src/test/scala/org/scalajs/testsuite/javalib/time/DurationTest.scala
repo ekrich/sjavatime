@@ -36,18 +36,18 @@ class DurationTest extends TemporalAmountTest {
 
   @Test def test_isZero(): Unit = {
     for (d <- samples if d != ZERO)
-      assertFalse(d.isZero)
-    assertTrue(ZERO.isZero)
+      assert(!d.isZero)
+    assert(ZERO.isZero)
   }
 
   @Test def test_isNegative(): Unit = {
-    assertTrue(dmin.isNegative)
-    assertTrue(oneSecond.negated.isNegative)
-    assertTrue(oneNano.negated.isNegative)
-    assertFalse(ZERO.isNegative)
-    assertFalse(oneNano.isNegative)
-    assertFalse(oneSecond.isNegative)
-    assertFalse(dmax.isNegative)
+    assert(dmin.isNegative)
+    assert(oneSecond.negated.isNegative)
+    assert(oneNano.negated.isNegative)
+    assert(!ZERO.isNegative)
+    assert(!oneNano.isNegative)
+    assert(!oneSecond.isNegative)
+    assert(!dmax.isNegative)
   }
 
   @Test def test_getSeconds(): Unit = {
@@ -572,10 +572,10 @@ class DurationTest extends TemporalAmountTest {
     val t = LocalTime.NOON
     val d = LocalDate.MIN
 
-    assertEquals(t, ZERO.addTo(t))
-    assertEquals(LocalTime.of(20, 29, 52), dmin.addTo(t))
-    assertEquals(LocalTime.of(3, 30, 7, 999999999), dmax.addTo(t))
-    assertEquals(d, ZERO.addTo(d))
+    assertEquals(ZERO.addTo(t), t)
+    assertEquals(dmin.addTo(t), LocalTime.of(20, 29, 52))
+    assertEquals(dmax.addTo(t), LocalTime.of(3, 30, 7, 999999999))
+    assertEquals(ZERO.addTo(d), d)
 
     expectThrows(classOf[UnsupportedTemporalTypeException], oneNano.addTo(d))
     expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.addTo(d))
@@ -585,10 +585,10 @@ class DurationTest extends TemporalAmountTest {
     val t = LocalTime.NOON
     val d = LocalDate.MIN
 
-    assertEquals(t, ZERO.subtractFrom(t))
-    assertEquals(LocalTime.of(3, 30, 8), dmin.subtractFrom(t))
-    assertEquals(LocalTime.of(20, 29, 52, 1), dmax.subtractFrom(t))
-    assertEquals(d, ZERO.subtractFrom(d))
+    assertEquals(ZERO.subtractFrom(t), t)
+    assertEquals(dmin.subtractFrom(t), LocalTime.of(3, 30, 8))
+    assertEquals(dmax.subtractFrom(t), LocalTime.of(20, 29, 52, 1))
+    assertEquals(ZERO.subtractFrom(d), d)
 
     expectThrows(classOf[UnsupportedTemporalTypeException], oneNano.subtractFrom(d))
     expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.subtractFrom(d))
@@ -692,29 +692,29 @@ class DurationTest extends TemporalAmountTest {
     val d2 = ofSeconds(0, 1)
 
     assertEquals(0, dmin.compareTo(dmin))
-    assertTrue(dmin.compareTo(d1) < 0)
-    assertTrue(dmin.compareTo(d0) < 0)
-    assertTrue(dmin.compareTo(d2) < 0)
-    assertTrue(dmin.compareTo(dmax) < 0)
-    assertTrue(d1.compareTo(dmin) > 0)
+    assert(dmin.compareTo(d1) < 0)
+    assert(dmin.compareTo(d0) < 0)
+    assert(dmin.compareTo(d2) < 0)
+    assert(dmin.compareTo(dmax) < 0)
+    assert(d1.compareTo(dmin) > 0)
     assertEquals(0, d1.compareTo(d1))
-    assertTrue(d1.compareTo(d0) < 0)
-    assertTrue(d1.compareTo(d2) < 0)
-    assertTrue(d1.compareTo(dmax) < 0)
-    assertTrue(d0.compareTo(dmin) > 0)
-    assertTrue(d0.compareTo(d1) > 0)
+    assert(d1.compareTo(d0) < 0)
+    assert(d1.compareTo(d2) < 0)
+    assert(d1.compareTo(dmax) < 0)
+    assert(d0.compareTo(dmin) > 0)
+    assert(d0.compareTo(d1) > 0)
     assertEquals(0, d0.compareTo(d0))
-    assertTrue(d0.compareTo(d2) < 0)
-    assertTrue(d0.compareTo(dmax) < 0)
-    assertTrue(d2.compareTo(dmin) > 0)
-    assertTrue(d2.compareTo(d1) > 0)
-    assertTrue(d2.compareTo(d0) > 0)
+    assert(d0.compareTo(d2) < 0)
+    assert(d0.compareTo(dmax) < 0)
+    assert(d2.compareTo(dmin) > 0)
+    assert(d2.compareTo(d1) > 0)
+    assert(d2.compareTo(d0) > 0)
     assertEquals(0, d2.compareTo(d2))
-    assertTrue(d2.compareTo(dmax) < 0)
-    assertTrue(dmax.compareTo(dmin) > 0)
-    assertTrue(dmax.compareTo(d1) > 0)
-    assertTrue(dmax.compareTo(d0) > 0)
-    assertTrue(dmax.compareTo(d2) > 0)
+    assert(d2.compareTo(dmax) < 0)
+    assert(dmax.compareTo(dmin) > 0)
+    assert(dmax.compareTo(d1) > 0)
+    assert(dmax.compareTo(d0) > 0)
+    assert(dmax.compareTo(d2) > 0)
     assertEquals(0, dmax.compareTo(dmax))
   }
 
