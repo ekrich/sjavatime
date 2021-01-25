@@ -50,7 +50,9 @@ lazy val root = (project in file("."))
     name := "sjavatime-root",
     crossScalaVersions := Nil,
     doc / aggregate := false,
-    packageDoc / aggregate := false
+    doc := (sjavatimeJS / Compile / doc).value,
+    packageDoc / aggregate := false,
+    packageDoc := (sjavatimeJS / Compile / packageDoc).value
   )
   .settings(skipPublish: _*)
   .aggregate(
