@@ -72,12 +72,12 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .jsSettings(
     crossScalaVersions := versionsJS
   )
-  .jsConfigure(_.enablePlugins(ScalaJSPlugin))
+  //.jsConfigure(_.enablePlugins(ScalaJSPlugin))
   .nativeSettings(
     crossScalaVersions := versionsNative,
     logLevel := Level.Info // Info or Debug
   )
-  .nativeConfigure(_.enablePlugins(ScalaNativePlugin))
+  //.nativeConfigure(_.enablePlugins(ScalaNativePlugin))
 
 lazy val sjavatimeJS     = sjavatime.js
 lazy val sjavatimeNative = sjavatime.native
