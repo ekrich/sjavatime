@@ -67,6 +67,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .settings(commonSettings)
   .settings(
+    Test / test := {},
     mappings in (Compile, packageBin) ~= {
       _.filter(!_._2.endsWith(".class"))
     }
@@ -75,6 +76,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     crossScalaVersions := versionsJS
   )
   .nativeSettings(
+    Compile / run := {},
     crossScalaVersions := versionsNative,
     logLevel := Level.Info // Info or Debug
   )
