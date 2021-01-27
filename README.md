@@ -5,19 +5,20 @@
 
 `sjavatime` is a BSD-licensed reimplementation of the `java.time` API
 included in JDK8 for Scala.js and Scala Native projects. This project was forked from
-[scala-js-java-time](https://github.com/scala-js/scala-js-java-time)
-to allow for an alternative implementation to support
-[Scala Native](https://scala-native.readthedocs.io/).
+[scala-js-java-time](https://github.com/scala-js/scala-js-java-time) which is deprecated.
 
-## Alternative choices
+Now the library supports both Scala.js and [Scala Native](https://scala-native.readthedocs.io/).
 
-This project is incomplete so consider using one of the following alternatives instead:
+## Other choices
+This project is ready today and cross compiled for all current Scala versions on Scala.js and Scala Native.
 
-* [scala-java-time](https://github.com/cquiroz/scala-java-time) (recommended): like this project, but better
+The following projects could be considered as alternatives, the second one for Scala.js only:
+
+* [scala-java-time](https://github.com/cquiroz/scala-java-time) (recommended): More complete but not ported to Scala Native `0.4.0` yet.
 * [scalajs-jsjoda](https://github.com/zoepepper/scalajs-jsjoda): implementation of `java.time` on top of the JavaScript library [js-joda](https://github.com/js-joda/js-joda)
 
 ## Usage
-[![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_2.11.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_2.11)
+[![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_native0.4_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_native0.4_2.13)
 
 Simply add the following line to your `sbt` settings:
 
@@ -44,11 +45,10 @@ lazy val myCross = crossProject
 **Requirement**: you must use a host JDK8 to *build* your project, i.e., to
 launch sbt. `sjavatime` does not work on earlier JDKs.
 
-## Work in Progress / linking errors
+## Linking errors
 
-This library is a work in progress.
-There are still many classes and methods that have not been implemented yet.
-If you use any of those, you will get linking errors.
+This library is not a complete implementation of `java.time` so if classes and methods
+are missing and you use them you will get linking errors.
 
 Feel free to [contribute](./CONTRIBUTING.md) to extend the set of supported
 classes and methods!
@@ -61,3 +61,7 @@ classes and methods!
 ## Contributing
 
 Follow the [contributing guide](./CONTRIBUTING.md).
+
+## Versions
+
+Release [1.1.0](https://github.com/ekrich/sjavatime/releases/tag/v1.1.0) - (2021-01-26)<br/>
