@@ -5,7 +5,7 @@ val scala300 = "3.0.0-M3"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
 val versionsAll    = versionsBase :+ scala300
-val versionsJS     = versionsBase
+val versionsJS     = versionsAll
 val versionsNative = versionsBase
 
 ThisBuild / scalaVersion := scala213

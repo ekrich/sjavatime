@@ -1,10 +1,24 @@
 package java.time
 
+import java.{lang => jl}
 import java.time.temporal._
 
-final class DayOfWeek private (name: String, value: Int)
-    extends Enum[DayOfWeek](name, value - 1) with TemporalAccessor
+enum DayOfWeek(value: Int) extends jl.Enum[DayOfWeek] with TemporalAccessor
     with TemporalAdjuster {
+
+  case MONDAY extends DayOfWeek(1)
+
+  case TUESDAY extends DayOfWeek(2)
+
+  case WEDNESDAY extends DayOfWeek(3)
+
+  case THURSDAY extends DayOfWeek(4)
+
+  case FRIDAY extends DayOfWeek(5)
+
+  case SATURDAY extends DayOfWeek(6)
+
+  case SUNDAY extends DayOfWeek(7)
 
   def getValue(): Int = value
 
@@ -47,30 +61,8 @@ final class DayOfWeek private (name: String, value: Int)
 }
 
 object DayOfWeek {
-  final val MONDAY = new DayOfWeek("MONDAY", 1)
 
-  final val TUESDAY = new DayOfWeek("TUESDAY", 2)
-
-  final val WEDNESDAY = new DayOfWeek("WEDNESDAY", 3)
-
-  final val THURSDAY = new DayOfWeek("THURSDAY", 4)
-
-  final val FRIDAY = new DayOfWeek("FRIDAY", 5)
-
-  final val SATURDAY = new DayOfWeek("SATURDAY", 6)
-
-  final val SUNDAY = new DayOfWeek("SUNDAY", 7)
-
-  private val days =
-    Seq(MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY)
-
-  def values(): Array[DayOfWeek] = days.toArray
-
-  def valueOf(name: String): DayOfWeek = days.find(_.name == name).getOrElse {
-    throw new IllegalArgumentException(s"No such weekday: $name")
-  }
-
-  def of(dayOfWeek: Int): DayOfWeek = days.lift(dayOfWeek - 1).getOrElse {
+  def of(dayOfWeek: Int): DayOfWeek = values.lift(dayOfWeek - 1).getOrElse {
     throw new DateTimeException(s"Invalid value for weekday: $dayOfWeek")
   }
 

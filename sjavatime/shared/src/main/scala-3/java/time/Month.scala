@@ -1,14 +1,37 @@
 package java.time
 
+import java.{lang => jl}
 import java.time.temporal._
 
-final class Month private (name: String, value: Int, defaultLength: Int)
-    extends Enum[Month](name, value - 1) with TemporalAccessor
+enum Month(value: Int, defaultLength: Int) extends jl.Enum[Month] with TemporalAccessor
     with TemporalAdjuster {
-  import Month._
+
+  case JANUARY extends Month(1, 31)
+
+  case FEBRUARY extends Month(2, 28)
+
+  case MARCH extends Month(3, 31)
+
+  case APRIL extends Month(4, 30)
+
+  case MAY extends Month(5, 31)
+
+  case JUNE extends Month(6, 30)
+
+  case JULY extends Month(7, 31)
+
+  case AUGUST extends Month(8, 31)
+
+  case SEPTEMBER extends Month(9, 30)
+
+  case OCTOBER extends Month(10, 31)
+
+  case NOVEMBER extends Month(11, 30)
+
+  case DECEMBER extends Month(12, 31)
 
   private lazy val defaultFirstDayOfYear =
-    months.take(value - 1).foldLeft(1)(_ + _.minLength())
+    values.take(value - 1).foldLeft(1)(_ + _.minLength())
 
   def getValue(): Int = value
 
@@ -67,40 +90,8 @@ final class Month private (name: String, value: Int, defaultLength: Int)
 }
 
 object Month {
-  final lazy val JANUARY = new Month("JANUARY", 1, 31)
 
-  final lazy val FEBRUARY = new Month("FEBRUARY", 2, 28)
-
-  final lazy val MARCH = new Month("MARCH", 3, 31)
-
-  final lazy val APRIL = new Month("APRIL", 4, 30)
-
-  final lazy val MAY = new Month("MAY", 5, 31)
-
-  final lazy val JUNE = new Month("JUNE", 6, 30)
-
-  final lazy val JULY = new Month("JULY", 7, 31)
-
-  final lazy val AUGUST = new Month("AUGUST", 8, 31)
-
-  final lazy val SEPTEMBER = new Month("SEPTEMBER", 9, 30)
-
-  final lazy val OCTOBER = new Month("OCTOBER", 10, 31)
-
-  final lazy val NOVEMBER = new Month("NOVEMBER", 11, 30)
-
-  final lazy val DECEMBER = new Month("DECEMBER", 12, 31)
-
-  private lazy val months = Seq(JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE,
-      JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER)
-
-  def values(): Array[Month] = months.toArray
-
-  def valueOf(name: String): Month = months.find(_.name == name).getOrElse {
-    throw new IllegalArgumentException(s"No such month: $name")
-  }
-
-  def of(month: Int): Month = months.lift(month - 1).getOrElse {
+  def of(month: Int): Month = values().lift(month - 1).getOrElse {
     throw new DateTimeException(s"Invalid value for month: $month")
   }
 
