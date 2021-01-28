@@ -63,6 +63,18 @@ lazy val root = (project in file("."))
     testSuiteNative
   )
 
+// For Scala 3 enums
+def sourceDir(projectDir: File, scalaVersion: String): Seq[File] = {
+  def versionDir(versionDir: String): File =
+    projectDir / "shared" / "src" / "main" / versionDir
+
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((3, _)) => Seq(versionDir("scala-3"))
+    case Some((2, _)) => Seq(versionDir("scala-2"))
+    case _            => Seq() // unknown version
+  }
+}
+
 lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .settings(commonSettings)
@@ -70,6 +82,10 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     Test / test := {},
     mappings in (Compile, packageBin) ~= {
       _.filter(!_._2.endsWith(".class"))
+    },
+    Compile / unmanagedSourceDirectories ++= {
+      val projectDir = baseDirectory.value.getParentFile()
+      sourceDir(projectDir, scalaVersion.value)
     }
   )
   .jsSettings(
