@@ -30,6 +30,8 @@ enum Month(value: Int, defaultLength: Int) extends jl.Enum[Month] with TemporalA
 
   case DECEMBER extends Month(12, 31)
 
+  import Month._
+
   private lazy val defaultFirstDayOfYear =
     values.take(value - 1).foldLeft(1)(_ + _.minLength())
 
@@ -91,7 +93,7 @@ enum Month(value: Int, defaultLength: Int) extends jl.Enum[Month] with TemporalA
 
 object Month {
 
-  def of(month: Int): Month = values().lift(month - 1).getOrElse {
+  def of(month: Int): Month = values.lift(month - 1).getOrElse {
     throw new DateTimeException(s"Invalid value for month: $month")
   }
 

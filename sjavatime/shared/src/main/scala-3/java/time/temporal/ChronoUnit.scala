@@ -4,44 +4,41 @@ import java.{lang => jl}
 import java.time.Duration
 
 enum ChronoUnit(duration: Duration,
-    flags: Int) extends jl.Enum[ChronoUnit] with TemporalUnit {
-  // TODO: find out way this doesn't work
-  // private final val isTimeBasedFlag = 1
-  // private final val isDateBasedFlag = 2
+    flags: Int) extends jl.Enum[ChronoUnit] with TemporalUnit:
 
-  case NANOS extends ChronoUnit(Duration.OneNano, 1)
+  case NANOS extends ChronoUnit(Duration.OneNano, ChronoUnit.isTimeBasedFlag)
 
-  case MICROS extends ChronoUnit(Duration.OneMicro, 1)
+  case MICROS extends ChronoUnit(Duration.OneMicro, ChronoUnit.isTimeBasedFlag)
 
-  case MILLIS extends ChronoUnit(Duration.OneMilli, 1)
+  case MILLIS extends ChronoUnit(Duration.OneMilli, ChronoUnit.isTimeBasedFlag)
 
-  case SECONDS extends ChronoUnit(Duration.OneSecond, 1)
+  case SECONDS extends ChronoUnit(Duration.OneSecond, ChronoUnit.isTimeBasedFlag)
 
-  case MINUTES extends ChronoUnit(Duration.OneMinute, 1)
+  case MINUTES extends ChronoUnit(Duration.OneMinute, ChronoUnit.isTimeBasedFlag)
 
-  case HOURS extends ChronoUnit(Duration.OneHour, 1)
+  case HOURS extends ChronoUnit(Duration.OneHour, ChronoUnit.isTimeBasedFlag)
 
-  case HALF_DAYS extends ChronoUnit(Duration.ofHours(12), 1)
+  case HALF_DAYS extends ChronoUnit(Duration.ofHours(12), ChronoUnit.isTimeBasedFlag)
 
-  case DAYS extends ChronoUnit(Duration.OneDay, 2)
+  case DAYS extends ChronoUnit(Duration.OneDay, ChronoUnit.isDateBasedFlag)
 
-  case WEEKS extends ChronoUnit(Duration.OneWeek, 2)
+  case WEEKS extends ChronoUnit(Duration.OneWeek, ChronoUnit.isDateBasedFlag)
 
-  case MONTHS extends ChronoUnit(Duration.OneMonth, 2)
+  case MONTHS extends ChronoUnit(Duration.OneMonth, ChronoUnit.isDateBasedFlag)
 
-  case YEARS extends ChronoUnit(Duration.OneYear, 2)
+  case YEARS extends ChronoUnit(Duration.OneYear, ChronoUnit.isDateBasedFlag)
 
   case DECADES extends ChronoUnit(
-      Duration.OneYear.multipliedBy(10), 2)
+      Duration.OneYear.multipliedBy(10), ChronoUnit.isDateBasedFlag)
 
   case CENTURIES extends ChronoUnit(
-      Duration.OneYear.multipliedBy(100), 2)
+      Duration.OneYear.multipliedBy(100), ChronoUnit.isDateBasedFlag)
 
   case MILLENNIA extends ChronoUnit(
-      Duration.OneYear.multipliedBy(1000), 2)
+      Duration.OneYear.multipliedBy(1000), ChronoUnit.isDateBasedFlag)
 
   case ERAS extends ChronoUnit(
-      Duration.OneYear.multipliedBy(1000000000), 2)
+      Duration.OneYear.multipliedBy(1000000000), ChronoUnit.isDateBasedFlag)
 
   case FOREVER extends ChronoUnit(Duration.Max, 0)
 
@@ -60,4 +57,7 @@ enum ChronoUnit(duration: Duration,
     temporal.plus(amount, this).asInstanceOf[R]
 
   def between(start: Temporal, end: Temporal): Long = start.until(end, this)
-}
+
+object ChronoUnit:
+  private final val isTimeBasedFlag = 1
+  private final val isDateBasedFlag = 2
