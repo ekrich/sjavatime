@@ -6,8 +6,8 @@ import org.junit.Test
 import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
-abstract class TemporalAmountTest {
-  val samples: Seq[TemporalAmount]
+abstract class TemporalAmountTest[T <: TemporalAmount] {
+  val samples: Seq[T]
 
   val units: Seq[ChronoUnit]
 

@@ -104,8 +104,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings: _*)
   .settings(skipPublish: _*)
   .settings(
-    //testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
-    scalacOptions += "-target:jvm-1.8"
+    //testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v")
   )
   .jvmSettings(
     name := "java.time testSuite on JVM",
