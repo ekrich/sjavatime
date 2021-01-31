@@ -4,8 +4,8 @@ val scala213 = "2.13.4"
 val scala300 = "3.0.0-M3"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
-val versionsAll    = versionsBase :+ scala300
-val versionsJS     = versionsAll
+val versionsJVM    = versionsBase :+ scala300
+val versionsJS     = versionsJVM
 val versionsNative = versionsBase
 
 ThisBuild / scalaVersion := scala213
@@ -104,13 +104,15 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings: _*)
   .settings(skipPublish: _*)
   .settings(
-    //testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
+    testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
     scalacOptions += "-target:jvm-1.8"
   )
   .jvmSettings(
     name := "java.time testSuite on JVM",
+    crossScalaVersions := versionsJVM,
     libraryDependencies +=
-      "com.novocode" % "junit-interface" % "0.11" % Test
+      ("com.novocode" % "junit-interface" % "0.11" % Test)
+        .withDottyCompat(scalaVersion.value)
   )
   .jsSettings(
     name := "java.time testSuite on JS",
