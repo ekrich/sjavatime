@@ -4,8 +4,8 @@ val scala213 = "2.13.4"
 val scala300 = "3.0.0-M3"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
-val versionsAll    = versionsBase :+ scala300
-val versionsJS     = versionsBase
+val versionsJVM    = versionsBase :+ scala300
+val versionsJS     = versionsJVM
 val versionsNative = versionsBase
 
 ThisBuild / scalaVersion := scala213
@@ -63,6 +63,18 @@ lazy val root = (project in file("."))
     testSuiteNative
   )
 
+// For Scala 3 enums
+def sourceDir(projectDir: File, scalaVersion: String): Seq[File] = {
+  def versionDir(versionDir: String): File =
+    projectDir / "shared" / "src" / "main" / versionDir
+
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((3, _)) => Seq(versionDir("scala-3"))
+    case Some((2, _)) => Seq(versionDir("scala-2"))
+    case _            => Seq() // unknown version
+  }
+}
+
 lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .settings(commonSettings)
@@ -70,6 +82,10 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     Test / test := {},
     mappings in (Compile, packageBin) ~= {
       _.filter(!_._2.endsWith(".class"))
+    },
+    Compile / unmanagedSourceDirectories ++= {
+      val projectDir = baseDirectory.value.getParentFile()
+      sourceDir(projectDir, scalaVersion.value)
     }
   )
   .jsSettings(
@@ -88,13 +104,15 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings: _*)
   .settings(skipPublish: _*)
   .settings(
-    //testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
+    testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
     scalacOptions += "-target:jvm-1.8"
   )
   .jvmSettings(
     name := "java.time testSuite on JVM",
+    crossScalaVersions := versionsJVM,
     libraryDependencies +=
-      "com.novocode" % "junit-interface" % "0.11" % Test
+      ("com.novocode" % "junit-interface" % "0.11" % Test)
+        .withDottyCompat(scalaVersion.value)
   )
   .jsSettings(
     name := "java.time testSuite on JS",

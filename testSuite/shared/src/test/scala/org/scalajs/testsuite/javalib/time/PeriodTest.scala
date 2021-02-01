@@ -8,7 +8,7 @@ import org.junit.Test
 import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 
-class PeriodTest extends TemporalAmountTest {
+class PeriodTest extends TemporalAmountTest[Period] {
 
   import Period._
   import ChronoUnit._

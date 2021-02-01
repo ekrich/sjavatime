@@ -405,7 +405,7 @@ object LocalDate {
     val leap = iso.isLeapYear(year)
     requireDateTime(dayOfYear <= 365 || leap,
         s"Invalid value for dayOfYear: $dayOfYear")
-    val month = Month.values().takeWhile(_.firstDayOfYear(leap) <= dayOfYear).last
+    val month = Month.values.takeWhile(_.firstDayOfYear(leap) <= dayOfYear).last
     val dayOfMonth = dayOfYear - month.firstDayOfYear(leap) + 1
     of(year, month, dayOfMonth)
   }

@@ -8,7 +8,7 @@ import org.junit.Assert._
 import org.scalajs.testsuite.utils.AssertThrows._
 import org.scalajs.testsuite.utils.Platform.executingInJVM
 
-class DurationTest extends TemporalAmountTest {
+class DurationTest extends TemporalAmountTest[Duration] {
 
   import DateTimeTestUtil._
   import Duration._
@@ -25,12 +25,12 @@ class DurationTest extends TemporalAmountTest {
   val units = Seq(SECONDS, NANOS)
 
   val illegalUnits =
-    ChronoUnit.values.filterNot(_.isTimeBased).filterNot(_ == DAYS)
+    ChronoUnit.values.filterNot(_.isTimeBased()).filterNot(_ == DAYS)
 
   @Test def test_get(): Unit = {
     for (d <- samples) {
-      assertEquals(d.getSeconds, d.get(SECONDS))
-      assertEquals(d.getNano.toLong, d.get(NANOS))
+      assertEquals(d.getSeconds(), d.get(SECONDS))
+      assertEquals(d.getNano().toLong, d.get(NANOS))
     }
   }
 
