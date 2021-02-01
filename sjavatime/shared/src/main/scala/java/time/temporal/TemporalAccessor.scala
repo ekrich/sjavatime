@@ -22,7 +22,7 @@ trait TemporalAccessor {
   }
 
   def get(field: TemporalField): Int = {
-    val r = range(field)
+    val r   = range(field)
     val msg = s"Invalid field $field for get() method, use getLong() instead"
     if (r.isIntValue()) r.checkValidIntValue(getLong(field), field)
     else throw new UnsupportedTemporalTypeException(msg)

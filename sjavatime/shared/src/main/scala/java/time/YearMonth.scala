@@ -4,21 +4,24 @@ import java.time.temporal._
 
 /** Created by alonsodomin on 25/12/2015. */
 final class YearMonth private (year: Int, month: Int)
-    extends TemporalAccessor with Temporal with TemporalAdjuster
-    with Comparable[YearMonth] with java.io.Serializable {
+    extends TemporalAccessor
+    with Temporal
+    with TemporalAdjuster
+    with Comparable[YearMonth]
+    with java.io.Serializable {
 
   import Preconditions._
   import ChronoField._
   import ChronoUnit._
 
   requireDateTime(year >= Year.MIN_VALUE && year <= Year.MAX_VALUE,
-      s"Invalid year: $year")
+                  s"Invalid year: $year")
   requireDateTime(month >= 1 && month <= 12, s"Invalid month: $month")
 
   def isSupported(field: TemporalField): Boolean = field match {
     case _: ChronoField =>
       field == YEAR || field == YEAR_OF_ERA || field == MONTH_OF_YEAR ||
-      field == PROLEPTIC_MONTH || field == ERA
+        field == PROLEPTIC_MONTH || field == ERA
 
     case null => false
     case _    => field.isSupportedBy(this)
@@ -27,7 +30,7 @@ final class YearMonth private (year: Int, month: Int)
   def isSupported(unit: TemporalUnit): Boolean = unit match {
     case _: ChronoUnit =>
       unit == MONTHS || unit == YEARS || unit == DECADES || unit == CENTURIES ||
-      unit == MILLENNIA || unit == ERAS
+        unit == MILLENNIA || unit == ERAS
 
     case null => false
     case _    => unit.isSupportedBy(this)
@@ -43,7 +46,7 @@ final class YearMonth private (year: Int, month: Int)
     case PROLEPTIC_MONTH => prolepticMonth
     case ERA             => if (year < 1) 0 else 1
 
-    case _: ChronoField  =>
+    case _: ChronoField =>
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
 
     case _ => field.getFrom(this)
@@ -90,13 +93,15 @@ final class YearMonth private (year: Int, month: Int)
         plusMonths(value - getLong(PROLEPTIC_MONTH))
 
       case ERA =>
-        requireDateTime(value >= 0 && value <= 1, s"Invalid value for ERA: $value")
+        requireDateTime(value >= 0 && value <= 1,
+                        s"Invalid value for ERA: $value")
         val era = getLong(ERA)
         if (value == era) this
         else withYearMonth(YEAR.checkValidIntValue(1 - year), month)
 
       case _: ChronoField =>
-        throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
+        throw new UnsupportedTemporalTypeException(
+          "Unsupported field: " + field)
 
       case _ => field.adjustInto(this, value)
     }
@@ -139,11 +144,11 @@ final class YearMonth private (year: Int, month: Int)
     } else {
       // Allowing the Long to overflow to align with JDK implementation
       val newProlepticMonth = prolepticMonth + months
-      val newYear = Math.floorDiv(newProlepticMonth, 12)
-      val newMonth = Math.floorMod(newProlepticMonth, 12) + 1
+      val newYear           = Math.floorDiv(newProlepticMonth, 12)
+      val newMonth          = Math.floorMod(newProlepticMonth, 12) + 1
       new YearMonth(
-          YEAR.checkValidIntValue(newYear),
-          MONTH_OF_YEAR.checkValidIntValue(newMonth)
+        YEAR.checkValidIntValue(newYear),
+        MONTH_OF_YEAR.checkValidIntValue(newMonth)
       )
     }
   }

@@ -16,15 +16,16 @@ class YearTest extends TemporalTest[Year] {
   import ChronoField._
   import DateTimeTestUtil._
 
-  val min = Year.of(MIN_VALUE)
-  val max = Year.of(MAX_VALUE)
-  val leapYear = Year.of(2016)
-  val nonLeapYear = Year.of(2015)
-  val lastBCYear = Year.of(0)
-  val firstACYear = Year.of(1)
+  val min          = Year.of(MIN_VALUE)
+  val max          = Year.of(MAX_VALUE)
+  val leapYear     = Year.of(2016)
+  val nonLeapYear  = Year.of(2015)
+  val lastBCYear   = Year.of(0)
+  val firstACYear  = Year.of(1)
   val negativeYear = Year.of(-100)
 
-  val samples = Seq(min, max, leapYear, nonLeapYear, lastBCYear, firstACYear, negativeYear)
+  val samples =
+    Seq(min, max, leapYear, nonLeapYear, lastBCYear, firstACYear, negativeYear)
 
   val monthDaySamples = Month.values().map(m => MonthDay.of(m, m.minLength()))
 
@@ -34,7 +35,8 @@ class YearTest extends TemporalTest[Year] {
   override def isSupported(field: ChronoField): Boolean =
     field == YEAR_OF_ERA || field == YEAR || field == ERA
 
-  override def expectedRangeFor(accessor: Year, field: TemporalField): ValueRange = {
+  override def expectedRangeFor(accessor: Year,
+                                field: TemporalField): ValueRange = {
     field match {
       case YEAR_OF_ERA =>
         if (accessor.getValue() <= 0) ValueRange.of(1, MAX_VALUE + 1)
@@ -47,7 +49,7 @@ class YearTest extends TemporalTest[Year] {
 
   @Test def getLong(): Unit = {
     for {
-      t <- samples
+      t     <- samples
       field <- ChronoField.values()
     } {
       if (isSupported(field)) {
@@ -59,7 +61,8 @@ class YearTest extends TemporalTest[Year] {
 
         assertEquals(expected, t.getLong(field))
       } else {
-        expectThrows(classOf[UnsupportedTemporalTypeException], t.getLong(field))
+        expectThrows(classOf[UnsupportedTemporalTypeException],
+                     t.getLong(field))
       }
     }
 
@@ -110,12 +113,16 @@ class YearTest extends TemporalTest[Year] {
       expectThrows(classOf[DateTimeException], t.`with`(YEAR, 1000000000))
       expectThrows(classOf[DateTimeException], t.`with`(YEAR, Long.MaxValue))
 
-      expectThrows(classOf[DateTimeException], t.`with`(YEAR_OF_ERA, Long.MinValue))
-      expectThrows(classOf[DateTimeException], t.`with`(YEAR_OF_ERA, -1000000001))
+      expectThrows(classOf[DateTimeException],
+                   t.`with`(YEAR_OF_ERA, Long.MinValue))
+      expectThrows(classOf[DateTimeException],
+                   t.`with`(YEAR_OF_ERA, -1000000001))
       expectThrows(classOf[DateTimeException], t.`with`(YEAR_OF_ERA, -1))
       expectThrows(classOf[DateTimeException], t.`with`(YEAR_OF_ERA, 0))
-      expectThrows(classOf[DateTimeException], t.`with`(YEAR_OF_ERA, 1000000001))
-      expectThrows(classOf[DateTimeException], t.`with`(YEAR_OF_ERA, Long.MaxValue))
+      expectThrows(classOf[DateTimeException],
+                   t.`with`(YEAR_OF_ERA, 1000000001))
+      expectThrows(classOf[DateTimeException],
+                   t.`with`(YEAR_OF_ERA, Long.MaxValue))
 
       expectThrows(classOf[DateTimeException], t.`with`(ERA, Long.MinValue))
       expectThrows(classOf[DateTimeException], t.`with`(ERA, -1))
@@ -161,8 +168,10 @@ class YearTest extends TemporalTest[Year] {
     } {
       testDateTime(t.plus(v, YEARS))(t.plusYears(v))
       testDateTime(t.plus(v, DECADES))(t.plusYears(Math.multiplyExact(v, 10)))
-      testDateTime(t.plus(v, CENTURIES))(t.plusYears(Math.multiplyExact(v, 100)))
-      testDateTime(t.plus(v, MILLENNIA))(t.plusYears(Math.multiplyExact(v, 1000)))
+      testDateTime(t.plus(v, CENTURIES))(
+        t.plusYears(Math.multiplyExact(v, 100)))
+      testDateTime(t.plus(v, MILLENNIA))(
+        t.plusYears(Math.multiplyExact(v, 1000)))
     }
   }
 
@@ -217,7 +226,7 @@ class YearTest extends TemporalTest[Year] {
 
   @Test def until(): Unit = {
     for {
-      t <- samples
+      t    <- samples
       unit <- ChronoUnit.values() if isSupported(unit)
     } {
       assertEquals(0L, t.until(t, unit))
@@ -306,24 +315,28 @@ class YearTest extends TemporalTest[Year] {
       expectThrows(classOf[DateTimeException], t.atDay(-1))
     }
 
-    assertEquals(LocalDate.of(leapYear.getValue, 2, 29), leapYear.atDay(31 + 29))
+    assertEquals(LocalDate.of(leapYear.getValue, 2, 29),
+                 leapYear.atDay(31 + 29))
     assertEquals(LocalDate.of(leapYear.getValue, 3, 1), leapYear.atDay(31 + 30))
     assertEquals(LocalDate.of(leapYear.getValue, 12, 30), leapYear.atDay(365))
     assertEquals(LocalDate.of(leapYear.getValue, 12, 31), leapYear.atDay(366))
     expectThrows(classOf[DateTimeException], leapYear.atDay(367))
 
-    assertEquals(LocalDate.of(nonLeapYear.getValue, 3, 1), nonLeapYear.atDay(31 + 29))
-    assertEquals(LocalDate.of(nonLeapYear.getValue, 12, 31), nonLeapYear.atDay(365))
+    assertEquals(LocalDate.of(nonLeapYear.getValue, 3, 1),
+                 nonLeapYear.atDay(31 + 29))
+    assertEquals(LocalDate.of(nonLeapYear.getValue, 12, 31),
+                 nonLeapYear.atDay(365))
     expectThrows(classOf[DateTimeException], nonLeapYear.atDay(366))
   }
 
   @Test def atMonth(): Unit = {
     for {
-      t <- samples
+      t     <- samples
       month <- Month.values()
     } {
       assertEquals(YearMonth.of(t.getValue, month.getValue), t.atMonth(month))
-      assertEquals(YearMonth.of(t.getValue, month.getValue), t.atMonth(month.getValue))
+      assertEquals(YearMonth.of(t.getValue, month.getValue),
+                   t.atMonth(month.getValue))
       expectThrows(classOf[DateTimeException], t.atMonth(0))
       expectThrows(classOf[DateTimeException], t.atMonth(13))
     }
@@ -343,7 +356,7 @@ class YearTest extends TemporalTest[Year] {
     assert(!nonLeapYear.isValidMonthDay(leapMonthDay))
 
     for {
-      t <- samples
+      t        <- samples
       monthDay <- monthDaySamples
     } {
       assert(t.isValidMonthDay(monthDay))
@@ -353,18 +366,20 @@ class YearTest extends TemporalTest[Year] {
   @Test def atMonthDay(): Unit = {
     val leapMonthDay = MonthDay.of(2, 29)
     val leapDate = LocalDate.of(leapYear.getValue(),
-        leapMonthDay.getMonthValue, leapMonthDay.getDayOfMonth)
+                                leapMonthDay.getMonthValue,
+                                leapMonthDay.getDayOfMonth)
     assertEquals(leapDate, leapYear.atMonthDay(leapMonthDay))
 
-    val nonLeapDate = LocalDate.of(nonLeapYear.getValue(),
-        leapMonthDay.getMonthValue, 28)
+    val nonLeapDate =
+      LocalDate.of(nonLeapYear.getValue(), leapMonthDay.getMonthValue, 28)
     assertEquals(nonLeapDate, nonLeapYear.atMonthDay(leapMonthDay))
 
     for {
-      t <- samples
+      t        <- samples
       monthDay <- monthDaySamples
     } {
-      val expected = LocalDate.of(t.getValue, monthDay.getMonthValue, monthDay.getDayOfMonth)
+      val expected =
+        LocalDate.of(t.getValue, monthDay.getMonthValue, monthDay.getDayOfMonth)
       assertEquals(expected, t.atMonthDay(monthDay))
     }
   }
@@ -399,7 +414,7 @@ class YearTest extends TemporalTest[Year] {
   }
 
   @Test def now(): Unit = {
-    val now = LocalDate.now()
+    val now  = LocalDate.now()
     val year = Year.now()
 
     if (now.getYear != year.getValue) {

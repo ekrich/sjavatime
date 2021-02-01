@@ -5,7 +5,8 @@ import java.time.temporal._
 import java.{util => ju}
 
 final class Duration private (seconds: Long, nanos: Int)
-    extends TemporalAmount with Comparable[Duration]
+    extends TemporalAmount
+    with Comparable[Duration]
     with java.io.Serializable {
 
   import Preconditions.requireDateTime
@@ -13,7 +14,7 @@ final class Duration private (seconds: Long, nanos: Int)
   import ChronoUnit._
 
   requireDateTime(nanos >= 0 && nanos <= 999999999,
-      "nanos must be >= 0 and <= 999999999")
+                  "nanos must be >= 0 and <= 999999999")
 
   private val (normalizedSeconds, normalizedNanos) =
     if (seconds < 0 && nanos > 0) (seconds + 1, nanos - NANOS_IN_SECOND)
@@ -52,7 +53,7 @@ final class Duration private (seconds: Long, nanos: Int)
       val sumSeconds = Math.addExact(seconds, seconds1)
       if (sumNanos >= NANOS_IN_SECOND)
         new Duration(Math.incrementExact(sumSeconds),
-            sumNanos - NANOS_IN_SECOND)
+                     sumNanos - NANOS_IN_SECOND)
       else
         new Duration(sumSeconds, sumNanos)
     } else {
@@ -65,7 +66,7 @@ final class Duration private (seconds: Long, nanos: Int)
   }
 
   def plus(amount: Long, unit: TemporalUnit): Duration = {
-   if (!unit.isDurationEstimated() || unit == DAYS)
+    if (!unit.isDurationEstimated() || unit == DAYS)
       plus(unit.getDuration().multipliedBy(amount))
     else
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
@@ -117,7 +118,8 @@ final class Duration private (seconds: Long, nanos: Int)
       } catch {
         case _: ArithmeticException =>
           val prodNanos = BigInt(normalizedNanos) * multiplicand
-          ((prodNanos / NANOS_IN_SECOND).toLong, (prodNanos % NANOS_IN_SECOND).toInt)
+          ((prodNanos / NANOS_IN_SECOND).toLong,
+           (prodNanos % NANOS_IN_SECOND).toInt)
       }
     }
     val prodSeconds = Math.multiplyExact(normalizedSeconds, multiplicand)
@@ -136,12 +138,12 @@ final class Duration private (seconds: Long, nanos: Int)
 
     case _ =>
       val secondsQuot = normalizedSeconds / divisor
-      val secondsRem = normalizedSeconds % divisor
+      val secondsRem  = normalizedSeconds % divisor
       val nanos = {
         try {
           val total = Math.addExact(
-              Math.multiplyExact(secondsRem, NANOS_IN_SECOND),
-              normalizedNanos)
+            Math.multiplyExact(secondsRem, NANOS_IN_SECOND),
+            normalizedNanos)
           total / divisor
         } catch {
           case _: ArithmeticException =>
@@ -185,8 +187,7 @@ final class Duration private (seconds: Long, nanos: Int)
   }
 
   def toNanos(): Long =
-    Math.addExact(
-        Math.multiplyExact(seconds, NANOS_IN_SECOND), nanos)
+    Math.addExact(Math.multiplyExact(seconds, NANOS_IN_SECOND), nanos)
 
   def compareTo(that: Duration): Int = {
     val secCmp = seconds.compareTo(that.getSeconds())
@@ -204,14 +205,14 @@ final class Duration private (seconds: Long, nanos: Int)
   override def hashCode(): Int = 31 * seconds.hashCode + nanos
 
   override def toString(): String = {
-    val mins = normalizedSeconds / 60
-    val secsOfMin = normalizedSeconds % 60
-    val hours = mins / 60
-    val minsOfHour = mins % 60
-    val hourPart = if (hours == 0) "" else hours.toString + "H"
-    val minPart = if (minsOfHour == 0) "" else minsOfHour.toString + "M"
-    val nanos1 = math.abs(normalizedNanos)
-    val decimals = f"$nanos1%09d".reverse.dropWhile(_ == '0').reverse
+    val mins        = normalizedSeconds / 60
+    val secsOfMin   = normalizedSeconds % 60
+    val hours       = mins / 60
+    val minsOfHour  = mins              % 60
+    val hourPart    = if (hours == 0) "" else hours.toString + "H"
+    val minPart     = if (minsOfHour == 0) "" else minsOfHour.toString + "M"
+    val nanos1      = math.abs(normalizedNanos)
+    val decimals    = f"$nanos1%09d".reverse.dropWhile(_ == '0').reverse
     val decimalPart = if (decimals.isEmpty) "" else "." + decimals
     val secsPart = secsOfMin match {
       case 0 if seconds != 0 && nanos == 0 => ""
@@ -275,7 +276,7 @@ object Duration {
 
   def from(amount: TemporalAmount): Duration = {
     var result = ZERO
-    val iter = amount.getUnits().iterator()
+    val iter   = amount.getUnits().iterator()
     while (iter.hasNext()) {
       val unit = iter.next()
       result = result.plus(amount.get(unit), unit)
@@ -291,12 +292,12 @@ object Duration {
       val nanos = start.until(end, ChronoUnit.NANOS)
       Duration.ofNanos(nanos)
     } catch {
-      case _:DateTimeException | _:ArithmeticException =>
+      case _: DateTimeException | _: ArithmeticException =>
         val seconds = start.until(end, ChronoUnit.SECONDS)
         val nanos = {
           try {
             end.get(ChronoField.NANO_OF_SECOND) -
-                start.get(ChronoField.NANO_OF_SECOND)
+              start.get(ChronoField.NANO_OF_SECOND)
           } catch {
             case _: DateTimeException => 0
           }

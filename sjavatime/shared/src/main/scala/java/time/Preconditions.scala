@@ -9,8 +9,10 @@ private[time] object Preconditions {
       throw new DateTimeException(message.toString)
   }
 
-  def requireDateTimeParse(requirement: Boolean, message: => Any,
-      charSequence: CharSequence, index: Int): Unit = {
+  def requireDateTimeParse(requirement: Boolean,
+                           message: => Any,
+                           charSequence: CharSequence,
+                           index: Int): Unit = {
     if (!requirement)
       throw new DateTimeParseException(message.toString, charSequence, index)
   }

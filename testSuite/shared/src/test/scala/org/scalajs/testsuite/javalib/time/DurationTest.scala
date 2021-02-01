@@ -14,10 +14,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
   import Duration._
   import ChronoUnit._
 
-  final val dmin = Duration.ofSeconds(Long.MinValue)
-  final val dmax = Duration.ofSeconds(Long.MaxValue, 999999999)
+  final val dmin      = Duration.ofSeconds(Long.MinValue)
+  final val dmax      = Duration.ofSeconds(Long.MaxValue, 999999999)
   final val oneSecond = Duration.ofSeconds(1)
-  final val oneNano = Duration.ofNanos(1)
+  final val oneNano   = Duration.ofNanos(1)
 
   val samples =
     Seq(dmin, dmax, ZERO, oneSecond, oneSecond.negated, oneNano.negated)
@@ -105,8 +105,13 @@ class DurationTest extends TemporalAmountTest[Duration] {
     expectThrows(classOf[ArithmeticException], dmax.plus(oneNano))
     expectThrows(classOf[ArithmeticException], dmin.plus(oneNano.negated))
 
-    val args = Seq(Long.MinValue, -100000000000000L, 1L, 0L, 1L,
-        100000000000000L, Long.MaxValue)
+    val args = Seq(Long.MinValue,
+                   -100000000000000L,
+                   1L,
+                   0L,
+                   1L,
+                   100000000000000L,
+                   Long.MaxValue)
     for {
       d <- samples
       n <- args
@@ -290,8 +295,13 @@ class DurationTest extends TemporalAmountTest[Duration] {
     expectThrows(classOf[ArithmeticException], dmax.minus(oneNano.negated))
     expectThrows(classOf[ArithmeticException], dmin.minus(oneNano))
 
-    val args = Seq(Long.MinValue, -100000000000000L, 1L, 0L, 1L,
-        100000000000000L, Long.MaxValue)
+    val args = Seq(Long.MinValue,
+                   -100000000000000L,
+                   1L,
+                   0L,
+                   1L,
+                   100000000000000L,
+                   Long.MaxValue)
     for {
       d <- samples
       n <- args
@@ -590,8 +600,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmax.subtractFrom(t), LocalTime.of(20, 29, 52, 1))
     assertEquals(ZERO.subtractFrom(d), d)
 
-    expectThrows(classOf[UnsupportedTemporalTypeException], oneNano.subtractFrom(d))
-    expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.subtractFrom(d))
+    expectThrows(classOf[UnsupportedTemporalTypeException],
+                 oneNano.subtractFrom(d))
+    expectThrows(classOf[UnsupportedTemporalTypeException],
+                 oneSecond.subtractFrom(d))
   }
 
   @Test def test_toDays(): Unit = {
@@ -655,15 +667,15 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(2L, ofNanos(2000000).toMillis)
     assertEquals(1000L, ofSeconds(1).toMillis)
     assertEquals(9223372036854775807L,
-        ofSeconds(9223372036854775L, 807999999).toMillis)
+                 ofSeconds(9223372036854775L, 807999999).toMillis)
 
     expectThrows(classOf[ArithmeticException], dmin.toMillis)
     expectThrows(classOf[ArithmeticException], dmax.toMillis)
     // this could yield a valid long, but the reference implementation throws
     expectThrows(classOf[ArithmeticException],
-        ofSeconds(-9223372036854775L, -1).toMillis)
+                 ofSeconds(-9223372036854775L, -1).toMillis)
     expectThrows(classOf[ArithmeticException],
-        ofSeconds(9223372036854775L, 808000000).toMillis)
+                 ofSeconds(9223372036854775L, 808000000).toMillis)
   }
 
   @Test def test_toNanos(): Unit = {
@@ -681,9 +693,9 @@ class DurationTest extends TemporalAmountTest[Duration] {
     expectThrows(classOf[ArithmeticException], dmax.toNanos)
     // this should yield a valid long, but the reference implementation throws
     expectThrows(classOf[ArithmeticException],
-        ofSeconds(-9223372036L, -1).toNanos)
+                 ofSeconds(-9223372036L, -1).toNanos)
     expectThrows(classOf[ArithmeticException],
-        ofSeconds(9223372036L, 854775808).toNanos)
+                 ofSeconds(9223372036L, 854775808).toNanos)
   }
 
   @Test def test_compareTo(): Unit = {
@@ -751,7 +763,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
   }
 
   @Test def test_ofHours(): Unit = {
-    val maxHrs = 2562047788015215L
+    val maxHrs  = 2562047788015215L
     val maxSecs = maxHrs * 3600
 
     assertEquals(ofSeconds(-maxSecs), ofHours(-maxHrs))
@@ -790,19 +802,19 @@ class DurationTest extends TemporalAmountTest[Duration] {
 
     expectThrows(classOf[ArithmeticException], ofSeconds(Long.MinValue, -1))
     expectThrows(classOf[ArithmeticException],
-        ofSeconds(Long.MaxValue, 1000000000))
+                 ofSeconds(Long.MaxValue, 1000000000))
   }
 
   @Test def test_ofMillis(): Unit = {
     assertEquals(ofSeconds(-9223372036854776L, 192000000),
-        ofMillis(Long.MinValue))
+                 ofMillis(Long.MinValue))
     assertEquals(ofSeconds(-1), ofMillis(-1000))
     assertEquals(ofSeconds(0, -1000000), ofMillis(-1))
     assertEquals(ZERO, ofMillis(0))
     assertEquals(ofSeconds(0, 1000000), ofMillis(1))
     assertEquals(ofSeconds(1), ofMillis(1000))
     assertEquals(ofSeconds(9223372036854775L, 807000000),
-        ofMillis(Long.MaxValue))
+                 ofMillis(Long.MaxValue))
   }
 
   @Test def test_ofNanos(): Unit = {
@@ -827,18 +839,18 @@ class DurationTest extends TemporalAmountTest[Duration] {
       assertEquals(ofDays(n), of(n, DAYS))
     }
     assertEquals(ofSeconds(-9223372036855L, 224192000),
-        of(Long.MinValue, MICROS))
+                 of(Long.MinValue, MICROS))
     assertEquals(ofSeconds(9223372036854L, 775807000),
-        of(Long.MaxValue, MICROS))
+                 of(Long.MaxValue, MICROS))
 
     for (s <- Seq(-1, 1)) {
       expectThrows(classOf[ArithmeticException], of(106751991167301L * s, DAYS))
       expectThrows(classOf[ArithmeticException],
-          of(213503982334602L * s, HALF_DAYS))
+                   of(213503982334602L * s, HALF_DAYS))
       expectThrows(classOf[ArithmeticException],
-          of(2562047788015216L * s, HOURS))
+                   of(2562047788015216L * s, HOURS))
       expectThrows(classOf[ArithmeticException],
-          of(153722867280912931L * s, MINUTES))
+                   of(153722867280912931L * s, MINUTES))
     }
 
     for (n <- Seq(-1L, 0L, 1L)) {
@@ -869,8 +881,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofNanos(1), between(MIN, LocalTime.of(0, 0, 0, 1)))
 
     expectThrows(classOf[DateTimeException],
-        between(MIN, LocalDate.of(2012, 2, 29)))
+                 between(MIN, LocalDate.of(2012, 2, 29)))
     expectThrows(classOf[DateTimeException],
-        between(LocalDate.of(2012, 2, 29), LocalDate.of(2012, 3, 1)))
+                 between(LocalDate.of(2012, 2, 29), LocalDate.of(2012, 3, 1)))
   }
 }

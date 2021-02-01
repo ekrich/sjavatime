@@ -1,7 +1,12 @@
 package org.scalajs.testsuite.javalib.time
 
 import java.time.chrono.IsoChronology
-import java.time.temporal.{TemporalField, UnsupportedTemporalTypeException, ValueRange, ChronoField}
+import java.time.temporal.{
+  TemporalField,
+  UnsupportedTemporalTypeException,
+  ValueRange,
+  ChronoField
+}
 import java.time.{DateTimeException, LocalDate, Month, MonthDay}
 
 import org.junit.Test
@@ -12,26 +17,35 @@ import org.scalajs.testsuite.utils.AssertThrows._
 class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   import ChronoField._
 
-  final val min = MonthDay.of(Month.JANUARY, 1)
-  final val max = MonthDay.of(Month.DECEMBER, 31)
+  final val min       = MonthDay.of(Month.JANUARY, 1)
+  final val max       = MonthDay.of(Month.DECEMBER, 31)
   final val leapMonth = MonthDay.of(Month.FEBRUARY, 29)
 
-  val samples = Month.values().map(month => (month, month.minLength(), month.maxLength())).flatMap {
-    case (month, minDay, maxDay) =>
-      if (minDay != maxDay) Seq(MonthDay.of(month, 1), MonthDay.of(month, minDay), MonthDay.of(month, maxDay))
+  val samples = Month
+    .values()
+    .map(month => (month, month.minLength(), month.maxLength()))
+    .flatMap { case (month, minDay, maxDay) =>
+      if (minDay != maxDay)
+        Seq(MonthDay.of(month, 1),
+            MonthDay.of(month, minDay),
+            MonthDay.of(month, maxDay))
       else Seq(MonthDay.of(month, 1), MonthDay.of(month, minDay))
-  }.toSeq
+    }
+    .toSeq
 
-  val yearSamples = 2000 to 2020
+  val yearSamples                  = 2000 to 2020
   def leapYear(year: Int): Boolean = IsoChronology.INSTANCE.isLeapYear(year)
 
   override def isSupported(field: ChronoField): Boolean =
     field == ChronoField.MONTH_OF_YEAR || field == ChronoField.DAY_OF_MONTH
 
-  override def expectedRangeFor(accessor: MonthDay, field: TemporalField): ValueRange = {
+  override def expectedRangeFor(accessor: MonthDay,
+                                field: TemporalField): ValueRange = {
     field match {
       case DAY_OF_MONTH =>
-        ValueRange.of(1, accessor.getMonth.minLength(), accessor.getMonth.maxLength())
+        ValueRange.of(1,
+                      accessor.getMonth.minLength(),
+                      accessor.getMonth.maxLength())
 
       case _ =>
         super.expectedRangeFor(accessor, field)
@@ -106,7 +120,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     for (t <- samples) {
       expectThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MinValue))
       expectThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MaxValue))
-      expectThrows(classOf[DateTimeException], t.withDayOfMonth(t.getMonth.maxLength() + 1))
+      expectThrows(classOf[DateTimeException],
+                   t.withDayOfMonth(t.getMonth.maxLength() + 1))
     }
   }
 
@@ -114,13 +129,14 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     // Intentionally using a leap year here to be able to test the full sample
     val leapYearDate = LocalDate.of(2016, 1, 1)
     for (t <- samples) {
-      val expectedDate = LocalDate.of(leapYearDate.getYear,
-          t.getMonthValue, t.getDayOfMonth)
+      val expectedDate =
+        LocalDate.of(leapYearDate.getYear, t.getMonthValue, t.getDayOfMonth)
       assertEquals(t.adjustInto(leapYearDate), expectedDate)
     }
 
     val nonLeapYearDate = LocalDate.of(2015, 1, 1)
-    assertEquals(leapMonth.adjustInto(nonLeapYearDate), LocalDate.of(2015, 2, 28))
+    assertEquals(leapMonth.adjustInto(nonLeapYearDate),
+                 LocalDate.of(2015, 2, 28))
   }
 
   @Test def atYear(): Unit = {
@@ -129,7 +145,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
       y <- years
       t <- samples if !(t.getMonthValue == 2 && t.getDayOfMonth == 29)
     } {
-      assertEquals(LocalDate.of(y, t.getMonthValue, t.getDayOfMonth), t.atYear(y))
+      assertEquals(LocalDate.of(y, t.getMonthValue, t.getDayOfMonth),
+                   t.atYear(y))
     }
 
     val invalidYears = Seq(Int.MinValue, -1000000000, 1000000000, Int.MaxValue)
@@ -172,7 +189,7 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   }
 
   @Test def now(): Unit = {
-    val now = LocalDate.now()
+    val now      = LocalDate.now()
     val monthDay = MonthDay.now()
     assertEquals(now.getMonthValue, monthDay.getMonthValue)
     assertEquals(now.getDayOfMonth, monthDay.getDayOfMonth)
@@ -180,8 +197,10 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
 
   @Test def ofMonth(): Unit = {
     expectThrows(classOf[NullPointerException], MonthDay.of(null, 1))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MinValue))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MaxValue))
+    expectThrows(classOf[DateTimeException],
+                 MonthDay.of(Month.JANUARY, Int.MinValue))
+    expectThrows(classOf[DateTimeException],
+                 MonthDay.of(Month.JANUARY, Int.MaxValue))
     expectThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, 32))
     expectThrows(classOf[DateTimeException], MonthDay.of(Month.FEBRUARY, 30))
 
@@ -202,7 +221,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     assertEquals(max, MonthDay.from(max))
 
     val now = LocalDate.now()
-    assertEquals(MonthDay.of(now.getMonthValue, now.getDayOfMonth), MonthDay.from(now))
+    assertEquals(MonthDay.of(now.getMonthValue, now.getDayOfMonth),
+                 MonthDay.from(now))
   }
 
 }

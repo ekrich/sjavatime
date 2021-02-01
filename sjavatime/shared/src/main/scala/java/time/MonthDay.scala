@@ -6,7 +6,9 @@ import java.time.temporal._
 
 /** Created by alonsodomin on 22/12/2015. */
 final class MonthDay private (month: Int, day: Int)
-    extends TemporalAccessor with TemporalAdjuster with Comparable[MonthDay]
+    extends TemporalAccessor
+    with TemporalAdjuster
+    with Comparable[MonthDay]
     with java.io.Serializable {
 
   import Preconditions._
@@ -22,8 +24,9 @@ final class MonthDay private (month: Int, day: Int)
   }
 
   override def range(field: TemporalField): ValueRange = field match {
-    case DAY_OF_MONTH => ValueRange.of(1, getMonth().minLength(), getMonth().maxLength())
-    case _            => super.range(field)
+    case DAY_OF_MONTH =>
+      ValueRange.of(1, getMonth().minLength(), getMonth().maxLength())
+    case _ => super.range(field)
   }
 
   // Implemented by TemporalAccessor
@@ -47,7 +50,8 @@ final class MonthDay private (month: Int, day: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: MonthDay =>
-      that.getMonthValue() == getMonthValue() && that.getDayOfMonth() == getDayOfMonth()
+      that.getMonthValue() == getMonthValue() && that
+        .getDayOfMonth() == getDayOfMonth()
 
     case _ => false
   }
@@ -78,7 +82,7 @@ final class MonthDay private (month: Int, day: Int)
 
   def withDayOfMonth(dayOfMonth: Int): MonthDay = {
     requireDateTime(dayOfMonth <= getMonth().maxLength(),
-        s"The day $dayOfMonth is invalid for mont $month")
+                    s"The day $dayOfMonth is invalid for mont $month")
     if (dayOfMonth == day) this
     else MonthDay.of(month, dayOfMonth)
   }
@@ -88,8 +92,9 @@ final class MonthDay private (month: Int, day: Int)
 
   def adjustInto(temporal: Temporal): Temporal = {
     val temporalWithMonth = temporal.`with`(MONTH_OF_YEAR, month)
-    val dayOfMonth: Int = PlatformSpecific.minDay(day,
-        temporalWithMonth.range(DAY_OF_MONTH).getMaximum().toInt)
+    val dayOfMonth: Int = PlatformSpecific.minDay(
+      day,
+      temporalWithMonth.range(DAY_OF_MONTH).getMaximum().toInt)
     temporalWithMonth.`with`(DAY_OF_MONTH, dayOfMonth)
   }
 
@@ -133,7 +138,7 @@ object MonthDay {
       throw new NullPointerException("month")
     DAY_OF_MONTH.checkValidValue(dayOfMonth)
     requireDateTime(dayOfMonth <= month.maxLength(),
-        s"The day $dayOfMonth is invalid for month $month")
+                    s"The day $dayOfMonth is invalid for month $month")
     new MonthDay(month.getValue(), dayOfMonth)
   }
 
@@ -144,7 +149,7 @@ object MonthDay {
 
   def from(accessor: TemporalAccessor): MonthDay = accessor match {
     case md: MonthDay => md
-    case _ => of(accessor.get(MONTH_OF_YEAR), accessor.get(DAY_OF_MONTH))
+    case _            => of(accessor.get(MONTH_OF_YEAR), accessor.get(DAY_OF_MONTH))
   }
 
   // Not implemented

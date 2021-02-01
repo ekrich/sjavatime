@@ -94,7 +94,8 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
       for (n <- Seq(0, 30, 59))
         testDateTime(t.`with`(SECOND_OF_MINUTE, n))(t.withSecond(n))
       for (n <- Seq(0, 60, 86399))
-        testDateTime(t.`with`(SECOND_OF_DAY, n))(ofSecondOfDay(n).withNano(t.getNano))
+        testDateTime(t.`with`(SECOND_OF_DAY, n))(
+          ofSecondOfDay(n).withNano(t.getNano))
       for (n <- Seq(0, 30, 59))
         testDateTime(t.`with`(MINUTE_OF_HOUR, n))(t.withMinute(n))
       for (n <- Seq(0, 60, 1439)) {
@@ -142,7 +143,8 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
       for (n <- Seq(Long.MinValue, -1L, 12L, Long.MaxValue))
         expectThrows(classOf[DateTimeException], t.`with`(HOUR_OF_AMPM, n))
       for (n <- Seq(Long.MinValue, 0L, 13L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(CLOCK_HOUR_OF_AMPM, n))
+        expectThrows(classOf[DateTimeException],
+                     t.`with`(CLOCK_HOUR_OF_AMPM, n))
       for (n <- Seq(Long.MinValue, -1L, 24L, Long.MaxValue))
         expectThrows(classOf[DateTimeException], t.`with`(HOUR_OF_DAY, n))
       for (n <- Seq(Long.MinValue, 0L, 25L, Long.MaxValue))
@@ -240,8 +242,19 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
   }
 
   @Test def test_plus(): Unit = {
-    val values = Seq(Long.MinValue, -1000000000L, -86400L, -3600L, -60L, -1L, 0L,
-        1L, 60L, 3600L, 86400L, 1000000000L, Long.MaxValue)
+    val values = Seq(Long.MinValue,
+                     -1000000000L,
+                     -86400L,
+                     -3600L,
+                     -60L,
+                     -1L,
+                     0L,
+                     1L,
+                     60L,
+                     3600L,
+                     86400L,
+                     1000000000L,
+                     Long.MaxValue)
 
     for {
       t <- samples
@@ -438,7 +451,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     assertEquals(86399999999999L, MIN.until(MAX, NANOS))
     assertEquals(86399999999L, MIN.until(MAX, MICROS))
     assertEquals(86399999L, MIN.until(MAX, MILLIS))
-    assertEquals(86399L, MIN.until(MAX, SECONDS) )
+    assertEquals(86399L, MIN.until(MAX, SECONDS))
     assertEquals(1439L, MIN.until(MAX, MINUTES))
     assertEquals(23L, MIN.until(MAX, HOURS))
     assertEquals(1L, MIN.until(MAX, HALF_DAYS))

@@ -3,7 +3,8 @@ package java.time
 import java.time.temporal._
 
 final class DayOfWeek private (name: String, value: Int)
-    extends Enum[DayOfWeek](name, value - 1) with TemporalAccessor
+    extends Enum[DayOfWeek](name, value - 1)
+    with TemporalAccessor
     with TemporalAdjuster {
 
   def getValue(): Int = value
@@ -12,9 +13,9 @@ final class DayOfWeek private (name: String, value: Int)
   // def getDisplayName(style: TextStyle, locale: ju.Locale): String
 
   def isSupported(field: TemporalField): Boolean = field match {
-    case _: ChronoField  => field == ChronoField.DAY_OF_WEEK
-    case null            => false
-    case _               => field.isSupportedBy(this)
+    case _: ChronoField => field == ChronoField.DAY_OF_WEEK
+    case null           => false
+    case _              => field.isSupportedBy(this)
   }
 
   // Implemented by TemporalAccessor

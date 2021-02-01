@@ -19,14 +19,20 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   val someDate = of(2011, 2, 28)
   val leapDate = of(2012, 2, 29)
 
-  val samples = Seq(MIN, ofEpochDay(-1), ofEpochDay(0), ofEpochDay(1), someDate,
-      leapDate, MAX)
+  val samples = Seq(MIN,
+                    ofEpochDay(-1),
+                    ofEpochDay(0),
+                    ofEpochDay(1),
+                    someDate,
+                    leapDate,
+                    MAX)
 
   def isSupported(unit: ChronoUnit): Boolean = unit.isDateBased
 
   def isSupported(field: ChronoField): Boolean = field.isDateBased
 
-  override def expectedRangeFor(accessor: LocalDate, field: TemporalField): ValueRange = {
+  override def expectedRangeFor(accessor: LocalDate,
+                                field: TemporalField): ValueRange = {
     field match {
       case DAY_OF_MONTH => ValueRange.of(1, accessor.lengthOfMonth)
       case DAY_OF_YEAR  => ValueRange.of(1, accessor.lengthOfYear)
@@ -35,7 +41,8 @@ class LocalDateTest extends TemporalTest[LocalDate] {
         ValueRange.of(1, if (accessor.lengthOfMonth > 28) 5 else 4)
 
       case YEAR_OF_ERA =>
-        val maxYear = if (accessor.getEra == IsoEra.CE) 999999999 else 1000000000
+        val maxYear =
+          if (accessor.getEra == IsoEra.CE) 999999999 else 1000000000
         ValueRange.of(1, maxYear)
 
       case _ =>
@@ -167,21 +174,30 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     testDateTime(someDate.`with`(DAY_OF_WEEK, 7))(of(2011, 3, 6))
     testDateTime(leapDate.`with`(DAY_OF_WEEK, 1))(of(2012, 2, 27))
     testDateTime(leapDate.`with`(DAY_OF_WEEK, 7))(of(2012, 3, 4))
-    testDateTime(MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(of(999999999, 12, 29))
+    testDateTime(MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(
+      of(999999999, 12, 29))
     testDateTime(MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 3))(MAX)
     testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(MIN)
-    testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(of(-999999999, 1, 7))
-    testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(of(2011, 2, 22))
+    testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(
+      of(-999999999, 1, 7))
+    testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(
+      of(2011, 2, 22))
     testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(someDate)
     testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(leapDate)
-    testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(of(2012, 3, 6))
+    testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(
+      of(2012, 3, 6))
     testDateTime(MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 1))(MAX)
     testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 1))(MIN)
-    testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 7))(of(-999999999, 1, 7))
-    testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 1))(of(2011, 2, 26))
-    testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 7))(of(2011, 3, 4))
-    testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 1))(of(2012, 2, 26))
-    testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 7))(of(2012, 3, 3))
+    testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 7))(
+      of(-999999999, 1, 7))
+    testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 1))(
+      of(2011, 2, 26))
+    testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 7))(
+      of(2011, 3, 4))
+    testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 1))(
+      of(2012, 2, 26))
+    testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 7))(
+      of(2012, 3, 3))
     testDateTime(someDate.`with`(DAY_OF_MONTH, 1))(of(2011, 2, 1))
     testDateTime(leapDate.`with`(DAY_OF_MONTH, 28))(of(2012, 2, 28))
     testDateTime(someDate.`with`(DAY_OF_YEAR, 1))(of(2011, 1, 1))
@@ -215,8 +231,10 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     testDateTime(leapDate.`with`(MONTH_OF_YEAR, 2))(leapDate)
     testDateTime(MAX.`with`(PROLEPTIC_MONTH, 1))(of(0, 2, 29))
     testDateTime(MIN.`with`(PROLEPTIC_MONTH, -1))(of(-1, 12, 1))
-    testDateTime(someDate.`with`(PROLEPTIC_MONTH, -11999999988L))(of(-999999999, 1, 28))
-    testDateTime(leapDate.`with`(PROLEPTIC_MONTH, 11999999999L))(of(999999999, 12, 29))
+    testDateTime(someDate.`with`(PROLEPTIC_MONTH, -11999999988L))(
+      of(-999999999, 1, 28))
+    testDateTime(leapDate.`with`(PROLEPTIC_MONTH, 11999999999L))(
+      of(999999999, 12, 29))
     testDateTime(MIN.`with`(YEAR_OF_ERA, 1000000000))(MIN)
     testDateTime(MIN.`with`(YEAR_OF_ERA, 1))(of(0, 1, 1))
     testDateTime(MAX.`with`(YEAR_OF_ERA, 999999999))(MAX)
@@ -235,37 +253,39 @@ class LocalDateTest extends TemporalTest[LocalDate] {
 
     expectThrows(classOf[DateTimeException], MAX.`with`(DAY_OF_WEEK, 6))
     expectThrows(classOf[DateTimeException],
-        MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 4))
+                 MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 4))
     expectThrows(classOf[DateTimeException],
-        MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 2))
+                 MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, 2))
     expectThrows(classOf[DateTimeException], someDate.`with`(DAY_OF_MONTH, 29))
     expectThrows(classOf[DateTimeException], leapDate.`with`(DAY_OF_MONTH, 30))
     expectThrows(classOf[DateTimeException], someDate.`with`(DAY_OF_YEAR, 366))
     expectThrows(classOf[DateTimeException],
-        someDate.`with`(YEAR_OF_ERA, 1000000000))
+                 someDate.`with`(YEAR_OF_ERA, 1000000000))
     expectThrows(classOf[DateTimeException], MIN.`with`(ERA, 1))
 
     for (d <- samples) {
       for (n <- Seq(Long.MinValue, 0L, 8L, Long.MaxValue)) {
         expectThrows(classOf[DateTimeException], d.`with`(DAY_OF_WEEK, n))
         expectThrows(classOf[DateTimeException],
-            d.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, n))
+                     d.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, n))
         expectThrows(classOf[DateTimeException],
-            d.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, n))
+                     d.`with`(ALIGNED_DAY_OF_WEEK_IN_YEAR, n))
       }
       for (n <- Seq(Long.MinValue, 0L, 32L, Long.MaxValue))
         expectThrows(classOf[DateTimeException], d.`with`(DAY_OF_MONTH, n))
       for (n <- Seq(Long.MinValue, 0L, 367L, Long.MaxValue))
         expectThrows(classOf[DateTimeException], d.`with`(DAY_OF_YEAR, n))
-      for (n <- Seq(Long.MinValue, -365243219163L, 365241780472L, Long.MaxValue))
+      for (
+        n <- Seq(Long.MinValue, -365243219163L, 365241780472L, Long.MaxValue)
+      )
         expectThrows(classOf[DateTimeException], d.`with`(EPOCH_DAY, n))
       for (n <- Seq(Long.MinValue, 0L, 6L, Long.MaxValue)) {
         expectThrows(classOf[DateTimeException],
-            d.`with`(ALIGNED_WEEK_OF_MONTH, n))
+                     d.`with`(ALIGNED_WEEK_OF_MONTH, n))
       }
       for (n <- Seq(Long.MinValue, 0L, 54L, Long.MaxValue)) {
         expectThrows(classOf[DateTimeException],
-            d.`with`(ALIGNED_WEEK_OF_YEAR, n))
+                     d.`with`(ALIGNED_WEEK_OF_YEAR, n))
       }
       for (n <- Seq(Long.MinValue, 0L, 13L, Long.MaxValue))
         expectThrows(classOf[DateTimeException], d.`with`(MONTH_OF_YEAR, n))
@@ -342,9 +362,27 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_plus(): Unit = {
-    val values = Seq(Long.MinValue, Int.MinValue.toLong, -1000L, -366L, -365L,
-        -100L, -12L, -10L, -7L, -1L, 0L, 1L, 7L, 10L, 12L, 100L,
-        365L, 366L, 1000L, Int.MaxValue.toLong, Long.MaxValue)
+    val values = Seq(Long.MinValue,
+                     Int.MinValue.toLong,
+                     -1000L,
+                     -366L,
+                     -365L,
+                     -100L,
+                     -12L,
+                     -10L,
+                     -7L,
+                     -1L,
+                     0L,
+                     1L,
+                     7L,
+                     10L,
+                     12L,
+                     100L,
+                     365L,
+                     366L,
+                     1000L,
+                     Int.MaxValue.toLong,
+                     Long.MaxValue)
 
     for {
       d <- samples
@@ -355,8 +393,10 @@ class LocalDateTest extends TemporalTest[LocalDate] {
       testDateTime(d.plus(n, MONTHS))(d.plusMonths(n))
       testDateTime(d.plus(n, YEARS))(d.plusYears(n))
       testDateTime(d.plus(n, DECADES))(d.plusYears(Math.multiplyExact(n, 10)))
-      testDateTime(d.plus(n, CENTURIES))(d.plusYears(Math.multiplyExact(n, 100)))
-      testDateTime(d.plus(n, MILLENNIA))(d.plusYears(Math.multiplyExact(n, 1000)))
+      testDateTime(d.plus(n, CENTURIES))(
+        d.plusYears(Math.multiplyExact(n, 100)))
+      testDateTime(d.plus(n, MILLENNIA))(
+        d.plusYears(Math.multiplyExact(n, 1000)))
       testDateTime(d.plus(n, ERAS))(d.`with`(ERA, Math.addExact(n, d.get(ERA))))
     }
   }
@@ -455,13 +495,13 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], MAX.plusDays(-730484999634L))
     expectThrows(classOf[DateTimeException], MAX.plusDays(1))
     expectThrows(classOf[ArithmeticException],
-        ofEpochDay(-1).plusDays(Long.MinValue))
+                 ofEpochDay(-1).plusDays(Long.MinValue))
     expectThrows(classOf[DateTimeException],
-        ofEpochDay(0).plusDays(Long.MinValue))
+                 ofEpochDay(0).plusDays(Long.MinValue))
     expectThrows(classOf[DateTimeException],
-        ofEpochDay(0).plusDays(Long.MaxValue))
+                 ofEpochDay(0).plusDays(Long.MaxValue))
     expectThrows(classOf[ArithmeticException],
-        ofEpochDay(1).plusDays(Long.MaxValue))
+                 ofEpochDay(1).plusDays(Long.MaxValue))
   }
 
   @Test def test_minusYears(): Unit = {
@@ -558,9 +598,9 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     expectThrows(classOf[DateTimeException], MAX.minusDays(730484999634L))
     expectThrows(classOf[DateTimeException], MAX.minusDays(-1))
     expectThrows(classOf[ArithmeticException],
-        ofEpochDay(-2).minusDays(Long.MaxValue))
+                 ofEpochDay(-2).minusDays(Long.MaxValue))
     expectThrows(classOf[ArithmeticException],
-        ofEpochDay(1).minusDays(Long.MinValue))
+                 ofEpochDay(1).minusDays(Long.MinValue))
   }
 
   @Test def test_adjustInto(): Unit = {
@@ -581,8 +621,13 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_until(): Unit = {
-    val samples1 = samples ++ Seq(of(2012, 1, 29), of(2012, 1, 30), of(2012, 2, 28),
-        of(2013, 2, 28), of(2013, 3, 1), of(0, 12, 31), of(1, 1, 1))
+    val samples1 = samples ++ Seq(of(2012, 1, 29),
+                                  of(2012, 1, 30),
+                                  of(2012, 2, 28),
+                                  of(2013, 2, 28),
+                                  of(2013, 3, 1),
+                                  of(0, 12, 31),
+                                  of(1, 1, 1))
 
     for {
       d <- samples1
@@ -610,7 +655,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     for {
       d1 <- samples1
       d2 <- samples1 if d2.isAfter(d1)
-      u <- dateBasedUnits
+      u  <- dateBasedUnits
     } {
       assertEquals(-d1.until(d2, u), d2.until(d1, u))
     }
@@ -621,7 +666,7 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     for {
       d1 <- samples1
       d2 <- samples1
-      u <- timeBasedUnits
+      u  <- timeBasedUnits
     } {
       expectThrows(classOf[UnsupportedTemporalTypeException], d1.until(d2, u))
     }
@@ -701,14 +746,19 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_of(): Unit = {
-    val years = Seq(Int.MinValue, -1000000000, -999999999, 0, 999999999,
-        1000000000, Int.MaxValue)
+    val years = Seq(Int.MinValue,
+                    -1000000000,
+                    -999999999,
+                    0,
+                    999999999,
+                    1000000000,
+                    Int.MaxValue)
     val days = Seq(Int.MinValue, 0, 1, 28, 29, 30, 31, 32, Int.MaxValue)
 
     for {
-      year <- years
+      year  <- years
       month <- Month.values
-      day <- days
+      day   <- days
     } {
       testDateTime(of(year, month, day))(of(year, month.getValue, day))
     }
@@ -725,9 +775,9 @@ class LocalDateTest extends TemporalTest[LocalDate] {
       expectThrows(classOf[DateTimeException], of(2011, m, Int.MinValue))
       expectThrows(classOf[DateTimeException], of(2011, m, 0))
       expectThrows(classOf[DateTimeException],
-          of(2011, m, month.length(false) + 1))
+                   of(2011, m, month.length(false) + 1))
       expectThrows(classOf[DateTimeException],
-          of(2012, m, month.length(true) + 1))
+                   of(2012, m, month.length(true) + 1))
       expectThrows(classOf[DateTimeException], of(2011, m, Int.MaxValue))
     }
   }

@@ -4,7 +4,9 @@ import java.time.temporal._
 import java.{util => ju}
 
 trait ChronoLocalDate
-    extends Temporal with TemporalAdjuster with Comparable[ChronoLocalDate] {
+    extends Temporal
+    with TemporalAdjuster
+    with Comparable[ChronoLocalDate] {
   import ChronoField._
 
   def getChronology(): Chronology

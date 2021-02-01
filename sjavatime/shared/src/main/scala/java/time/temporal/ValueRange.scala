@@ -2,17 +2,20 @@ package java.time.temporal
 
 import java.time.DateTimeException
 
-final class ValueRange private (minSmallest: Long, minLargest: Long,
-    maxSmallest: Long, maxLargest: Long) extends java.io.Serializable {
+final class ValueRange private (minSmallest: Long,
+                                minLargest: Long,
+                                maxSmallest: Long,
+                                maxLargest: Long)
+    extends java.io.Serializable {
 
   require(maxSmallest >= minSmallest,
-      "Smallest maximum value must be >= smallest minimum value")
+          "Smallest maximum value must be >= smallest minimum value")
   require(maxLargest >= minLargest,
-      "Largest maximum value must be >= largest minimum value")
+          "Largest maximum value must be >= largest minimum value")
   require(maxLargest >= maxSmallest,
-      "Largest maximum value must be >= smallest maximum value")
+          "Largest maximum value must be >= smallest maximum value")
   require(minLargest >= minSmallest,
-      "Largest minimum value must be >= smallest minimum value")
+          "Largest minimum value must be >= smallest minimum value")
 
   def isFixed(): Boolean =
     (minSmallest == minLargest) && (maxSmallest == maxLargest)
@@ -44,18 +47,18 @@ final class ValueRange private (minSmallest: Long, minLargest: Long,
 
   override def toString(): String = {
     val prefix = minSmallest.toString +
-        (if (minSmallest == minLargest) "" else "/" + minLargest)
+      (if (minSmallest == minLargest) "" else "/" + minLargest)
     val suffix = maxSmallest.toString +
-        (if (maxSmallest == maxLargest) "" else "/" + maxLargest)
+      (if (maxSmallest == maxLargest) "" else "/" + maxLargest)
     prefix + " - " + suffix
   }
 
   override def equals(that: Any): Boolean = that match {
     case that: ValueRange =>
       getMinimum() == that.getMinimum() &&
-      getLargestMinimum() == that.getLargestMinimum() &&
-      getSmallestMaximum() == that.getSmallestMaximum() &&
-      getMaximum() == that.getMaximum()
+        getLargestMinimum() == that.getLargestMinimum() &&
+        getSmallestMaximum() == that.getSmallestMaximum() &&
+        getMaximum() == that.getMaximum()
 
     case _ => false
   }
@@ -73,7 +76,9 @@ object ValueRange {
   def of(min: Long, maxSmallest: Long, maxLargest: Long): ValueRange =
     new ValueRange(min, min, maxSmallest, maxLargest)
 
-  def of(minSmallest: Long, minLargest: Long,
-         maxSmallest: Long, maxLargest: Long): ValueRange =
+  def of(minSmallest: Long,
+         minLargest: Long,
+         maxSmallest: Long,
+         maxLargest: Long): ValueRange =
     new ValueRange(minSmallest, minLargest, maxSmallest, maxLargest)
 }

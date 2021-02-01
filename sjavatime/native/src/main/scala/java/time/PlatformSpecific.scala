@@ -4,15 +4,15 @@ private[time] object PlatformSpecific extends PlatformCommon {
 
   def localDate(): LocalDate = {
     val epochSecond = Instant.toEpochSecond(System.currentTimeMillis())
-    val epochDay = Instant.toEpochDay(epochSecond)
+    val epochDay    = Instant.toEpochDay(epochSecond)
     LocalDate.ofEpochDay(epochDay)
   }
 
   // no test - gets called by Chronology trait dateNow()
   def chronoLocalDate(): (Int, Int, Int) = {
     val epochSecond = Instant.toEpochSecond(System.currentTimeMillis())
-    val epochDay = Instant.toEpochDay(epochSecond)
-    val date = LocalDate.ofEpochDay(epochDay)
+    val epochDay    = Instant.toEpochDay(epochSecond)
+    val date        = LocalDate.ofEpochDay(epochDay)
     (date.getYear(), date.getMonthValue(), date.getDayOfMonth())
   }
 

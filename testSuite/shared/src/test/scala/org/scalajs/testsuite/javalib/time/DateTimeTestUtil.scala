@@ -1,7 +1,11 @@
 package org.scalajs.testsuite.javalib.time
 
 import java.time.DateTimeException
-import java.time.temporal.{ChronoUnit, Temporal, UnsupportedTemporalTypeException}
+import java.time.temporal.{
+  ChronoUnit,
+  Temporal,
+  UnsupportedTemporalTypeException
+}
 
 import org.junit.Assert._
 

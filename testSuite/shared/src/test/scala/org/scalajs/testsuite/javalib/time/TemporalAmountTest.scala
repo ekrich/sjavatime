@@ -1,6 +1,10 @@
 package org.scalajs.testsuite.javalib.time
 
-import java.time.temporal.{UnsupportedTemporalTypeException, ChronoUnit, TemporalAmount}
+import java.time.temporal.{
+  UnsupportedTemporalTypeException,
+  ChronoUnit,
+  TemporalAmount
+}
 
 import org.junit.Test
 import org.junit.Assert._
@@ -15,7 +19,7 @@ abstract class TemporalAmountTest[TempAmt <: TemporalAmount] {
     val illegalUnits = ChronoUnit.values.filterNot(units.contains)
     for {
       amount <- samples
-      unit <- illegalUnits
+      unit   <- illegalUnits
     } {
       expectThrows(classOf[UnsupportedTemporalTypeException], amount.get(unit))
     }

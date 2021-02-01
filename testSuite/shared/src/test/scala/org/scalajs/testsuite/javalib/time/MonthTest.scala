@@ -141,8 +141,18 @@ class MonthTest extends TemporalAccessorTest[Month] {
   }
 
   @Test def test_values(): Unit = {
-    val months: Array[AnyRef] = Array(JANUARY, FEBRUARY, MARCH, APRIL, MAY,
-        JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER)
+    val months: Array[AnyRef] = Array(JANUARY,
+                                      FEBRUARY,
+                                      MARCH,
+                                      APRIL,
+                                      MAY,
+                                      JUNE,
+                                      JULY,
+                                      AUGUST,
+                                      SEPTEMBER,
+                                      OCTOBER,
+                                      NOVEMBER,
+                                      DECEMBER)
     assertArrayEquals(months, values.asInstanceOf[Array[AnyRef]])
   }
 

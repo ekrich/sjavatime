@@ -2,8 +2,12 @@ package java.time.temporal
 
 import java.time.Duration
 
-final class ChronoUnit private (name: String, ordinal: Int, duration: Duration,
-    flags: Int) extends Enum[ChronoUnit](name, ordinal) with TemporalUnit {
+final class ChronoUnit private (name: String,
+                                ordinal: Int,
+                                duration: Duration,
+                                flags: Int)
+    extends Enum[ChronoUnit](name, ordinal)
+    with TemporalUnit {
 
   import ChronoUnit._
 
@@ -60,23 +64,45 @@ object ChronoUnit {
   final val YEARS =
     new ChronoUnit("Years", 10, Duration.OneYear, isDateBasedFlag)
 
-  final val DECADES = new ChronoUnit("Decades", 11,
-      Duration.OneYear.multipliedBy(10), isDateBasedFlag)
+  final val DECADES = new ChronoUnit("Decades",
+                                     11,
+                                     Duration.OneYear.multipliedBy(10),
+                                     isDateBasedFlag)
 
-  final val CENTURIES = new ChronoUnit("Centuries", 12,
-      Duration.OneYear.multipliedBy(100), isDateBasedFlag)
+  final val CENTURIES = new ChronoUnit("Centuries",
+                                       12,
+                                       Duration.OneYear.multipliedBy(100),
+                                       isDateBasedFlag)
 
-  final val MILLENNIA = new ChronoUnit("Millennia", 13,
-      Duration.OneYear.multipliedBy(1000), isDateBasedFlag)
+  final val MILLENNIA = new ChronoUnit("Millennia",
+                                       13,
+                                       Duration.OneYear.multipliedBy(1000),
+                                       isDateBasedFlag)
 
-  final val ERAS = new ChronoUnit("Eras", 14,
-      Duration.OneYear.multipliedBy(1000000000), isDateBasedFlag)
+  final val ERAS = new ChronoUnit("Eras",
+                                  14,
+                                  Duration.OneYear.multipliedBy(1000000000),
+                                  isDateBasedFlag)
 
   final val FOREVER = new ChronoUnit("Forever", 15, Duration.Max, 0)
 
   private val units =
-    Array(NANOS, MICROS, MILLIS, SECONDS, MINUTES, HOURS, HALF_DAYS, DAYS,
-        WEEKS, MONTHS, YEARS, DECADES, CENTURIES, MILLENNIA, ERAS, FOREVER)
+    Array(NANOS,
+          MICROS,
+          MILLIS,
+          SECONDS,
+          MINUTES,
+          HOURS,
+          HALF_DAYS,
+          DAYS,
+          WEEKS,
+          MONTHS,
+          YEARS,
+          DECADES,
+          CENTURIES,
+          MILLENNIA,
+          ERAS,
+          FOREVER)
 
   def values(): Array[ChronoUnit] = units.clone()
 

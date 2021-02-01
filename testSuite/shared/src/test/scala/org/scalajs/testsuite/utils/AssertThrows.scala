@@ -1,18 +1,22 @@
 package org.scalajs.testsuite.utils
 
 object AssertThrows {
-  /** Backport implementation of Assert.assertThrows to be used until JUnit 4.13 is
+
+  /**
+   * Backport implementation of Assert.assertThrows to be used until JUnit 4.13 is
    *  released. See org.junit.Assert.scala in jUnitRuntime.
    */
   private def assertThrowsBackport(expectedThrowable: Class[_ <: Throwable],
-      runnable: ThrowingRunnable): Unit = {
+                                   runnable: ThrowingRunnable): Unit = {
     expectThrowsBackport(expectedThrowable, runnable)
   }
 
-  /** Backport implementation of Assert.expectThrows to be used until JUnit 4.13 is
+  /**
+   * Backport implementation of Assert.expectThrows to be used until JUnit 4.13 is
    *  released. See org.junit.Assert.scala in jUnitRuntime.
    */
-  private def expectThrowsBackport[T <: Throwable](expectedThrowable: Class[T],
+  private def expectThrowsBackport[T <: Throwable](
+      expectedThrowable: Class[T],
       runnable: ThrowingRunnable): T = {
     try {
       runnable.run()
@@ -35,7 +39,8 @@ object AssertThrows {
     }
   }
 
-  /** Backport implementation of Assert.ThrowingRunnable to be used until
+  /**
+   * Backport implementation of Assert.ThrowingRunnable to be used until
    *  JUnit 4.13 is released. See org.junit.Assert.scala in jUnitRuntime.
    */
   private trait ThrowingRunnable {
@@ -48,9 +53,13 @@ object AssertThrows {
     }
   }
 
-  def assertThrows[T <: Throwable, U](expectedThrowable: Class[T], code: => U): Unit =
-    assertThrowsBackport(expectedThrowable, throwingRunnable(code.asInstanceOf[Unit]))
+  def assertThrows[T <: Throwable, U](expectedThrowable: Class[T],
+                                      code: => U): Unit =
+    assertThrowsBackport(expectedThrowable,
+                         throwingRunnable(code.asInstanceOf[Unit]))
 
-  def expectThrows[T <: Throwable, U](expectedThrowable: Class[T], code: => U): T =
-    expectThrowsBackport(expectedThrowable, throwingRunnable(code.asInstanceOf[Unit]))
+  def expectThrows[T <: Throwable, U](expectedThrowable: Class[T],
+                                      code: => U): T =
+    expectThrowsBackport(expectedThrowable,
+                         throwingRunnable(code.asInstanceOf[Unit]))
 }

@@ -6,7 +6,8 @@ import java.time.temporal._
 import java.{util => ju}
 
 final class Period private (years: Int, months: Int, days: Int)
-    extends ChronoPeriod with Serializable {
+    extends ChronoPeriod
+    with Serializable {
   import ChronoUnit._
 
   def get(unit: TemporalUnit): Long = unit match {
@@ -42,10 +43,10 @@ final class Period private (years: Int, months: Int, days: Int)
   def withDays(days: Int): Period = new Period(years, months, days)
 
   def plus(amount: TemporalAmount): Period = {
-    val other = Period.from(amount)
-    val years1 = Math.addExact(years, other.getYears())
+    val other   = Period.from(amount)
+    val years1  = Math.addExact(years, other.getYears())
     val months1 = Math.addExact(months, other.getMonths())
-    val days1 = Math.addExact(days, other.getDays())
+    val days1   = Math.addExact(days, other.getDays())
     new Period(years1, months1, days1)
   }
 
@@ -65,10 +66,10 @@ final class Period private (years: Int, months: Int, days: Int)
   }
 
   def minus(amount: TemporalAmount): Period = {
-    val other = Period.from(amount)
-    val years1 = Math.subtractExact(years, other.getYears())
+    val other   = Period.from(amount)
+    val years1  = Math.subtractExact(years, other.getYears())
     val months1 = Math.subtractExact(months, other.getMonths())
-    val days1 = Math.subtractExact(days, other.getDays())
+    val days1   = Math.subtractExact(days, other.getDays())
     new Period(years1, months1, days1)
   }
 
@@ -88,18 +89,18 @@ final class Period private (years: Int, months: Int, days: Int)
   }
 
   def multipliedBy(scalar: Int): Period = {
-    val years1 = Math.multiplyExact(years, scalar)
+    val years1  = Math.multiplyExact(years, scalar)
     val months1 = Math.multiplyExact(months, scalar)
-    val days1 = Math.multiplyExact(days, scalar)
+    val days1   = Math.multiplyExact(days, scalar)
     new Period(years1, months1, days1)
   }
 
   override def negated(): Period = multipliedBy(-1)
 
   def normalized(): Period = {
-    val quot = months / 12
+    val quot    = months / 12
     val months1 = months % 12
-    val years1 = Math.addExact(years, quot)
+    val years1  = Math.addExact(years, quot)
     if (years1 > 0 && months1 < 0)
       new Period(years1 - 1, months1 + 12, days)
     else if (years1 < 0 && months1 > 0)
@@ -132,7 +133,8 @@ final class Period private (years: Int, months: Int, days: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: Period =>
-      years == that.getYears() && months == that.getMonths() && days == that.getDays()
+      years == that.getYears() && months == that.getMonths() && days == that
+        .getDays()
 
     case _ => false
   }
@@ -143,9 +145,9 @@ final class Period private (years: Int, months: Int, days: Int)
   override def toString(): String = {
     if (isZero()) "P0D"
     else {
-      val yearPart = if (years != 0) years.toString + "Y" else ""
+      val yearPart  = if (years != 0) years.toString + "Y" else ""
       val monthPart = if (months != 0) months.toString + "M" else ""
-      val dayPart = if (days != 0) days.toString + "D" else ""
+      val dayPart   = if (days != 0) days.toString + "D" else ""
       "P" + yearPart + monthPart + dayPart
     }
   }
@@ -170,7 +172,7 @@ object Period {
 
     case _ =>
       var result = ZERO
-      val iter = amount.getUnits().iterator()
+      val iter   = amount.getUnits().iterator()
       while (iter.hasNext()) {
         val unit = iter.next()
         unit match {
