@@ -63,18 +63,6 @@ lazy val root = (project in file("."))
     testSuiteNative
   )
 
-// For Scala 3 enums
-def sourceDir(projectDir: File, scalaVersion: String): Seq[File] = {
-  def versionDir(versionDir: String): File =
-    projectDir / "shared" / "src" / "main" / versionDir
-
-  CrossVersion.partialVersion(scalaVersion) match {
-    case Some((3, _)) => Seq(versionDir("scala-3"))
-    case Some((2, _)) => Seq(versionDir("scala-2"))
-    case _            => Seq() // unknown version
-  }
-}
-
 lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .settings(commonSettings)
@@ -83,10 +71,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     mappings in (Compile, packageBin) ~= {
       _.filter(!_._2.endsWith(".class"))
     },
-    Compile / unmanagedSourceDirectories ++= {
-      val projectDir = baseDirectory.value.getParentFile()
-      sourceDir(projectDir, scalaVersion.value)
-    }
+    sharedScala2or3Source
   )
   .jsSettings(
     crossScalaVersions := versionsJS
@@ -134,6 +119,25 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 lazy val testSuiteJS     = testSuite.js
 lazy val testSuiteNative = testSuite.native
 lazy val testSuiteJVM    = testSuite.jvm
+
+lazy val sharedScala2or3Source: Seq[Setting[_]] = Def.settings(
+  Compile / unmanagedSourceDirectories ++= {
+    val projectDir = baseDirectory.value.getParentFile()
+    sourceDir(projectDir, scalaVersion.value)
+  }
+)
+
+// For Scala 2/3 enums
+def sourceDir(projectDir: File, scalaVersion: String): Seq[File] = {
+  def versionDir(versionDir: String): File =
+    projectDir / "shared" / "src" / "main" / versionDir
+
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((3, _)) => Seq(versionDir("scala-3"))
+    case Some((2, _)) => Seq(versionDir("scala-2"))
+    case _            => Seq() // unknown version
+  }
+}
 
 val skipPublish = Seq(
   // no artifacts in this project
