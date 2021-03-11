@@ -15,4 +15,4 @@ addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % crossVer)
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.3")
 
 // includes sbt-dynver sbt-pgp sbt-sonatype sbt-git
-addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.5")
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.6")
