@@ -35,10 +35,10 @@ If you have a `crossProject`, the setting must be used only in the JS and/or Nat
 lazy val myCross = crossProject
   ...
   .jsSettings(
-    libraryDependencies += "org.ekrich" %%% "sjavatime" % "1.0.0"
+    libraryDependencies += "org.ekrich" %%% "sjavatime" % "x.y.z"
   )
   .nativeSettings(
-    libraryDependencies += "org.ekrich" %%% "sjavatime" % "1.0.0"
+    libraryDependencies += "org.ekrich" %%% "sjavatime" % "x.y.z"
   )
 ```
 
@@ -64,6 +64,7 @@ Follow the [contributing guide](./CONTRIBUTING.md).
 
 ## Versions
 
+Release [1.1.3](https://github.com/ekrich/sjavatime/releases/tag/v1.1.3) - (2021-04-01)<br/>
 Release [1.1.2](https://github.com/ekrich/sjavatime/releases/tag/v1.1.2) - (2021-02-23)<br/>
 Release [1.1.1](https://github.com/ekrich/sjavatime/releases/tag/v1.1.1) - (2021-02-01)<br/>
 Release [1.1.0](https://github.com/ekrich/sjavatime/releases/tag/v1.1.0) - (2021-01-26)<br/>
