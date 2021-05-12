@@ -1,7 +1,7 @@
 val scala211 = "2.11.12"
 val scala212 = "2.12.13"
 val scala213 = "2.13.5"
-val scala300 = "3.0.0-RC2"
+val scala300 = "3.0.0-RC3"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
 val versionsJVM    = versionsBase :+ scala300
@@ -68,7 +68,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .settings(commonSettings)
   .settings(
     Test / test := {},
-    mappings in (Compile, packageBin) ~= {
+    Compile / packageBin / mappings ~= {
       _.filter(!_._2.endsWith(".class"))
     },
     sharedScala2or3Source
@@ -96,8 +96,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     name := "java.time testSuite on JVM",
     crossScalaVersions := versionsJVM,
     libraryDependencies +=
-      ("com.novocode" % "junit-interface" % "0.11" % Test)
-        .withDottyCompat(scalaVersion.value)
+      "com.novocode" % "junit-interface" % "0.11" % Test
   )
   .jsSettings(
     name := "java.time testSuite on JS",
