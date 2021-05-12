@@ -11,8 +11,5 @@ addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % crossVer)
 addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % scalaNativeVersion)
 addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % crossVer)
 
-// Dotty - Scala 3
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.4")
-
 // includes sbt-dynver sbt-pgp sbt-sonatype sbt-git
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
