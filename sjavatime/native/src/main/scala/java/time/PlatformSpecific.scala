@@ -20,7 +20,7 @@ private[time] object PlatformSpecific extends PlatformCommon {
     val epochSeconds = Instant.toEpochSecond(System.currentTimeMillis())
     // sec/yr, sec/day, sec/hr, sec/min
     val currentSeconds =
-      Math.floor((((epochSeconds % 31536000) % 86400) % 3600) % 60).toInt
+      Math.floor(((((epochSeconds % 31536000) % 86400) % 3600) % 60).toDouble).toLong
     LocalTime.ofSecondOfDay(currentSeconds)
     // From https://github.com/akka-js/scalanative-java-time
     // val currentHours = Math.floor(((seconds % 31536000) % 86400) / 3600).toInt
