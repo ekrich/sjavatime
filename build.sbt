@@ -42,7 +42,7 @@ inThisBuild(
 )
 
 val commonSettings: Seq[Setting[_]] = Seq(
-  scalacOptions ++= Seq("-deprecation", "-feature") // "-Xfatal-warnings"),
+  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xsource:3")
 )
 
 lazy val root = (project in file("."))
