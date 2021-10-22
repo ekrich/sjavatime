@@ -1,7 +1,7 @@
 // versions
 val crossVer           = "1.0.0"
 val scalaJSVersion     = "1.6.0"
-val scalaNativeVersion = "0.4.0"
+val scalaNativeVersion = "0.4.1"
 
 // Scala.js support
 addSbtPlugin("org.scala-js"       % "sbt-scalajs"              % scalaJSVersion)
