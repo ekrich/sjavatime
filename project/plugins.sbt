@@ -12,4 +12,4 @@ addSbtPlugin("org.scala-native"   % "sbt-scala-native"              % scalaNativ
 addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % crossVer)
 
 // includes sbt-dynver sbt-pgp sbt-sonatype sbt-git
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.9")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
