@@ -1,7 +1,7 @@
 val scala211 = "2.11.12"
 val scala212 = "2.12.15"
 val scala213 = "2.13.7"
-val scala300 = "3.0.2"
+val scala300 = "3.1.0"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
 val versionsJVM    = versionsBase :+ scala300
@@ -70,8 +70,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
     Test / test := {},
     Compile / packageBin / mappings ~= {
       _.filter(!_._2.endsWith(".class"))
-    },
-    sharedScala2or3Source
+    }
   )
   .jsSettings(
     crossScalaVersions := versionsJS
@@ -118,25 +117,6 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 lazy val testSuiteJS     = testSuite.js
 lazy val testSuiteNative = testSuite.native
 lazy val testSuiteJVM    = testSuite.jvm
-
-lazy val sharedScala2or3Source: Seq[Setting[_]] = Def.settings(
-  Compile / unmanagedSourceDirectories ++= {
-    val projectDir = baseDirectory.value.getParentFile()
-    sourceDir(projectDir, scalaVersion.value)
-  }
-)
-
-// For Scala 2/3 enums
-def sourceDir(projectDir: File, scalaVersion: String): Seq[File] = {
-  def versionDir(versionDir: String): File =
-    projectDir / "shared" / "src" / "main" / versionDir
-
-  CrossVersion.partialVersion(scalaVersion) match {
-    case Some((3, _)) => Seq(versionDir("scala-3"))
-    case Some((2, _)) => Seq(versionDir("scala-2"))
-    case _            => Seq() // unknown version
-  }
-}
 
 val skipPublish = Seq(
   // no artifacts in this project
