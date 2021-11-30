@@ -96,7 +96,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     name := "java.time testSuite on JVM",
     crossScalaVersions := versionsJVM,
     libraryDependencies +=
-      "com.novocode" % "junit-interface" % "0.11" % Test
+      "com.github.sbt" % "junit-interface" % "0.13.2" % Test
   )
   .jsSettings(
     name := "java.time testSuite on JS",
