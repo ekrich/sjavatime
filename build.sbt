@@ -40,9 +40,18 @@ inThisBuild(
     )
   )
 )
+val depSettings = Def.setting {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((3, _))  => Nil
+    case Some((2, 11)) => Seq("-target:jvm-1.8")
+    case Some((2, 12)) => Seq("-target:jvm-1.8", "-Xsource:3")
+    case Some((2, 13)) => Seq("-Xsource:3")
+    case _             => Nil
+  }
+}
 
 val commonSettings: Seq[Setting[_]] = Seq(
-  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature", "-Xsource:3")
+  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature") ++ depSettings.value
 )
 
 lazy val root = (project in file("."))
@@ -88,8 +97,7 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings: _*)
   .settings(skipPublish: _*)
   .settings(
-    testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v"),
-    scalacOptions += "-target:jvm-1.8"
+    testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v")
   )
   .jvmSettings(
     name := "java.time testSuite on JVM",

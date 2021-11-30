@@ -94,7 +94,7 @@ object Month {
   private lazy val months = Seq(JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE,
       JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER)
 
-  def values(): Array[Month] = months.toArray
+  def values: Array[Month] = months.toArray
 
   def valueOf(name: String): Month = months.find(_.name == name).getOrElse {
     throw new IllegalArgumentException(s"No such month: $name")
