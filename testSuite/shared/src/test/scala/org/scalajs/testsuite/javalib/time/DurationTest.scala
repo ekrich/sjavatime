@@ -4,8 +4,9 @@ import java.time._
 import java.time.temporal.{ChronoUnit, UnsupportedTemporalTypeException}
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 import org.scalajs.testsuite.utils.Platform.executingInJVM
 
 class DurationTest extends TemporalAmountTest[Duration] {
@@ -86,7 +87,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
       d <- samples
       n <- args
     } {
-      expectThrows(classOf[DateTimeException], d.withNanos(n))
+      assertThrows(classOf[DateTimeException], d.withNanos(n))
     }
   }
 
@@ -102,8 +103,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(2, 2), d1.plus(d1))
     assertEquals(ofSeconds(3), d1.plus(d2))
     assertEquals(ofSeconds(-1, 2), d1.plus(d3))
-    expectThrows(classOf[ArithmeticException], dmax.plus(oneNano))
-    expectThrows(classOf[ArithmeticException], dmin.plus(oneNano.negated))
+    assertThrows(classOf[ArithmeticException], dmax.plus(oneNano))
+    assertThrows(classOf[ArithmeticException], dmin.plus(oneNano.negated))
 
     val args = Seq(Long.MinValue, -100000000000000L, 1L, 0L, 1L,
         100000000000000L, Long.MaxValue)
@@ -125,7 +126,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
       n <- args
       u <- illegalUnits
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException], d.plus(n, u))
+      assertThrows(classOf[UnsupportedTemporalTypeException], d.plus(n, u))
     }
   }
 
@@ -148,10 +149,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.plusDays(0))
     assertEquals(d3, dmin.plusDays(1))
 
-    expectThrows(classOf[ArithmeticException], d4.plusDays(1))
-    expectThrows(classOf[ArithmeticException], d2.plusDays(2))
-    expectThrows(classOf[ArithmeticException], d5.plusDays(-1))
-    expectThrows(classOf[ArithmeticException], d3.plusDays(-2))
+    assertThrows(classOf[ArithmeticException], d4.plusDays(1))
+    assertThrows(classOf[ArithmeticException], d2.plusDays(2))
+    assertThrows(classOf[ArithmeticException], d5.plusDays(-1))
+    assertThrows(classOf[ArithmeticException], d3.plusDays(-2))
   }
 
   @Test def test_plusHours(): Unit = {
@@ -173,10 +174,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.plusHours(0))
     assertEquals(d3, dmin.plusHours(1))
 
-    expectThrows(classOf[ArithmeticException], d4.plusHours(1))
-    expectThrows(classOf[ArithmeticException], d2.plusHours(2))
-    expectThrows(classOf[ArithmeticException], d5.plusHours(-1))
-    expectThrows(classOf[ArithmeticException], d3.plusHours(-2))
+    assertThrows(classOf[ArithmeticException], d4.plusHours(1))
+    assertThrows(classOf[ArithmeticException], d2.plusHours(2))
+    assertThrows(classOf[ArithmeticException], d5.plusHours(-1))
+    assertThrows(classOf[ArithmeticException], d3.plusHours(-2))
   }
 
   @Test def test_plusMinutes(): Unit = {
@@ -198,10 +199,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.plusMinutes(0))
     assertEquals(d3, dmin.plusMinutes(1))
 
-    expectThrows(classOf[ArithmeticException], d4.plusMinutes(1))
-    expectThrows(classOf[ArithmeticException], d2.plusMinutes(2))
-    expectThrows(classOf[ArithmeticException], d5.plusMinutes(-1))
-    expectThrows(classOf[ArithmeticException], d3.plusMinutes(-2))
+    assertThrows(classOf[ArithmeticException], d4.plusMinutes(1))
+    assertThrows(classOf[ArithmeticException], d2.plusMinutes(2))
+    assertThrows(classOf[ArithmeticException], d5.plusMinutes(-1))
+    assertThrows(classOf[ArithmeticException], d3.plusMinutes(-2))
   }
 
   @Test def test_plusSeconds(): Unit = {
@@ -223,10 +224,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.plusSeconds(0))
     assertEquals(d3, dmin.plusSeconds(1))
 
-    expectThrows(classOf[ArithmeticException], d4.plusSeconds(1))
-    expectThrows(classOf[ArithmeticException], d2.plusSeconds(2))
-    expectThrows(classOf[ArithmeticException], d5.plusSeconds(-1))
-    expectThrows(classOf[ArithmeticException], d3.plusSeconds(-2))
+    assertThrows(classOf[ArithmeticException], d4.plusSeconds(1))
+    assertThrows(classOf[ArithmeticException], d2.plusSeconds(2))
+    assertThrows(classOf[ArithmeticException], d5.plusSeconds(-1))
+    assertThrows(classOf[ArithmeticException], d3.plusSeconds(-2))
   }
 
   @Test def test_plusMillis(): Unit = {
@@ -248,10 +249,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.plusMillis(0))
     assertEquals(d3, dmin.plusMillis(1))
 
-    expectThrows(classOf[ArithmeticException], d4.plusMillis(1))
-    expectThrows(classOf[ArithmeticException], d2.plusMillis(2))
-    expectThrows(classOf[ArithmeticException], d5.plusMillis(-1))
-    expectThrows(classOf[ArithmeticException], d3.plusMillis(-2))
+    assertThrows(classOf[ArithmeticException], d4.plusMillis(1))
+    assertThrows(classOf[ArithmeticException], d2.plusMillis(2))
+    assertThrows(classOf[ArithmeticException], d5.plusMillis(-1))
+    assertThrows(classOf[ArithmeticException], d3.plusMillis(-2))
   }
 
   @Test def test_plusNanos(): Unit = {
@@ -271,10 +272,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.plusNanos(0))
     assertEquals(d3, dmin.plusNanos(1))
 
-    expectThrows(classOf[ArithmeticException], dmax.plusNanos(1))
-    expectThrows(classOf[ArithmeticException], d2.plusNanos(2))
-    expectThrows(classOf[ArithmeticException], dmin.plusNanos(-1))
-    expectThrows(classOf[ArithmeticException], d3.plusNanos(-2))
+    assertThrows(classOf[ArithmeticException], dmax.plusNanos(1))
+    assertThrows(classOf[ArithmeticException], d2.plusNanos(2))
+    assertThrows(classOf[ArithmeticException], dmin.plusNanos(-1))
+    assertThrows(classOf[ArithmeticException], d3.plusNanos(-2))
   }
 
   @Test def test_minus(): Unit = {
@@ -287,8 +288,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(d1.negated, ZERO.minus(d1))
     assertEquals(ofSeconds(-1, 2), d1.minus(d2))
     assertEquals(ofSeconds(3), d1.minus(d3))
-    expectThrows(classOf[ArithmeticException], dmax.minus(oneNano.negated))
-    expectThrows(classOf[ArithmeticException], dmin.minus(oneNano))
+    assertThrows(classOf[ArithmeticException], dmax.minus(oneNano.negated))
+    assertThrows(classOf[ArithmeticException], dmin.minus(oneNano))
 
     val args = Seq(Long.MinValue, -100000000000000L, 1L, 0L, 1L,
         100000000000000L, Long.MaxValue)
@@ -310,7 +311,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
       n <- args
       u <- illegalUnits
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException], d.minus(n, u))
+      assertThrows(classOf[UnsupportedTemporalTypeException], d.minus(n, u))
     }
   }
 
@@ -333,10 +334,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.minusDays(0))
     assertEquals(d3, dmin.minusDays(-1))
 
-    expectThrows(classOf[ArithmeticException], d4.minusDays(-1))
-    expectThrows(classOf[ArithmeticException], d2.minusDays(-2))
-    expectThrows(classOf[ArithmeticException], d5.minusDays(1))
-    expectThrows(classOf[ArithmeticException], d3.minusDays(2))
+    assertThrows(classOf[ArithmeticException], d4.minusDays(-1))
+    assertThrows(classOf[ArithmeticException], d2.minusDays(-2))
+    assertThrows(classOf[ArithmeticException], d5.minusDays(1))
+    assertThrows(classOf[ArithmeticException], d3.minusDays(2))
   }
 
   @Test def test_minusHours(): Unit = {
@@ -358,10 +359,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.minusHours(0))
     assertEquals(d3, dmin.minusHours(-1))
 
-    expectThrows(classOf[ArithmeticException], d4.minusHours(-1))
-    expectThrows(classOf[ArithmeticException], d2.minusHours(-2))
-    expectThrows(classOf[ArithmeticException], d5.minusHours(1))
-    expectThrows(classOf[ArithmeticException], d3.minusHours(2))
+    assertThrows(classOf[ArithmeticException], d4.minusHours(-1))
+    assertThrows(classOf[ArithmeticException], d2.minusHours(-2))
+    assertThrows(classOf[ArithmeticException], d5.minusHours(1))
+    assertThrows(classOf[ArithmeticException], d3.minusHours(2))
   }
 
   @Test def test_minusMinutes(): Unit = {
@@ -383,10 +384,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.minusMinutes(0))
     assertEquals(d3, dmin.minusMinutes(-1))
 
-    expectThrows(classOf[ArithmeticException], d4.minusMinutes(-1))
-    expectThrows(classOf[ArithmeticException], d2.minusMinutes(-2))
-    expectThrows(classOf[ArithmeticException], d5.minusMinutes(1))
-    expectThrows(classOf[ArithmeticException], d3.minusMinutes(2))
+    assertThrows(classOf[ArithmeticException], d4.minusMinutes(-1))
+    assertThrows(classOf[ArithmeticException], d2.minusMinutes(-2))
+    assertThrows(classOf[ArithmeticException], d5.minusMinutes(1))
+    assertThrows(classOf[ArithmeticException], d3.minusMinutes(2))
   }
 
   @Test def test_minusSeconds(): Unit = {
@@ -408,10 +409,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.minusSeconds(0))
     assertEquals(d3, dmin.minusSeconds(-1))
 
-    expectThrows(classOf[ArithmeticException], d4.minusSeconds(-1))
-    expectThrows(classOf[ArithmeticException], d2.minusSeconds(-2))
-    expectThrows(classOf[ArithmeticException], d5.minusSeconds(1))
-    expectThrows(classOf[ArithmeticException], d3.minusSeconds(2))
+    assertThrows(classOf[ArithmeticException], d4.minusSeconds(-1))
+    assertThrows(classOf[ArithmeticException], d2.minusSeconds(-2))
+    assertThrows(classOf[ArithmeticException], d5.minusSeconds(1))
+    assertThrows(classOf[ArithmeticException], d3.minusSeconds(2))
   }
 
   @Test def test_minusMillis(): Unit = {
@@ -433,10 +434,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.minusMillis(0))
     assertEquals(d3, dmin.minusMillis(-1))
 
-    expectThrows(classOf[ArithmeticException], d4.minusMillis(-1))
-    expectThrows(classOf[ArithmeticException], d2.minusMillis(-2))
-    expectThrows(classOf[ArithmeticException], d5.minusMillis(1))
-    expectThrows(classOf[ArithmeticException], d3.minusMillis(2))
+    assertThrows(classOf[ArithmeticException], d4.minusMillis(-1))
+    assertThrows(classOf[ArithmeticException], d2.minusMillis(-2))
+    assertThrows(classOf[ArithmeticException], d5.minusMillis(1))
+    assertThrows(classOf[ArithmeticException], d3.minusMillis(2))
   }
 
   @Test def test_minusNanos(): Unit = {
@@ -456,10 +457,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmin, dmin.minusNanos(0))
     assertEquals(d3, dmin.minusNanos(-1))
 
-    expectThrows(classOf[ArithmeticException], dmax.minusNanos(-1))
-    expectThrows(classOf[ArithmeticException], d2.minusNanos(-2))
-    expectThrows(classOf[ArithmeticException], dmin.minusNanos(1))
-    expectThrows(classOf[ArithmeticException], d3.minusNanos(2))
+    assertThrows(classOf[ArithmeticException], dmax.minusNanos(-1))
+    assertThrows(classOf[ArithmeticException], d2.minusNanos(-2))
+    assertThrows(classOf[ArithmeticException], dmin.minusNanos(1))
+    assertThrows(classOf[ArithmeticException], d3.minusNanos(2))
   }
 
   @Test def test_multipliedBy(): Unit = {
@@ -485,11 +486,11 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(1000000001), d2.multipliedBy(-1000000000))
     assertEquals(dmin.plusNanos(1), dmax.multipliedBy(-1))
 
-    expectThrows(classOf[ArithmeticException], dmin.multipliedBy(-1))
-    expectThrows(classOf[ArithmeticException], dmin.multipliedBy(2))
-    expectThrows(classOf[ArithmeticException], dmax.multipliedBy(2))
-    expectThrows(classOf[ArithmeticException], d1.multipliedBy(Long.MaxValue))
-    expectThrows(classOf[ArithmeticException], d1.multipliedBy(Long.MinValue))
+    assertThrows(classOf[ArithmeticException], dmin.multipliedBy(-1))
+    assertThrows(classOf[ArithmeticException], dmin.multipliedBy(2))
+    assertThrows(classOf[ArithmeticException], dmax.multipliedBy(2))
+    assertThrows(classOf[ArithmeticException], d1.multipliedBy(Long.MaxValue))
+    assertThrows(classOf[ArithmeticException], d1.multipliedBy(Long.MinValue))
   }
 
   @Test def test_dividedBy(): Unit = {
@@ -501,7 +502,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
       assertEquals(d, d.dividedBy(1))
       testDateTime(d.dividedBy(-1))(d.negated)
     }
-    expectThrows(classOf[ArithmeticException], dmin.dividedBy(-1))
+    assertThrows(classOf[ArithmeticException], dmin.dividedBy(-1))
     for (n <- Seq(Long.MinValue, -1L, 1L, Long.MaxValue))
       assertEquals(ZERO, ZERO.dividedBy(n))
     assertEquals(ofSeconds(5, 50), d1.dividedBy(2))
@@ -539,9 +540,9 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(oneSecond.negated, dmin.plusNanos(2).dividedBy(Long.MaxValue))
     assertEquals(oneSecond, dmax.minusNanos(1).dividedBy(Long.MaxValue))
 
-    expectThrows(classOf[ArithmeticException], dmin.dividedBy(-1))
+    assertThrows(classOf[ArithmeticException], dmin.dividedBy(-1))
     for (d <- samples)
-      expectThrows(classOf[ArithmeticException], d.dividedBy(0))
+      assertThrows(classOf[ArithmeticException], d.dividedBy(0))
   }
 
   @Test def test_negated(): Unit = {
@@ -553,7 +554,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(Long.MinValue, 1), dmax.negated)
     assertEquals(dmax, ofSeconds(Long.MinValue, 1).negated)
 
-    expectThrows(classOf[ArithmeticException], dmin.negated)
+    assertThrows(classOf[ArithmeticException], dmin.negated)
   }
 
   @Test def test_abs(): Unit = {
@@ -565,7 +566,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmax, dmax.abs)
     assertEquals(dmax, ofSeconds(Long.MinValue, 1).abs)
 
-    expectThrows(classOf[ArithmeticException], dmin.abs)
+    assertThrows(classOf[ArithmeticException], dmin.abs)
   }
 
   @Test def test_addTo(): Unit = {
@@ -577,8 +578,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmax.addTo(t), LocalTime.of(3, 30, 7, 999999999))
     assertEquals(ZERO.addTo(d), d)
 
-    expectThrows(classOf[UnsupportedTemporalTypeException], oneNano.addTo(d))
-    expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.addTo(d))
+    assertThrows(classOf[UnsupportedTemporalTypeException], oneNano.addTo(d))
+    assertThrows(classOf[UnsupportedTemporalTypeException], oneSecond.addTo(d))
   }
 
   @Test def test_subtractFrom(): Unit = {
@@ -590,8 +591,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmax.subtractFrom(t), LocalTime.of(20, 29, 52, 1))
     assertEquals(ZERO.subtractFrom(d), d)
 
-    expectThrows(classOf[UnsupportedTemporalTypeException], oneNano.subtractFrom(d))
-    expectThrows(classOf[UnsupportedTemporalTypeException], oneSecond.subtractFrom(d))
+    assertThrows(classOf[UnsupportedTemporalTypeException], oneNano.subtractFrom(d))
+    assertThrows(classOf[UnsupportedTemporalTypeException], oneSecond.subtractFrom(d))
   }
 
   @Test def test_toDays(): Unit = {
@@ -657,12 +658,12 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(9223372036854775807L,
         ofSeconds(9223372036854775L, 807999999).toMillis)
 
-    expectThrows(classOf[ArithmeticException], dmin.toMillis)
-    expectThrows(classOf[ArithmeticException], dmax.toMillis)
+    assertThrows(classOf[ArithmeticException], dmin.toMillis)
+    assertThrows(classOf[ArithmeticException], dmax.toMillis)
     // this could yield a valid long, but the reference implementation throws
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         ofSeconds(-9223372036854775L, -1).toMillis)
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         ofSeconds(9223372036854775L, 808000000).toMillis)
   }
 
@@ -677,12 +678,12 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(Int.MaxValue.toLong, ofNanos(Int.MaxValue).toNanos)
     assertEquals(Long.MaxValue, ofSeconds(9223372036L, 854775807).toNanos)
 
-    expectThrows(classOf[ArithmeticException], dmin.toNanos)
-    expectThrows(classOf[ArithmeticException], dmax.toNanos)
+    assertThrows(classOf[ArithmeticException], dmin.toNanos)
+    assertThrows(classOf[ArithmeticException], dmax.toNanos)
     // this should yield a valid long, but the reference implementation throws
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         ofSeconds(-9223372036L, -1).toNanos)
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         ofSeconds(9223372036L, 854775808).toNanos)
   }
 
@@ -746,8 +747,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(86400), ofDays(1))
     assertEquals(ofSeconds(maxSecs), ofDays(maxDays))
 
-    expectThrows(classOf[ArithmeticException], ofDays(-maxDays - 1))
-    expectThrows(classOf[ArithmeticException], ofDays(maxDays + 1))
+    assertThrows(classOf[ArithmeticException], ofDays(-maxDays - 1))
+    assertThrows(classOf[ArithmeticException], ofDays(maxDays + 1))
   }
 
   @Test def test_ofHours(): Unit = {
@@ -760,8 +761,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(3600), ofHours(1))
     assertEquals(ofSeconds(maxSecs), ofHours(maxHrs))
 
-    expectThrows(classOf[ArithmeticException], ofHours(-maxHrs - 1))
-    expectThrows(classOf[ArithmeticException], ofHours(maxHrs + 1))
+    assertThrows(classOf[ArithmeticException], ofHours(-maxHrs - 1))
+    assertThrows(classOf[ArithmeticException], ofHours(maxHrs + 1))
   }
 
   @Test def test_ofMinutes(): Unit = {
@@ -774,8 +775,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(60), ofMinutes(1))
     assertEquals(ofSeconds(maxSecs), ofMinutes(maxMins))
 
-    expectThrows(classOf[ArithmeticException], ofMinutes(-maxMins - 1))
-    expectThrows(classOf[ArithmeticException], ofMinutes(maxMins + 1))
+    assertThrows(classOf[ArithmeticException], ofMinutes(-maxMins - 1))
+    assertThrows(classOf[ArithmeticException], ofMinutes(maxMins + 1))
   }
 
   @Test def test_ofSeconds(): Unit = {
@@ -788,8 +789,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofSeconds(1), ofSeconds(1, 0))
     assertEquals(ofSeconds(9, 999999999), ofSeconds(10, -1))
 
-    expectThrows(classOf[ArithmeticException], ofSeconds(Long.MinValue, -1))
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException], ofSeconds(Long.MinValue, -1))
+    assertThrows(classOf[ArithmeticException],
         ofSeconds(Long.MaxValue, 1000000000))
   }
 
@@ -832,24 +833,24 @@ class DurationTest extends TemporalAmountTest[Duration] {
         of(Long.MaxValue, MICROS))
 
     for (s <- Seq(-1, 1)) {
-      expectThrows(classOf[ArithmeticException], of(106751991167301L * s, DAYS))
-      expectThrows(classOf[ArithmeticException],
+      assertThrows(classOf[ArithmeticException], of(106751991167301L * s, DAYS))
+      assertThrows(classOf[ArithmeticException],
           of(213503982334602L * s, HALF_DAYS))
-      expectThrows(classOf[ArithmeticException],
+      assertThrows(classOf[ArithmeticException],
           of(2562047788015216L * s, HOURS))
-      expectThrows(classOf[ArithmeticException],
+      assertThrows(classOf[ArithmeticException],
           of(153722867280912931L * s, MINUTES))
     }
 
     for (n <- Seq(-1L, 0L, 1L)) {
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, WEEKS))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, MONTHS))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, YEARS))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, DECADES))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, CENTURIES))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, MILLENNIA))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, ERAS))
-      expectThrows(classOf[UnsupportedTemporalTypeException], of(n, FOREVER))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, WEEKS))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, MONTHS))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, YEARS))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, DECADES))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, CENTURIES))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, MILLENNIA))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, ERAS))
+      assertThrows(classOf[UnsupportedTemporalTypeException], of(n, FOREVER))
     }
   }
 
@@ -858,7 +859,7 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ZERO, from(ZERO))
     assertEquals(dmax, from(dmax))
 
-    expectThrows(classOf[UnsupportedTemporalTypeException], from(Period.ZERO))
+    assertThrows(classOf[UnsupportedTemporalTypeException], from(Period.ZERO))
   }
 
   @Test def test_between(): Unit = {
@@ -868,9 +869,9 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(ofNanos(86399999999999L), between(MIN, MAX))
     assertEquals(ofNanos(1), between(MIN, LocalTime.of(0, 0, 0, 1)))
 
-    expectThrows(classOf[DateTimeException],
+    assertThrows(classOf[DateTimeException],
         between(MIN, LocalDate.of(2012, 2, 29)))
-    expectThrows(classOf[DateTimeException],
+    assertThrows(classOf[DateTimeException],
         between(LocalDate.of(2012, 2, 29), LocalDate.of(2012, 3, 1)))
   }
 }

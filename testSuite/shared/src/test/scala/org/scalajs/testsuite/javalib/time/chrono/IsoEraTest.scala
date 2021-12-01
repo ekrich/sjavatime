@@ -6,8 +6,8 @@ import java.time.temporal.ChronoField
 
 import org.scalajs.testsuite.javalib.time.TemporalAccessorTest
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.{assertEquals, assertArrayEquals}
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class IsoEraTest extends TemporalAccessorTest[IsoEra] {
   import IsoEra._
@@ -42,7 +42,7 @@ class IsoEraTest extends TemporalAccessorTest[IsoEra] {
   @Test def test_valueOf(): Unit = {
     assertEquals(BCE, valueOf("BCE"))
     assertEquals(CE, valueOf("CE"))
-    expectThrows(classOf[IllegalArgumentException], valueOf(""))
+    assertThrows(classOf[IllegalArgumentException], valueOf(""))
   }
 
   @Test def test_of(): Unit = {
@@ -50,6 +50,6 @@ class IsoEraTest extends TemporalAccessorTest[IsoEra] {
     assertEquals(CE, of(1))
 
     for (n <- Seq(Int.MinValue, -1, 2, Int.MaxValue))
-      expectThrows(classOf[DateTimeException], of(n))
+      assertThrows(classOf[DateTimeException], of(n))
   }
 }

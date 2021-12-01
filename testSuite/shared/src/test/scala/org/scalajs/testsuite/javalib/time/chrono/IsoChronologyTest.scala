@@ -5,8 +5,8 @@ import java.time.chrono.{IsoChronology, IsoEra}
 import java.time.temporal.ChronoField
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 import org.scalajs.testsuite.javalib.time.DateTimeTestUtil._
 
 class IsoChronologyTest {
@@ -34,7 +34,7 @@ class IsoChronologyTest {
       testDateTime(iso.date(IsoEra.CE, year, month, day))(LocalDate.of(year, month, day))
       testDateTime(iso.date(IsoEra.BCE, 1 - year, month, day))(LocalDate.of(year, month, day))
       testDateTime(iso.date(year, month, day))(LocalDate.of(year, month, day))
-      expectThrows(classOf[ClassCastException], iso.date(null, year, month, day))
+      assertThrows(classOf[ClassCastException], iso.date(null, year, month, day))
     }
   }
 
@@ -51,7 +51,7 @@ class IsoChronologyTest {
       testDateTime(iso.dateYearDay(IsoEra.CE, year, day))(LocalDate.ofYearDay(year, day))
       testDateTime(iso.dateYearDay(IsoEra.BCE, 1 - year, day))(LocalDate.ofYearDay(year, day))
       testDateTime(iso.dateYearDay(year, day))(LocalDate.ofYearDay(year, day))
-      expectThrows(classOf[ClassCastException], iso.dateYearDay(null, year, day))
+      assertThrows(classOf[ClassCastException], iso.dateYearDay(null, year, day))
     }
   }
 
@@ -89,7 +89,7 @@ class IsoChronologyTest {
     assertEquals(IsoEra.CE, iso.eraOf(1))
 
     for (n <- Seq(-Int.MinValue, -1, 2, Int.MaxValue))
-      expectThrows(classOf[DateTimeException], iso.eraOf(n))
+      assertThrows(classOf[DateTimeException], iso.eraOf(n))
   }
 
   @Test def test_eras(): Unit = {

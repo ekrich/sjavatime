@@ -3,8 +3,8 @@ package org.scalajs.testsuite.javalib.time
 import java.time.temporal._
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp] {
   import DateTimeTestUtil._
@@ -37,7 +37,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       field <- ChronoField.values if !temporal.isSupported(field)
       n <- sampleLongs.filter(field.range.isValidValue)
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException],
+      assertThrows(classOf[UnsupportedTemporalTypeException],
           temporal.`with`(field, n))
     }
   }
@@ -48,7 +48,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       unit <- ChronoUnit.values if !temporal.isSupported(unit)
       n <- sampleLongs
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException],
+      assertThrows(classOf[UnsupportedTemporalTypeException],
           temporal.plus(n, unit))
     }
   }
@@ -72,7 +72,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       unit <- ChronoUnit.values if !temporal.isSupported(unit)
       n <- sampleLongs
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException],
+      assertThrows(classOf[UnsupportedTemporalTypeException],
           temporal.minus(n, unit))
     }
   }
@@ -83,7 +83,7 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       temporal2 <- samples
       unit <- ChronoUnit.values if !temporal1.isSupported(unit)
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException],
+      assertThrows(classOf[UnsupportedTemporalTypeException],
           temporal1.until(temporal2, unit))
     }
   }

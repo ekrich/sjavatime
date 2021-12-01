@@ -5,8 +5,8 @@ import java.time.temporal.{TemporalField, UnsupportedTemporalTypeException, Valu
 import java.time.{DateTimeException, LocalDate, Month, MonthDay}
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 /** Created by alonsodomin on 22/12/2015. */
 class MonthDayTest extends TemporalAccessorTest[MonthDay] {
@@ -90,9 +90,9 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     assertEquals(MonthDay.of(Month.FEBRUARY, 29), max.withMonth(2))
 
     for (t <- samples) {
-      expectThrows(classOf[DateTimeException], t.withMonth(Int.MinValue))
-      expectThrows(classOf[DateTimeException], t.withMonth(Int.MaxValue))
-      expectThrows(classOf[DateTimeException], t.withMonth(0))
+      assertThrows(classOf[DateTimeException], t.withMonth(Int.MinValue))
+      assertThrows(classOf[DateTimeException], t.withMonth(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], t.withMonth(0))
     }
   }
 
@@ -104,9 +104,9 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     assertEquals(MonthDay.of(Month.DECEMBER, 1), max.withDayOfMonth(1))
 
     for (t <- samples) {
-      expectThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MinValue))
-      expectThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MaxValue))
-      expectThrows(classOf[DateTimeException], t.withDayOfMonth(t.getMonth.maxLength() + 1))
+      assertThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MinValue))
+      assertThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], t.withDayOfMonth(t.getMonth.maxLength() + 1))
     }
   }
 
@@ -134,7 +134,7 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
 
     val invalidYears = Seq(Int.MinValue, -1000000000, 1000000000, Int.MaxValue)
     for (t <- samples; y <- invalidYears) {
-      expectThrows(classOf[DateTimeException], t.atYear(y))
+      assertThrows(classOf[DateTimeException], t.atYear(y))
     }
 
     for (y <- yearSamples) {
@@ -179,19 +179,19 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   }
 
   @Test def ofMonth(): Unit = {
-    expectThrows(classOf[NullPointerException], MonthDay.of(null, 1))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MinValue))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MaxValue))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, 32))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Month.FEBRUARY, 30))
+    assertThrows(classOf[NullPointerException], MonthDay.of(null, 1))
+    assertThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MinValue))
+    assertThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MaxValue))
+    assertThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, 32))
+    assertThrows(classOf[DateTimeException], MonthDay.of(Month.FEBRUARY, 30))
 
     assertEquals(min, MonthDay.of(Month.JANUARY, 1))
     assertEquals(max, MonthDay.of(Month.DECEMBER, 31))
   }
 
   @Test def of(): Unit = {
-    expectThrows(classOf[DateTimeException], MonthDay.of(Int.MinValue, 1))
-    expectThrows(classOf[DateTimeException], MonthDay.of(Int.MaxValue, 1))
+    assertThrows(classOf[DateTimeException], MonthDay.of(Int.MinValue, 1))
+    assertThrows(classOf[DateTimeException], MonthDay.of(Int.MaxValue, 1))
 
     assertEquals(min, MonthDay.of(1, 1))
     assertEquals(max, MonthDay.of(12, 31))

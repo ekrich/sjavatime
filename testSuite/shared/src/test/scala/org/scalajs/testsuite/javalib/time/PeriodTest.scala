@@ -5,8 +5,8 @@ import java.time.chrono.IsoChronology
 import java.time.temporal.ChronoUnit
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class PeriodTest extends TemporalAmountTest[Period] {
 
@@ -132,11 +132,11 @@ class PeriodTest extends TemporalAmountTest[Period] {
     }
 
     for (p <- Seq(oneYear, oneMonth, oneDay))
-      expectThrows(classOf[ArithmeticException], pmax.plus(p))
+      assertThrows(classOf[ArithmeticException], pmax.plus(p))
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneDay.negated))
-      expectThrows(classOf[ArithmeticException], pmin.plus(p))
+      assertThrows(classOf[ArithmeticException], pmin.plus(p))
     for (p <- samples)
-      expectThrows(classOf[DateTimeException], p.plus(Duration.ZERO))
+      assertThrows(classOf[DateTimeException], p.plus(Duration.ZERO))
   }
 
   @Test def test_plusYears(): Unit = {
@@ -150,11 +150,11 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(p.getDays, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException], oneYear.plusYears(Int.MaxValue))
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException], oneYear.plusYears(Int.MaxValue))
+    assertThrows(classOf[ArithmeticException],
         oneYear.negated.plusYears(Int.MinValue))
-    expectThrows(classOf[ArithmeticException], pmax.plusYears(1))
-    expectThrows(classOf[ArithmeticException], pmin.plusYears(-1))
+    assertThrows(classOf[ArithmeticException], pmax.plusYears(1))
+    assertThrows(classOf[ArithmeticException], pmin.plusYears(-1))
   }
 
   @Test def test_plusMonths(): Unit = {
@@ -168,11 +168,11 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(p.getDays, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException], oneMonth.plusMonths(Int.MaxValue))
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException], oneMonth.plusMonths(Int.MaxValue))
+    assertThrows(classOf[ArithmeticException],
         oneMonth.negated.plusMonths(Int.MinValue))
-    expectThrows(classOf[ArithmeticException], pmax.plusMonths(1))
-    expectThrows(classOf[ArithmeticException], pmin.plusMonths(-1))
+    assertThrows(classOf[ArithmeticException], pmax.plusMonths(1))
+    assertThrows(classOf[ArithmeticException], pmin.plusMonths(-1))
   }
 
   @Test def test_plusDays(): Unit = {
@@ -186,11 +186,11 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(p.getDays + n, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException], oneDay.plusDays(Int.MaxValue))
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException], oneDay.plusDays(Int.MaxValue))
+    assertThrows(classOf[ArithmeticException],
         oneDay.negated.plusDays(Int.MinValue))
-    expectThrows(classOf[ArithmeticException], pmax.plusDays(1))
-    expectThrows(classOf[ArithmeticException], pmin.plusDays(-1))
+    assertThrows(classOf[ArithmeticException], pmax.plusDays(1))
+    assertThrows(classOf[ArithmeticException], pmin.plusDays(-1))
   }
 
   @Test def test_minus(): Unit = {
@@ -205,11 +205,11 @@ class PeriodTest extends TemporalAmountTest[Period] {
     }
 
     for (p <- Seq(oneYear, oneMonth, oneDay))
-      expectThrows(classOf[ArithmeticException], pmin.minus(p))
+      assertThrows(classOf[ArithmeticException], pmin.minus(p))
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneDay.negated))
-      expectThrows(classOf[ArithmeticException], pmax.minus(p))
+      assertThrows(classOf[ArithmeticException], pmax.minus(p))
     for (p <- samples)
-      expectThrows(classOf[DateTimeException], p.minus(Duration.ZERO))
+      assertThrows(classOf[DateTimeException], p.minus(Duration.ZERO))
   }
 
   @Test def test_minusYears(): Unit = {
@@ -223,10 +223,10 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(p.getDays, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         oneYear.minusYears(Int.MinValue + 1))
-    expectThrows(classOf[ArithmeticException], pmin.minusYears(1))
-    expectThrows(classOf[ArithmeticException], pmax.minusYears(-1))
+    assertThrows(classOf[ArithmeticException], pmin.minusYears(1))
+    assertThrows(classOf[ArithmeticException], pmax.minusYears(-1))
   }
 
   @Test def test_minusMonths(): Unit = {
@@ -240,10 +240,10 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(p.getDays, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         oneMonth.minusMonths(Int.MinValue + 1))
-    expectThrows(classOf[ArithmeticException], pmin.minusMonths(1))
-    expectThrows(classOf[ArithmeticException], pmax.minusMonths(-1))
+    assertThrows(classOf[ArithmeticException], pmin.minusMonths(1))
+    assertThrows(classOf[ArithmeticException], pmax.minusMonths(-1))
   }
 
   @Test def test_minusDays(): Unit = {
@@ -257,10 +257,10 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(p.getDays - n, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException],
+    assertThrows(classOf[ArithmeticException],
         oneDay.minusDays(Int.MinValue + 1))
-    expectThrows(classOf[ArithmeticException], pmin.minusDays(1))
-    expectThrows(classOf[ArithmeticException], pmax.minusDays(-1))
+    assertThrows(classOf[ArithmeticException], pmin.minusDays(1))
+    assertThrows(classOf[ArithmeticException], pmax.minusDays(-1))
   }
 
   @Test def test_multipliedBy(): Unit = {
@@ -281,19 +281,19 @@ class PeriodTest extends TemporalAmountTest[Period] {
     for (p <- samples if p != pmin)
       assertEquals(p.negated, p.multipliedBy(-1))
 
-    expectThrows(classOf[ArithmeticException], pmin.multipliedBy(2))
-    expectThrows(classOf[ArithmeticException], pmin.multipliedBy(-1))
+    assertThrows(classOf[ArithmeticException], pmin.multipliedBy(2))
+    assertThrows(classOf[ArithmeticException], pmin.multipliedBy(-1))
     for (p <- Seq(pmin1, pmax)) {
-      expectThrows(classOf[ArithmeticException], p.multipliedBy(2))
-      expectThrows(classOf[ArithmeticException], p.multipliedBy(-2))
+      assertThrows(classOf[ArithmeticException], p.multipliedBy(2))
+      assertThrows(classOf[ArithmeticException], p.multipliedBy(-2))
     }
     for (p <- samples1 if p != ZERO) {
       val p2 = p.multipliedBy(2)
-      expectThrows(classOf[ArithmeticException], p2.multipliedBy(Int.MaxValue))
-      expectThrows(classOf[ArithmeticException], p2.multipliedBy(Int.MinValue))
+      assertThrows(classOf[ArithmeticException], p2.multipliedBy(Int.MaxValue))
+      assertThrows(classOf[ArithmeticException], p2.multipliedBy(Int.MinValue))
     }
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneDay.negated))
-      expectThrows(classOf[ArithmeticException], p.multipliedBy(Int.MinValue))
+      assertThrows(classOf[ArithmeticException], p.multipliedBy(Int.MinValue))
   }
 
   @Test def test_negated(): Unit = {
@@ -304,7 +304,7 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(-p.getDays, p1.getDays)
     }
 
-    expectThrows(classOf[ArithmeticException], pmin.negated)
+    assertThrows(classOf[ArithmeticException], pmin.negated)
   }
 
   @Test def test_normalized(): Unit = {
@@ -321,7 +321,7 @@ class PeriodTest extends TemporalAmountTest[Period] {
     }
 
     for (p <- Seq(pmin, pmin1, pmax))
-      expectThrows(classOf[ArithmeticException], p.normalized)
+      assertThrows(classOf[ArithmeticException], p.normalized)
   }
 
   @Test def test_toTotalMonths(): Unit = {
@@ -353,14 +353,14 @@ class PeriodTest extends TemporalAmountTest[Period] {
       LocalDate.of(2012, 2, 29))
 
     for (p <- Seq(oneYear, oneMonth, oneYear, pmin, pmax))
-      expectThrows(classOf[DateTimeException], p.addTo(LocalDate.MAX))
+      assertThrows(classOf[DateTimeException], p.addTo(LocalDate.MAX))
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneYear.negated, pmin, pmax))
-      expectThrows(classOf[DateTimeException], p.addTo(LocalDate.MIN))
+      assertThrows(classOf[DateTimeException], p.addTo(LocalDate.MIN))
     for {
       p <- samples if p != ZERO
       t <- ts
     } {
-      expectThrows(classOf[DateTimeException], p.addTo(t))
+      assertThrows(classOf[DateTimeException], p.addTo(t))
     }
   }
 
@@ -385,14 +385,14 @@ class PeriodTest extends TemporalAmountTest[Period] {
       LocalDate.of(2012, 2, 29))
 
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneYear.negated, pmin, pmax))
-      expectThrows(classOf[DateTimeException], p.subtractFrom(LocalDate.MAX))
+      assertThrows(classOf[DateTimeException], p.subtractFrom(LocalDate.MAX))
     for (p <- Seq(oneYear, oneMonth, oneYear, pmin, pmax))
-      expectThrows(classOf[DateTimeException], p.subtractFrom(LocalDate.MIN))
+      assertThrows(classOf[DateTimeException], p.subtractFrom(LocalDate.MIN))
     for {
       p <- samples if p != ZERO
       t <- ts
     } {
-      expectThrows(classOf[DateTimeException], p.subtractFrom(t))
+      assertThrows(classOf[DateTimeException], p.subtractFrom(t))
     }
   }
 

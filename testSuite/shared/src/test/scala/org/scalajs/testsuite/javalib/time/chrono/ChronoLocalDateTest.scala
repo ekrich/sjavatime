@@ -4,8 +4,8 @@ import java.time.{DateTimeException, LocalTime, LocalDate}
 import java.time.chrono.ChronoLocalDate
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class ChronoLocalDateTest {
   import ChronoLocalDate._
@@ -28,6 +28,6 @@ class ChronoLocalDateTest {
       assertEquals(from(d), d)
 
     for (t <- Seq(LocalTime.MIN, LocalTime.NOON, LocalTime.MAX))
-      expectThrows(classOf[DateTimeException], from(t))
+      assertThrows(classOf[DateTimeException], from(t))
   }
 }
