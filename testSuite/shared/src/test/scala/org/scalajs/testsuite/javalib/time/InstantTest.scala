@@ -5,8 +5,8 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.{UnsupportedTemporalTypeException, ChronoUnit, ChronoField}
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 /** Created by alonsodomin on 26/12/2015. */
 class InstantTest extends TemporalTest[Instant] {
@@ -83,13 +83,13 @@ class InstantTest extends TemporalTest[Instant] {
         testDateTime(i.`with`(INSTANT_SECONDS, value).getLong(INSTANT_SECONDS))(value)
 
       for (n <- Seq(Long.MinValue, -1L, 1000000000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], i.`with`(NANO_OF_SECOND, n))
+        assertThrows(classOf[DateTimeException], i.`with`(NANO_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -1L, 1000000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], i.`with`(MICRO_OF_SECOND, n))
+        assertThrows(classOf[DateTimeException], i.`with`(MICRO_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -1L, 1000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], i.`with`(MILLI_OF_SECOND, n))
+        assertThrows(classOf[DateTimeException], i.`with`(MILLI_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -31557014167219201L, 31557014167219201L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], i.`with`(INSTANT_SECONDS, n))
+        assertThrows(classOf[DateTimeException], i.`with`(INSTANT_SECONDS, n))
     }
   }
 
@@ -123,7 +123,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-83827872000L), someNegativeInstant.truncatedTo(DAYS))
 
     for (i <- samples;u <- dateBasedUnits.filter(_ != DAYS))
-      expectThrows(classOf[UnsupportedTemporalTypeException], i.truncatedTo(u))
+      assertThrows(classOf[UnsupportedTemporalTypeException], i.truncatedTo(u))
   }
 
   @Test def plus(): Unit = {
@@ -137,7 +137,7 @@ class InstantTest extends TemporalTest[Instant] {
         if (!(i == Instant.MIN && n < 0) && !(i == Instant.MAX && n > 0))
           assertEquals(i.plusNanos(u.getDuration.toNanos * n), i.plus(n, u))
         else if ((i == Instant.MIN && n < 0) && (i == Instant.MAX && n > 0))
-          expectThrows(classOf[DateTimeException], i.plus(n, u))
+          assertThrows(classOf[DateTimeException], i.plus(n, u))
       }
     }
   }
@@ -150,10 +150,10 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-1), Instant.EPOCH.plusSeconds(-1))
 
     assertEquals(Instant.ofEpochSecond(-31557014167219199L), Instant.MIN.plusSeconds(1))
-    expectThrows(classOf[DateTimeException], Instant.MIN.plusSeconds(-1))
+    assertThrows(classOf[DateTimeException], Instant.MIN.plusSeconds(-1))
     assertEquals(Instant.EPOCH, Instant.MIN.plusSeconds(31557014167219200L))
 
-    expectThrows(classOf[DateTimeException], Instant.MAX.plusSeconds(1))
+    assertThrows(classOf[DateTimeException], Instant.MAX.plusSeconds(1))
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999), Instant.MAX.plusSeconds(-1))
     assertEquals(Instant.ofEpochSecond(0, 999999999), Instant.MAX.plusSeconds(-31556889864403199L))
 
@@ -175,9 +175,9 @@ class InstantTest extends TemporalTest[Instant] {
         Instant.MIN.plusMillis(1))
     assertEquals(Instant.ofEpochSecond(-31557014167219199L, 0),
         Instant.MIN.plusMillis(1000))
-    expectThrows(classOf[DateTimeException], Instant.MIN.plusMillis(-1))
+    assertThrows(classOf[DateTimeException], Instant.MIN.plusMillis(-1))
 
-    expectThrows(classOf[DateTimeException], Instant.MAX.plusMillis(1))
+    assertThrows(classOf[DateTimeException], Instant.MAX.plusMillis(1))
     assertEquals(Instant.ofEpochSecond(31556889864403199L, 998999999),
         Instant.MAX.plusMillis(-1))
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
@@ -201,9 +201,9 @@ class InstantTest extends TemporalTest[Instant] {
         Instant.MIN.plusNanos(1))
     assertEquals(Instant.ofEpochSecond(-31557014167219199L, 0),
         Instant.MIN.plusNanos(1000000000))
-    expectThrows(classOf[DateTimeException], Instant.MIN.plusNanos(-1))
+    assertThrows(classOf[DateTimeException], Instant.MIN.plusNanos(-1))
 
-    expectThrows(classOf[DateTimeException], Instant.MAX.plusMillis(1))
+    assertThrows(classOf[DateTimeException], Instant.MAX.plusMillis(1))
     assertEquals(Instant.ofEpochSecond(31556889864403199L, 999999998),
         Instant.MAX.plusNanos(-1))
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
@@ -223,12 +223,12 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-1), Instant.EPOCH.minusSeconds(1))
     assertEquals(Instant.ofEpochSecond(1), Instant.EPOCH.minusSeconds(-1))
 
-    expectThrows(classOf[DateTimeException], Instant.MIN.minusSeconds(1))
+    assertThrows(classOf[DateTimeException], Instant.MIN.minusSeconds(1))
     assertEquals(Instant.ofEpochSecond(-31557014167219199L), Instant.MIN.minusSeconds(-1))
     assertEquals(Instant.EPOCH, Instant.MIN.minusSeconds(-31557014167219200L))
 
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999), Instant.MAX.minusSeconds(1))
-    expectThrows(classOf[DateTimeException], Instant.MAX.minusSeconds(-1))
+    assertThrows(classOf[DateTimeException], Instant.MAX.minusSeconds(-1))
     assertEquals(Instant.ofEpochSecond(0, 999999999), Instant.MAX.minusSeconds(31556889864403199L))
 
     assertEquals(Instant.ofEpochSecond(928392982L, 942000000), somePositiveInstant.minusSeconds(1))
@@ -245,7 +245,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochMilli(-1), Instant.EPOCH.minusMillis(1))
     assertEquals(Instant.ofEpochMilli(1), Instant.EPOCH.minusMillis(-1))
 
-    expectThrows(classOf[DateTimeException], Instant.MIN.minusMillis(1))
+    assertThrows(classOf[DateTimeException], Instant.MIN.minusMillis(1))
     assertEquals(Instant.ofEpochSecond(-31557014167219200L, 1000000),
         Instant.MIN.minusMillis(-1))
     assertEquals(Instant.ofEpochSecond(-31557014167219199L, 0),
@@ -255,7 +255,7 @@ class InstantTest extends TemporalTest[Instant] {
         Instant.MAX.minusMillis(1))
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
         Instant.MAX.minusMillis(1000))
-    expectThrows(classOf[DateTimeException], Instant.MAX.minusMillis(-1))
+    assertThrows(classOf[DateTimeException], Instant.MAX.minusMillis(-1))
 
     assertEquals(Instant.ofEpochSecond(928392983L, 941000000), somePositiveInstant.minusMillis(1))
     assertEquals(Instant.ofEpochSecond(928392983L, 943000000), somePositiveInstant.minusMillis(-1))
@@ -271,7 +271,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(-1, 999999999), Instant.EPOCH.minusNanos(1))
     assertEquals(Instant.ofEpochSecond(0, 1), Instant.EPOCH.minusNanos(-1))
 
-    expectThrows(classOf[DateTimeException], Instant.MIN.minusNanos(1))
+    assertThrows(classOf[DateTimeException], Instant.MIN.minusNanos(1))
     assertEquals(Instant.ofEpochSecond(-31557014167219200L, 1),
         Instant.MIN.minusNanos(-1))
     assertEquals(Instant.ofEpochSecond(-31557014167219199L, 0),
@@ -281,7 +281,7 @@ class InstantTest extends TemporalTest[Instant] {
         Instant.MAX.minusNanos(1))
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
         Instant.MAX.minusNanos(1000000000))
-    expectThrows(classOf[DateTimeException], Instant.MAX.minusNanos(-1))
+    assertThrows(classOf[DateTimeException], Instant.MAX.minusNanos(-1))
 
     assertEquals(Instant.ofEpochSecond(928392983L, 941999999), somePositiveInstant.minusNanos(1))
     assertEquals(Instant.ofEpochSecond(928392983L, 942000001), somePositiveInstant.minusNanos(-1))
@@ -302,14 +302,14 @@ class InstantTest extends TemporalTest[Instant] {
       i <- samples
       date <- Seq(LocalDate.MIN, LocalDate.MAX)
     } {
-      expectThrows(classOf[DateTimeException], i.adjustInto(date))
+      assertThrows(classOf[DateTimeException], i.adjustInto(date))
     }
   }
 
   @Test def until(): Unit = {
-    expectThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, NANOS))
-    expectThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MICROS))
-    expectThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MILLIS))
+    assertThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, NANOS))
+    assertThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MICROS))
+    assertThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MILLIS))
 
     assertEquals(31557014167219200L, Instant.MIN.until(Instant.EPOCH, SECONDS))
     assertEquals(525950236120320L, Instant.MIN.until(Instant.EPOCH, MINUTES))
@@ -398,7 +398,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.MIN, Instant.ofEpochSecond(-31557014167219200L, 0))
     assertEquals(Instant.MAX, Instant.ofEpochSecond(31556889864403199L, 999999999))
 
-    expectThrows(classOf[DateTimeException], Instant.ofEpochSecond(-31557014167219200L, Long.MinValue))
+    assertThrows(classOf[DateTimeException], Instant.ofEpochSecond(-31557014167219200L, Long.MinValue))
 
     val limits = Seq(-31557014167219200L, 31557014167219200L)
     val invalidNanos = Seq(Long.MinValue, -1L, 1000000000L, Long.MaxValue)
@@ -407,7 +407,7 @@ class InstantTest extends TemporalTest[Instant] {
       case (a, b) => ((a < 0) && (b < 0)) || ((a > 0) && (b > 0))
     }
     for ((s, n) <- invalidPairs)
-      expectThrows(classOf[DateTimeException], Instant.ofEpochSecond(s, n))
+      assertThrows(classOf[DateTimeException], Instant.ofEpochSecond(s, n))
   }
 
   @Test def ofEpochMilli(): Unit = {
@@ -419,13 +419,13 @@ class InstantTest extends TemporalTest[Instant] {
       assertEquals(i, Instant.from(i))
 
     val aTime = LocalTime.ofNanoOfDay(98392983293L)
-    expectThrows(classOf[DateTimeException], Instant.from(aTime))
+    assertThrows(classOf[DateTimeException], Instant.from(aTime))
 
     val aDate = LocalDate.ofEpochDay(392889321L)
-    expectThrows(classOf[DateTimeException], Instant.from(aDate))
+    assertThrows(classOf[DateTimeException], Instant.from(aDate))
 
     val aYear = Year.of(329)
-    expectThrows(classOf[DateTimeException], Instant.from(aYear))
+    assertThrows(classOf[DateTimeException], Instant.from(aYear))
   }
 
   @Test def parse(): Unit = {
@@ -445,14 +445,14 @@ class InstantTest extends TemporalTest[Instant] {
     val charSequence: CharSequence = "1999-06-03T06:56:23.942Z"
     assertEquals(somePositiveInstant, Instant.parse(charSequence))
 
-    expectThrows(classOf[DateTimeParseException], Instant.parse("+1000000001-12-31T23:59:59.999999999Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("-0687-99-07T23:38:33.088936253Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("-ABCD-08-07T23:38:33.088936253Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T13:56:90.942Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T13:65:23.942Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T25:56:23.942Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("1999-06-99T13:56:23.942Z"))
-    expectThrows(classOf[DateTimeParseException], Instant.parse("1999-99-03T13:56:23.942Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("+1000000001-12-31T23:59:59.999999999Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("-0687-99-07T23:38:33.088936253Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("-ABCD-08-07T23:38:33.088936253Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T13:56:90.942Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T13:65:23.942Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T25:56:23.942Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-99T13:56:23.942Z"))
+    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-99-03T13:56:23.942Z"))
   }
 
 }

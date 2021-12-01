@@ -4,8 +4,8 @@ import java.time._
 import java.time.temporal.ChronoField
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.{assertEquals, assertArrayEquals}
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
   import DayOfWeek._
@@ -75,7 +75,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     assertEquals(SATURDAY, valueOf("SATURDAY"))
     assertEquals(SUNDAY, valueOf("SUNDAY"))
 
-    expectThrows(classOf[IllegalArgumentException], valueOf(""))
+    assertThrows(classOf[IllegalArgumentException], valueOf(""))
   }
 
   @Test def test_of(): Unit = {
@@ -88,7 +88,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     assertEquals(SUNDAY, of(7))
 
     for (n <- Seq(Int.MinValue, 0, 8, Int.MaxValue))
-      expectThrows(classOf[DateTimeException], of(n))
+      assertThrows(classOf[DateTimeException], of(n))
   }
 
   @Test def test_from(): Unit = {
@@ -97,7 +97,7 @@ class DayOfWeekTest extends TemporalAccessorTest[DayOfWeek] {
     for (d <- Seq(LocalDate.MIN, LocalDate.of(2012, 2, 29), LocalDate.MAX))
       assertEquals(d.getDayOfWeek, from(d))
 
-    expectThrows(classOf[DateTimeException], from(LocalTime.MIN))
-    expectThrows(classOf[DateTimeException], from(Month.JANUARY))
+    assertThrows(classOf[DateTimeException], from(LocalTime.MIN))
+    assertThrows(classOf[DateTimeException], from(Month.JANUARY))
   }
 }

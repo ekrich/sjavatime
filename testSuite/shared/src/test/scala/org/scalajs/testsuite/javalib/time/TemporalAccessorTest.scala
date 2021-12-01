@@ -4,8 +4,8 @@ import java.time.DateTimeException
 import java.time.temporal._
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
   val samples: Seq[TempAcc]
@@ -37,7 +37,7 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
         val expected = expectedRangeFor(accessor, field)
         assertEquals(expected, accessor.range(field))
       } else {
-        expectThrows(classOf[UnsupportedTemporalTypeException], accessor.range(field))
+        assertThrows(classOf[UnsupportedTemporalTypeException], accessor.range(field))
       }
     }
   }
@@ -50,9 +50,9 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
       if (accessor.isSupported(field) && field.range.isIntValue)
         assertEquals(accessor.getLong(field), accessor.get(field).toLong)
       else if (accessor.isSupported(field))
-        expectThrows(classOf[DateTimeException], accessor.get(field))
+        assertThrows(classOf[DateTimeException], accessor.get(field))
       else
-        expectThrows(classOf[UnsupportedTemporalTypeException], accessor.get(field))
+        assertThrows(classOf[UnsupportedTemporalTypeException], accessor.get(field))
     }
   }
 
@@ -61,7 +61,7 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
       accessor <- samples
       field <- ChronoField.values() if !accessor.isSupported(field)
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException],
+      assertThrows(classOf[UnsupportedTemporalTypeException],
           accessor.getLong(field))
     }
   }

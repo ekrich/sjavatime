@@ -3,8 +3,8 @@ package org.scalajs.testsuite.javalib.time.temporal
 import java.time.temporal.ChronoUnit
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.{assertEquals, assertArrayEquals}
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class ChronoUnitTest {
   import ChronoUnit._

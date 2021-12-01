@@ -4,8 +4,8 @@ import java.time._
 import java.time.temporal.{TemporalField, ValueRange, ChronoUnit, ChronoField}
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 /** Created by alonsodomin on 25/12/2015. */
 class YearMonthTest extends TemporalTest[YearMonth] {
@@ -135,25 +135,25 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
 
     for (ym <- samples) {
-      expectThrows(classOf[DateTimeException], ym.`with`(YEAR, Long.MinValue))
-      expectThrows(classOf[DateTimeException], ym.`with`(YEAR, -1000000000L))
-      expectThrows(classOf[DateTimeException], ym.`with`(YEAR, 1000000000L))
-      expectThrows(classOf[DateTimeException], ym.`with`(YEAR, Long.MaxValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(YEAR, Long.MinValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(YEAR, -1000000000L))
+      assertThrows(classOf[DateTimeException], ym.`with`(YEAR, 1000000000L))
+      assertThrows(classOf[DateTimeException], ym.`with`(YEAR, Long.MaxValue))
 
-      expectThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, Long.MinValue))
-      expectThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, 0L))
-      expectThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, 13L))
-      expectThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, Long.MaxValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, Long.MinValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, 0L))
+      assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, 13L))
+      assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, Long.MaxValue))
 
-      expectThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, Long.MinValue))
-      expectThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, -11999999989L))
-      expectThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, 12000000000L))
-      expectThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, Long.MaxValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, Long.MinValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, -11999999989L))
+      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, 12000000000L))
+      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, Long.MaxValue))
 
-      expectThrows(classOf[DateTimeException], ym.`with`(ERA, Long.MinValue))
-      expectThrows(classOf[DateTimeException], ym.`with`(ERA, -1L))
-      expectThrows(classOf[DateTimeException], ym.`with`(ERA, -2L))
-      expectThrows(classOf[DateTimeException], ym.`with`(ERA, Long.MaxValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(ERA, Long.MinValue))
+      assertThrows(classOf[DateTimeException], ym.`with`(ERA, -1L))
+      assertThrows(classOf[DateTimeException], ym.`with`(ERA, -2L))
+      assertThrows(classOf[DateTimeException], ym.`with`(ERA, Long.MaxValue))
     }
   }
 
@@ -170,10 +170,10 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(YearMonth.of(0, 12), decFirstAC.withYear(0))
 
     for (ym <- samples) {
-      expectThrows(classOf[DateTimeException], ym.withYear(Int.MinValue))
-      expectThrows(classOf[DateTimeException], ym.withYear(-1000000000))
-      expectThrows(classOf[DateTimeException], ym.withYear(1000000000))
-      expectThrows(classOf[DateTimeException], ym.withYear(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], ym.withYear(Int.MinValue))
+      assertThrows(classOf[DateTimeException], ym.withYear(-1000000000))
+      assertThrows(classOf[DateTimeException], ym.withYear(1000000000))
+      assertThrows(classOf[DateTimeException], ym.withYear(Int.MaxValue))
     }
   }
 
@@ -187,10 +187,10 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(YearMonth.of(1, 1), decFirstAC.withMonth(1))
 
     for (ym <- samples) {
-      expectThrows(classOf[DateTimeException], ym.withMonth(Int.MinValue))
-      expectThrows(classOf[DateTimeException], ym.withMonth(0))
-      expectThrows(classOf[DateTimeException], ym.withMonth(13))
-      expectThrows(classOf[DateTimeException], ym.withMonth(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], ym.withMonth(Int.MinValue))
+      assertThrows(classOf[DateTimeException], ym.withMonth(0))
+      assertThrows(classOf[DateTimeException], ym.withMonth(13))
+      assertThrows(classOf[DateTimeException], ym.withMonth(Int.MaxValue))
     }
   }
 
@@ -217,12 +217,12 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(YearMonth.of(999999999, 1), min.plusYears(1999999998))
     assertEquals(YearMonth.of(-999999999, 12), max.plusYears(-1999999998))
 
-    expectThrows(classOf[DateTimeException], min.plusYears(-1))
-    expectThrows(classOf[DateTimeException], min.plusYears(1999999999))
-    expectThrows(classOf[DateTimeException], max.plusYears(1))
-    expectThrows(classOf[DateTimeException], max.plusYears(-1999999999))
-    expectThrows(classOf[DateTimeException], min.plusYears(Long.MinValue))
-    expectThrows(classOf[DateTimeException], max.plusYears(Long.MaxValue))
+    assertThrows(classOf[DateTimeException], min.plusYears(-1))
+    assertThrows(classOf[DateTimeException], min.plusYears(1999999999))
+    assertThrows(classOf[DateTimeException], max.plusYears(1))
+    assertThrows(classOf[DateTimeException], max.plusYears(-1999999999))
+    assertThrows(classOf[DateTimeException], min.plusYears(Long.MinValue))
+    assertThrows(classOf[DateTimeException], max.plusYears(Long.MaxValue))
   }
 
   @Test def plusMonths(): Unit = {
@@ -238,12 +238,12 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(YearMonth.of(999999999, 12), min.plusMonths(23999999987L))
     assertEquals(YearMonth.of(-999999999, 1), max.plusMonths(-23999999987L))
 
-    expectThrows(classOf[DateTimeException], min.plusMonths(-1))
-    expectThrows(classOf[DateTimeException], min.plusMonths(23999999988L))
-    expectThrows(classOf[DateTimeException], max.plusMonths(-23999999988L))
-    expectThrows(classOf[DateTimeException], max.plusMonths(1))
-    expectThrows(classOf[DateTimeException], min.plusMonths(Long.MinValue))
-    expectThrows(classOf[DateTimeException], max.plusMonths(Long.MaxValue))
+    assertThrows(classOf[DateTimeException], min.plusMonths(-1))
+    assertThrows(classOf[DateTimeException], min.plusMonths(23999999988L))
+    assertThrows(classOf[DateTimeException], max.plusMonths(-23999999988L))
+    assertThrows(classOf[DateTimeException], max.plusMonths(1))
+    assertThrows(classOf[DateTimeException], min.plusMonths(Long.MinValue))
+    assertThrows(classOf[DateTimeException], max.plusMonths(Long.MaxValue))
   }
 
   @Test def minusYears(): Unit = {
@@ -256,12 +256,12 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(YearMonth.of(999999999, 1), min.minusYears(-1999999998))
     assertEquals(YearMonth.of(-999999999, 12), max.minusYears(1999999998))
 
-    expectThrows(classOf[DateTimeException], min.minusYears(1))
-    expectThrows(classOf[DateTimeException], min.minusYears(-1999999999))
-    expectThrows(classOf[DateTimeException], max.minusYears(-1))
-    expectThrows(classOf[DateTimeException], max.minusYears(1999999999))
-    expectThrows(classOf[DateTimeException], min.minusYears(Long.MaxValue))
-    expectThrows(classOf[DateTimeException], max.minusYears(Long.MinValue))
+    assertThrows(classOf[DateTimeException], min.minusYears(1))
+    assertThrows(classOf[DateTimeException], min.minusYears(-1999999999))
+    assertThrows(classOf[DateTimeException], max.minusYears(-1))
+    assertThrows(classOf[DateTimeException], max.minusYears(1999999999))
+    assertThrows(classOf[DateTimeException], min.minusYears(Long.MaxValue))
+    assertThrows(classOf[DateTimeException], max.minusYears(Long.MinValue))
   }
 
   @Test def minusMonths(): Unit = {
@@ -275,12 +275,12 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     assertEquals(YearMonth.of(999999999, 12), min.minusMonths(-23999999987L))
     assertEquals(YearMonth.of(-999999999, 1), max.minusMonths(23999999987L))
 
-    expectThrows(classOf[DateTimeException], min.minusMonths(1))
-    expectThrows(classOf[DateTimeException], min.minusMonths(-23999999988L))
-    expectThrows(classOf[DateTimeException], max.minusMonths(23999999988L))
-    expectThrows(classOf[DateTimeException], max.minusMonths(-1))
-    expectThrows(classOf[DateTimeException], min.minusMonths(Long.MaxValue))
-    expectThrows(classOf[DateTimeException], max.minusMonths(Long.MinValue))
+    assertThrows(classOf[DateTimeException], min.minusMonths(1))
+    assertThrows(classOf[DateTimeException], min.minusMonths(-23999999988L))
+    assertThrows(classOf[DateTimeException], max.minusMonths(23999999988L))
+    assertThrows(classOf[DateTimeException], max.minusMonths(-1))
+    assertThrows(classOf[DateTimeException], min.minusMonths(Long.MaxValue))
+    assertThrows(classOf[DateTimeException], max.minusMonths(Long.MinValue))
   }
 
   @Test def adjustInto(): Unit = {
@@ -336,8 +336,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     }
 
     for (ym <- samples) {
-      expectThrows(classOf[DateTimeException], ym.atDay(0))
-      expectThrows(classOf[DateTimeException], ym.atDay(ym.lengthOfMonth() + 1))
+      assertThrows(classOf[DateTimeException], ym.atDay(0))
+      assertThrows(classOf[DateTimeException], ym.atDay(ym.lengthOfMonth() + 1))
     }
   }
 
@@ -416,10 +416,10 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       assertEquals(ym, YearMonth.of(ym.getYear, ym.getMonth))
     }
 
-    expectThrows(classOf[NullPointerException], YearMonth.of(0, null))
+    assertThrows(classOf[NullPointerException], YearMonth.of(0, null))
     for (m <- Month.values()) {
-      expectThrows(classOf[DateTimeException], YearMonth.of(Int.MinValue, m))
-      expectThrows(classOf[DateTimeException], YearMonth.of(Int.MaxValue, m))
+      assertThrows(classOf[DateTimeException], YearMonth.of(Int.MinValue, m))
+      assertThrows(classOf[DateTimeException], YearMonth.of(Int.MaxValue, m))
     }
   }
 
@@ -438,12 +438,12 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       assertEquals(ym, YearMonth.of(ym.getYear, ym.getMonthValue))
     }
 
-    expectThrows(classOf[DateTimeException], YearMonth.of(Int.MinValue, 0))
-    expectThrows(classOf[DateTimeException], YearMonth.of(Int.MaxValue, 0))
-    expectThrows(classOf[DateTimeException], YearMonth.of(min.getYear, 0))
-    expectThrows(classOf[DateTimeException], YearMonth.of(min.getYear, 13))
-    expectThrows(classOf[DateTimeException], YearMonth.of(max.getYear, 0))
-    expectThrows(classOf[DateTimeException], YearMonth.of(max.getYear, 13))
+    assertThrows(classOf[DateTimeException], YearMonth.of(Int.MinValue, 0))
+    assertThrows(classOf[DateTimeException], YearMonth.of(Int.MaxValue, 0))
+    assertThrows(classOf[DateTimeException], YearMonth.of(min.getYear, 0))
+    assertThrows(classOf[DateTimeException], YearMonth.of(min.getYear, 13))
+    assertThrows(classOf[DateTimeException], YearMonth.of(max.getYear, 0))
+    assertThrows(classOf[DateTimeException], YearMonth.of(max.getYear, 13))
   }
 
   @Test def now(): Unit = {
@@ -466,7 +466,7 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     val someDate = LocalDate.of(2015, 1, 1)
     assertEquals(YearMonth.of(2015, 1), YearMonth.from(someDate))
 
-    expectThrows(classOf[DateTimeException], YearMonth.from(Month.JANUARY))
+    assertThrows(classOf[DateTimeException], YearMonth.from(Month.JANUARY))
   }
 
 }

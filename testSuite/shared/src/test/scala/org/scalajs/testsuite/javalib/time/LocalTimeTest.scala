@@ -4,8 +4,8 @@ import java.time._
 import java.time.temporal._
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class LocalTimeTest extends TemporalTest[LocalTime] {
 
@@ -120,35 +120,35 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
       }
 
       for (n <- Seq(Long.MinValue, -1L, 1000000000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(NANO_OF_SECOND, n))
+        assertThrows(classOf[DateTimeException], t.`with`(NANO_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -1L, 86400000000000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(NANO_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(NANO_OF_DAY, n))
       for (n <- Seq(Long.MinValue, -1L, 1000000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(MICRO_OF_SECOND, n))
+        assertThrows(classOf[DateTimeException], t.`with`(MICRO_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -1L, 86400000000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(MICRO_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(MICRO_OF_DAY, n))
       for (n <- Seq(Long.MinValue, -1L, 1000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(MILLI_OF_SECOND, n))
+        assertThrows(classOf[DateTimeException], t.`with`(MILLI_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -1L, 86400000L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(MILLI_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(MILLI_OF_DAY, n))
       for (n <- Seq(Long.MinValue, -1L, 60L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(SECOND_OF_MINUTE, n))
+        assertThrows(classOf[DateTimeException], t.`with`(SECOND_OF_MINUTE, n))
       for (n <- Seq(Long.MinValue, -1L, 86400L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(SECOND_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(SECOND_OF_DAY, n))
       for (n <- Seq(Long.MinValue, -1L, 60L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(MINUTE_OF_HOUR, n))
+        assertThrows(classOf[DateTimeException], t.`with`(MINUTE_OF_HOUR, n))
       for (n <- Seq(Long.MinValue, -1L, 1440L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(MINUTE_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(MINUTE_OF_DAY, n))
       for (n <- Seq(Long.MinValue, -1L, 12L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(HOUR_OF_AMPM, n))
+        assertThrows(classOf[DateTimeException], t.`with`(HOUR_OF_AMPM, n))
       for (n <- Seq(Long.MinValue, 0L, 13L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(CLOCK_HOUR_OF_AMPM, n))
+        assertThrows(classOf[DateTimeException], t.`with`(CLOCK_HOUR_OF_AMPM, n))
       for (n <- Seq(Long.MinValue, -1L, 24L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(HOUR_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(HOUR_OF_DAY, n))
       for (n <- Seq(Long.MinValue, 0L, 25L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(CLOCK_HOUR_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(CLOCK_HOUR_OF_DAY, n))
       for (n <- Seq(Long.MinValue, -1L, 2L, Long.MaxValue))
-        expectThrows(classOf[DateTimeException], t.`with`(AMPM_OF_DAY, n))
+        assertThrows(classOf[DateTimeException], t.`with`(AMPM_OF_DAY, n))
     }
   }
 
@@ -160,10 +160,10 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.withHour(23))(MAX)
 
     for (t <- samples) {
-      expectThrows(classOf[DateTimeException], t.withHour(Int.MinValue))
-      expectThrows(classOf[DateTimeException], t.withHour(-1))
-      expectThrows(classOf[DateTimeException], t.withHour(24))
-      expectThrows(classOf[DateTimeException], t.withHour(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], t.withHour(Int.MinValue))
+      assertThrows(classOf[DateTimeException], t.withHour(-1))
+      assertThrows(classOf[DateTimeException], t.withHour(24))
+      assertThrows(classOf[DateTimeException], t.withHour(Int.MaxValue))
     }
   }
 
@@ -175,10 +175,10 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.withMinute(59))(MAX)
 
     for (t <- samples) {
-      expectThrows(classOf[DateTimeException], t.withMinute(Int.MinValue))
-      expectThrows(classOf[DateTimeException], t.withMinute(-1))
-      expectThrows(classOf[DateTimeException], t.withMinute(60))
-      expectThrows(classOf[DateTimeException], t.withMinute(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], t.withMinute(Int.MinValue))
+      assertThrows(classOf[DateTimeException], t.withMinute(-1))
+      assertThrows(classOf[DateTimeException], t.withMinute(60))
+      assertThrows(classOf[DateTimeException], t.withMinute(Int.MaxValue))
     }
   }
 
@@ -190,10 +190,10 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.withSecond(59))(MAX)
 
     for (t <- samples) {
-      expectThrows(classOf[DateTimeException], t.withSecond(Int.MinValue))
-      expectThrows(classOf[DateTimeException], t.withSecond(-1))
-      expectThrows(classOf[DateTimeException], t.withSecond(60))
-      expectThrows(classOf[DateTimeException], t.withSecond(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], t.withSecond(Int.MinValue))
+      assertThrows(classOf[DateTimeException], t.withSecond(-1))
+      assertThrows(classOf[DateTimeException], t.withSecond(60))
+      assertThrows(classOf[DateTimeException], t.withSecond(Int.MaxValue))
     }
   }
 
@@ -205,10 +205,10 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(MAX.withNano(999999999))(MAX)
 
     for (t <- samples) {
-      expectThrows(classOf[DateTimeException], t.withNano(Int.MinValue))
-      expectThrows(classOf[DateTimeException], t.withNano(-1))
-      expectThrows(classOf[DateTimeException], t.withNano(1000000000))
-      expectThrows(classOf[DateTimeException], t.withNano(Int.MaxValue))
+      assertThrows(classOf[DateTimeException], t.withNano(Int.MinValue))
+      assertThrows(classOf[DateTimeException], t.withNano(-1))
+      assertThrows(classOf[DateTimeException], t.withNano(1000000000))
+      assertThrows(classOf[DateTimeException], t.withNano(Int.MaxValue))
     }
   }
 
@@ -235,7 +235,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
       t <- samples
       u <- illegalUnits
     } {
-      expectThrows(classOf[UnsupportedTemporalTypeException], t.truncatedTo(u))
+      assertThrows(classOf[UnsupportedTemporalTypeException], t.truncatedTo(u))
     }
   }
 
@@ -430,7 +430,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
       t <- samples
       d <- ds
     } {
-      expectThrows(classOf[DateTimeException], t.adjustInto(d))
+      assertThrows(classOf[DateTimeException], t.adjustInto(d))
     }
   }
 
@@ -504,14 +504,14 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(of(23, 59, 59))(of(23, 59, 59, 0))
     testDateTime(of(23, 59, 59, 999999999))(MAX)
 
-    expectThrows(classOf[DateTimeException], of(-1, 0))
-    expectThrows(classOf[DateTimeException], of(0, -1))
-    expectThrows(classOf[DateTimeException], of(0, 0, -1))
-    expectThrows(classOf[DateTimeException], of(0, 0, 0, -1))
-    expectThrows(classOf[DateTimeException], of(24, 0))
-    expectThrows(classOf[DateTimeException], of(0, 60))
-    expectThrows(classOf[DateTimeException], of(0, 0, 60))
-    expectThrows(classOf[DateTimeException], of(0, 0, 0, 1000000000))
+    assertThrows(classOf[DateTimeException], of(-1, 0))
+    assertThrows(classOf[DateTimeException], of(0, -1))
+    assertThrows(classOf[DateTimeException], of(0, 0, -1))
+    assertThrows(classOf[DateTimeException], of(0, 0, 0, -1))
+    assertThrows(classOf[DateTimeException], of(24, 0))
+    assertThrows(classOf[DateTimeException], of(0, 60))
+    assertThrows(classOf[DateTimeException], of(0, 0, 60))
+    assertThrows(classOf[DateTimeException], of(0, 0, 0, 1000000000))
   }
 
   @Test def test_ofSecondOfDay(): Unit = {
@@ -520,8 +520,8 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(ofSecondOfDay(60))(of(0, 1))
     testDateTime(ofSecondOfDay(86399))(of(23, 59, 59))
 
-    expectThrows(classOf[DateTimeException], ofSecondOfDay(-1))
-    expectThrows(classOf[DateTimeException], ofSecondOfDay(86400))
+    assertThrows(classOf[DateTimeException], ofSecondOfDay(-1))
+    assertThrows(classOf[DateTimeException], ofSecondOfDay(86400))
   }
 
   @Test def test_ofNanoOfDay(): Unit = {
@@ -530,16 +530,16 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     testDateTime(ofNanoOfDay(1000000000))(of(0, 0, 1))
     testDateTime(ofNanoOfDay(86399999999999L))(MAX)
 
-    expectThrows(classOf[DateTimeException], ofNanoOfDay(-1))
-    expectThrows(classOf[DateTimeException], ofNanoOfDay(86400000000000L))
+    assertThrows(classOf[DateTimeException], ofNanoOfDay(-1))
+    assertThrows(classOf[DateTimeException], ofNanoOfDay(86400000000000L))
   }
 
   @Test def test_from(): Unit = {
     for (t <- samples)
       testDateTime(from(t))(t)
 
-    expectThrows(classOf[DateTimeException], from(LocalDate.of(2012, 2, 29)))
-    expectThrows(classOf[DateTimeException], from(Month.JANUARY))
-    expectThrows(classOf[DateTimeException], from(DayOfWeek.MONDAY))
+    assertThrows(classOf[DateTimeException], from(LocalDate.of(2012, 2, 29)))
+    assertThrows(classOf[DateTimeException], from(Month.JANUARY))
+    assertThrows(classOf[DateTimeException], from(DayOfWeek.MONDAY))
   }
 }

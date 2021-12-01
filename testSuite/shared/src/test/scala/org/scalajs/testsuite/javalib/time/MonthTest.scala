@@ -4,8 +4,8 @@ import java.time._
 import java.time.temporal.ChronoField
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.{assertEquals, assertArrayEquals}
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class MonthTest extends TemporalAccessorTest[Month] {
   import Month._
@@ -160,7 +160,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(NOVEMBER, valueOf("NOVEMBER"))
     assertEquals(DECEMBER, valueOf("DECEMBER"))
 
-    expectThrows(classOf[IllegalArgumentException], valueOf(""))
+    assertThrows(classOf[IllegalArgumentException], valueOf(""))
   }
 
   @Test def test_of(): Unit = {
@@ -178,7 +178,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
     assertEquals(DECEMBER, of(12))
 
     for (n <- Seq(Int.MinValue, 0, 13, Int.MaxValue))
-      expectThrows(classOf[DateTimeException], of(n))
+      assertThrows(classOf[DateTimeException], of(n))
   }
 
   @Test def test_from(): Unit = {
@@ -187,7 +187,7 @@ class MonthTest extends TemporalAccessorTest[Month] {
       assertEquals(m, from(LocalDate.of(1, m, 1)))
     }
 
-    expectThrows(classOf[DateTimeException], from(DayOfWeek.MONDAY))
-    expectThrows(classOf[DateTimeException], from(LocalTime.MIN))
+    assertThrows(classOf[DateTimeException], from(DayOfWeek.MONDAY))
+    assertThrows(classOf[DateTimeException], from(LocalTime.MIN))
   }
 }

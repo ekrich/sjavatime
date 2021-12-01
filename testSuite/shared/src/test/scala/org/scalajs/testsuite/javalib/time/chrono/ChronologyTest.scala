@@ -4,15 +4,15 @@ import java.time.DateTimeException
 import java.time.chrono.{IsoChronology, Chronology}
 
 import org.junit.Test
-import org.junit.Assert._
-import org.scalajs.testsuite.utils.AssertThrows._
+import org.junit.Assert.assertEquals
+import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 
 class ChronologyTest {
   import Chronology._
 
   @Test def test_of(): Unit = {
     assertEquals(of("ISO"), IsoChronology.INSTANCE)
-    expectThrows(classOf[DateTimeException], of(""))
+    assertThrows(classOf[DateTimeException], of(""))
   }
 
   @Test def test_getAvailableChronologies(): Unit = {
