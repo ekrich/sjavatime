@@ -493,7 +493,8 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
   }
 
   @Test def test_now(): Unit = {
-    assert(now() != null)
+    val tmNow = now()
+    assert(tmNow != null)
   }
 
   @Test def test_of(): Unit = {

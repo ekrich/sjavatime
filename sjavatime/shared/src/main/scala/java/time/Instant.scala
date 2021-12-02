@@ -272,7 +272,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       else years.toString
     }
 
-    val monthSegement = "%02d".format(date.getMonthValue())
+    val monthSegment = "%02d".format(date.getMonthValue())
     val daySegment = "%02d".format(date.getDayOfMonth())
 
     val timePart = {
@@ -281,7 +281,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       else timeStr
     }
 
-    val dateSegment = s"$yearSegment-$monthSegement-$daySegment"
+    val dateSegment = s"$yearSegment-$monthSegment-$daySegment"
     s"${dateSegment}T${timePart}Z"
   }
 
