@@ -82,7 +82,8 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
   def getChronology(): IsoChronology = iso
 
-  override def getEra(): Era = if (year > 0) IsoEra.CE else IsoEra.BCE
+  // Return type was changed from Era (Java 8) to IsoEra (Java 11)
+  override def getEra(): IsoEra = if (year > 0) IsoEra.CE else IsoEra.BCE
 
   def getYear(): Int = year
 
