@@ -85,9 +85,9 @@ final class Year private (year: Int)
 
   def plus(amount: Long, unit: TemporalUnit): Year = unit match {
     case YEARS     => plusYears(amount)
-    case DECADES   => plusYears(Math.multiplyExact(amount, 10))
-    case CENTURIES => plusYears(Math.multiplyExact(amount, 100))
-    case MILLENNIA => plusYears(Math.multiplyExact(amount, 1000))
+    case DECADES   => plusYears(Math.multiplyExact(amount, 10L))
+    case CENTURIES => plusYears(Math.multiplyExact(amount, 100L))
+    case MILLENNIA => plusYears(Math.multiplyExact(amount, 1000L))
 
     case ERAS      =>
       val era = get(ERA)

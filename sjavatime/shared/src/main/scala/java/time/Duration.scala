@@ -112,7 +112,7 @@ final class Duration private (seconds: Long, nanos: Int)
   def multipliedBy(multiplicand: Long): Duration = {
     val (prodNanosQuot, prodNanosRem) = {
       try {
-        val prodNanos = Math.multiplyExact(normalizedNanos, multiplicand)
+        val prodNanos = Math.multiplyExact(normalizedNanos.toLong, multiplicand)
         (prodNanos / NANOS_IN_SECOND, (prodNanos % NANOS_IN_SECOND).toInt)
       } catch {
         case _: ArithmeticException =>
@@ -140,7 +140,7 @@ final class Duration private (seconds: Long, nanos: Int)
       val nanos = {
         try {
           val total = Math.addExact(
-              Math.multiplyExact(secondsRem, NANOS_IN_SECOND),
+              Math.multiplyExact(secondsRem, NANOS_IN_SECOND.toLong),
               normalizedNanos)
           total / divisor
         } catch {
@@ -179,14 +179,14 @@ final class Duration private (seconds: Long, nanos: Int)
   def toMinutes(): Long = seconds / SECONDS_IN_MINUTE
 
   def toMillis(): Long = {
-    val millis1 = Math.multiplyExact(seconds, MILLIS_IN_SECOND)
+    val millis1 = Math.multiplyExact(seconds, MILLIS_IN_SECOND.toLong)
     val millis2 = nanos / NANOS_IN_MILLI
     Math.addExact(millis1, millis2)
   }
 
   def toNanos(): Long =
     Math.addExact(
-        Math.multiplyExact(seconds, NANOS_IN_SECOND), nanos)
+        Math.multiplyExact(seconds, NANOS_IN_SECOND.toLong), nanos)
 
   def compareTo(that: Duration): Int = {
     val secCmp = seconds.compareTo(that.getSeconds())

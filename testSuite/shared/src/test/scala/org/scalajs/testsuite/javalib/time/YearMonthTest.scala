@@ -198,9 +198,9 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     for (ym <- samples;n <- sampleLongs) {
       testDateTime(ym.plus(n, YEARS))(ym.plusYears(n))
       testDateTime(ym.plus(n, MONTHS))(ym.plusMonths(n))
-      testDateTime(ym.plus(n, DECADES))(ym.plusYears(Math.multiplyExact(n, 10)))
-      testDateTime(ym.plus(n, CENTURIES))(ym.plusYears(Math.multiplyExact(n, 100)))
-      testDateTime(ym.plus(n, MILLENNIA))(ym.plusYears(Math.multiplyExact(n, 1000)))
+      testDateTime(ym.plus(n, DECADES))(ym.plusYears(Math.multiplyExact(n, 10L)))
+      testDateTime(ym.plus(n, CENTURIES))(ym.plusYears(Math.multiplyExact(n, 100L)))
+      testDateTime(ym.plus(n, MILLENNIA))(ym.plusYears(Math.multiplyExact(n, 1000L)))
       testDateTime(ym.plus(n, ERAS))(ym.`with`(ERA, Math.addExact(n, ym.getLong(ERA))))
     }
   }
