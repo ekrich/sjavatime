@@ -7,7 +7,7 @@ import java.time.temporal.{UnsupportedTemporalTypeException, ChronoUnit, ChronoF
 import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.scalajs.testsuite.utils.AssertThrows.assertThrows
-import org.scalajs.testsuite.utils.Platform.executingInJVMOnHigherThanJDK8
+import org.scalajs.testsuite.utils.Platform.executingInJVMOnJDK8
 
 /** Created by alonsodomin on 26/12/2015. */
 class InstantTest extends TemporalTest[Instant] {
@@ -117,16 +117,14 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(somePositiveInstant, somePositiveInstant.truncatedTo(MILLIS))
     assertEquals(Instant.ofEpochSecond(928392983L), somePositiveInstant.truncatedTo(SECONDS))
     assertEquals(Instant.ofEpochSecond(928368000L), somePositiveInstant.truncatedTo(DAYS))
-    if (!executingInJVMOnHigherThanJDK8) {
-      // expected:<-0687-08-07T23:38:33.088937Z> but was:<-0687-08-07T23:38:33.088936Z>
-      assertEquals(Instant.ofEpochSecond(-83827873287L, 88937000), someNegativeInstant.truncatedTo(MICROS))
-      // expected:<-0687-08-07T23:38:33.089Z> but was:<-0687-08-07T23:38:33.088Z>
-      assertEquals(Instant.ofEpochSecond(-83827873287L, 89000000), someNegativeInstant.truncatedTo(MILLIS))
-
-      // expected:<-0687-08-07T23:38:34Z> but was:<-0687-08-07T23:38:33Z>
-      assertEquals(Instant.ofEpochSecond(-83827873286L), someNegativeInstant.truncatedTo(SECONDS))
-      // expected:<-0687-08-08T00:00:00Z> but was:<-0687-08-07T00:00:00Z>
-      assertEquals(Instant.ofEpochSecond(-83827872000L), someNegativeInstant.truncatedTo(DAYS))
+    // Round down when less than Instant.EPOCH
+    // See https://bugs.openjdk.java.net/browse/JDK-8184233
+    if (!executingInJVMOnJDK8) {
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 88936000), someNegativeInstant.truncatedTo(MICROS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 88000000), someNegativeInstant.truncatedTo(MILLIS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L), someNegativeInstant.truncatedTo(SECONDS))
+      println(someNegativeInstant.truncatedTo(DAYS).toEpochMilli()) // -83827958400000
+      assertEquals(Instant.ofEpochSecond(-83827958400L), someNegativeInstant.truncatedTo(DAYS))
     }
 
     for (i <- samples;u <- dateBasedUnits.filter(_ != DAYS))

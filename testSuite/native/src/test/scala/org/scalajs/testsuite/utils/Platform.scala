@@ -7,6 +7,8 @@ object Platform {
    */
   final val executingInJVM = false
 
+  final val executingInJVMOnJDK8 = false
+
   final val executingInJVMOnHigherThanJDK8 = false
 
 }

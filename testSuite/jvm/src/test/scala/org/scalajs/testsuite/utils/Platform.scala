@@ -6,6 +6,8 @@ object Platform {
    */
   final val executingInJVM = true
 
+  def executingInJVMOnJDK8 = jdkVersion == 8
+
   def executingInJVMOnHigherThanJDK8 = jdkVersion > 8
 
   private lazy val jdkVersion = {

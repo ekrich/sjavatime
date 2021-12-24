@@ -108,7 +108,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
         throw new UnsupportedTemporalTypeException("Unit must be a multiple of a standard day")
 
       val extraNanos = (seconds % SECONDS_IN_DAY) * NANOS_IN_SECOND + nanos
-      val extraNanosPerUnit = (extraNanos / unitNanos) * unitNanos
+      val extraNanosPerUnit = Math.floorDiv(extraNanos, unitNanos) * unitNanos
       plusNanos(extraNanosPerUnit - extraNanos)
     }
   }
