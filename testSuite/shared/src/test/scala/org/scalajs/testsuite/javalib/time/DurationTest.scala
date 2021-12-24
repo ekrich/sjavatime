@@ -8,6 +8,7 @@ import org.junit.Assert.assertEquals
 
 import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 import org.scalajs.testsuite.utils.Platform.executingInJVM
+import org.scalajs.testsuite.utils.Platform.executingInJVMOnHigherThanJDK8
 
 class DurationTest extends TemporalAmountTest[Duration] {
 
@@ -646,9 +647,13 @@ class DurationTest extends TemporalAmountTest[Duration] {
   @Test def test_toMillis(): Unit = {
     assertEquals(-9223372036854775000L, ofSeconds(-9223372036854775L).toMillis)
     assertEquals(-1000L, ofSeconds(-1).toMillis)
-    assertEquals(-2L, ofNanos(-1000001).toMillis)
+    if (!executingInJVMOnHigherThanJDK8) {
+      // expected:<-2> but was:<-1>
+      assertEquals(-2L, ofNanos(-1000001).toMillis)
+      // expected:<-1> but was:<0>
+      assertEquals(-1L, ofNanos(-1).toMillis)
+    }
     assertEquals(-1L, ofNanos(-1000000).toMillis)
-    assertEquals(-1L, ofNanos(-1).toMillis)
     assertEquals(0L, ZERO.toMillis)
     assertEquals(0L, ofNanos(999999).toMillis)
     assertEquals(1L, ofNanos(1000000).toMillis)
@@ -661,8 +666,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertThrows(classOf[ArithmeticException], dmin.toMillis)
     assertThrows(classOf[ArithmeticException], dmax.toMillis)
     // this could yield a valid long, but the reference implementation throws
-    assertThrows(classOf[ArithmeticException],
-        ofSeconds(-9223372036854775L, -1).toMillis)
+    if (!executingInJVMOnHigherThanJDK8)
+      // JVM doesn't throw
+      assertThrows(classOf[ArithmeticException],
+          ofSeconds(-9223372036854775L, -1).toMillis)
     assertThrows(classOf[ArithmeticException],
         ofSeconds(9223372036854775L, 808000000).toMillis)
   }
@@ -681,8 +688,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertThrows(classOf[ArithmeticException], dmin.toNanos)
     assertThrows(classOf[ArithmeticException], dmax.toNanos)
     // this should yield a valid long, but the reference implementation throws
-    assertThrows(classOf[ArithmeticException],
-        ofSeconds(-9223372036L, -1).toNanos)
+    if (!executingInJVMOnHigherThanJDK8)
+      // JVM doesn't throw
+      assertThrows(classOf[ArithmeticException],
+          ofSeconds(-9223372036L, -1).toNanos)
     assertThrows(classOf[ArithmeticException],
         ofSeconds(9223372036L, 854775808).toNanos)
   }
