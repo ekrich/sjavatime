@@ -8,6 +8,7 @@ import org.junit.Assert.assertEquals
 
 import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 import org.scalajs.testsuite.utils.Platform.executingInJVM
+import org.scalajs.testsuite.utils.Platform.executingInJVMOnJDK8
 import org.scalajs.testsuite.utils.Platform.executingInJVMOnHigherThanJDK8
 
 class DurationTest extends TemporalAmountTest[Duration] {
@@ -647,11 +648,11 @@ class DurationTest extends TemporalAmountTest[Duration] {
   @Test def test_toMillis(): Unit = {
     assertEquals(-9223372036854775000L, ofSeconds(-9223372036854775L).toMillis)
     assertEquals(-1000L, ofSeconds(-1).toMillis)
-    if (!executingInJVMOnHigherThanJDK8) {
-      // expected:<-2> but was:<-1>
-      assertEquals(-2L, ofNanos(-1000001).toMillis)
-      // expected:<-1> but was:<0>
-      assertEquals(-1L, ofNanos(-1).toMillis)
+    // Round down when less than Instant.EPOCH - Fixed JDK9+
+    // See https://bugs.openjdk.java.net/browse/JDK-8184233
+    if (!executingInJVMOnJDK8) {
+      assertEquals(-1L, ofNanos(-1000001).toMillis)
+      assertEquals(0L, ofNanos(-1).toMillis)
     }
     assertEquals(-1L, ofNanos(-1000000).toMillis)
     assertEquals(0L, ZERO.toMillis)
@@ -738,7 +739,8 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals("PT1M0.000000001S", ofSeconds(60, 1).toString)
     assertEquals("PT-1M-0.999999999S", ofSeconds(-61, 1).toString)
     assertEquals("PT2M0.00000001S", ofSeconds(120, 10).toString)
-    if (!executingInJVM) // JDK incorrectly prints "PT-2M0.00000001S"
+    // JDK incorrectly prints "PT-2M0.00000001S" - Fixed JDK9+
+    if (!executingInJVMOnJDK8)
       assertEquals("PT-1M-59.99999999S", ofSeconds(-120, 10).toString)
     assertEquals("PT1H", ofSeconds(3600).toString)
     assertEquals("PT-1H", ofSeconds(-3600).toString)

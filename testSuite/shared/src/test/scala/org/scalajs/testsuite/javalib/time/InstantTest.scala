@@ -117,7 +117,7 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(somePositiveInstant, somePositiveInstant.truncatedTo(MILLIS))
     assertEquals(Instant.ofEpochSecond(928392983L), somePositiveInstant.truncatedTo(SECONDS))
     assertEquals(Instant.ofEpochSecond(928368000L), somePositiveInstant.truncatedTo(DAYS))
-    // Round down when less than Instant.EPOCH
+    // Round down when less than Instant.EPOCH - fixed JDK9+
     // See https://bugs.openjdk.java.net/browse/JDK-8184233
     if (!executingInJVMOnJDK8) {
       assertEquals(Instant.ofEpochSecond(-83827873287L, 88936000), someNegativeInstant.truncatedTo(MICROS))
