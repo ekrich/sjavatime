@@ -123,7 +123,6 @@ class InstantTest extends TemporalTest[Instant] {
       assertEquals(Instant.ofEpochSecond(-83827873287L, 88936000), someNegativeInstant.truncatedTo(MICROS))
       assertEquals(Instant.ofEpochSecond(-83827873287L, 88000000), someNegativeInstant.truncatedTo(MILLIS))
       assertEquals(Instant.ofEpochSecond(-83827873287L), someNegativeInstant.truncatedTo(SECONDS))
-      println(someNegativeInstant.truncatedTo(DAYS).toEpochMilli()) // -83827958400000
       assertEquals(Instant.ofEpochSecond(-83827958400L), someNegativeInstant.truncatedTo(DAYS))
     }
 
