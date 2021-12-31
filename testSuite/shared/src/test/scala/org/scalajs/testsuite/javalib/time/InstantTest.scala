@@ -124,6 +124,12 @@ class InstantTest extends TemporalTest[Instant] {
       assertEquals(Instant.ofEpochSecond(-83827873287L, 88000000), someNegativeInstant.truncatedTo(MILLIS))
       assertEquals(Instant.ofEpochSecond(-83827873287L), someNegativeInstant.truncatedTo(SECONDS))
       assertEquals(Instant.ofEpochSecond(-83827958400L), someNegativeInstant.truncatedTo(DAYS))
+    } else {
+      // Remove when Java 8 support is dropped
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 88937000), someNegativeInstant.truncatedTo(MICROS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 89000000), someNegativeInstant.truncatedTo(MILLIS))
+      assertEquals(Instant.ofEpochSecond(-83827873286L), someNegativeInstant.truncatedTo(SECONDS))
+      assertEquals(Instant.ofEpochSecond(-83827872000L), someNegativeInstant.truncatedTo(DAYS))
     }
 
     for (i <- samples;u <- dateBasedUnits.filter(_ != DAYS))
