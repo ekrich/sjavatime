@@ -179,8 +179,14 @@ final class Duration private (seconds: Long, nanos: Int)
   def toMinutes(): Long = seconds / SECONDS_IN_MINUTE
 
   def toMillis(): Long = {
-    val millis1 = Math.multiplyExact(seconds, MILLIS_IN_SECOND.toLong)
-    val millis2 = nanos / NANOS_IN_MILLI
+    val (secs, nos) =
+      if (normalizedSeconds == 0) {
+        (normalizedSeconds, normalizedNanos)
+      } else {
+        (seconds, nanos)
+      }
+    val millis1 = Math.multiplyExact(secs, MILLIS_IN_SECOND.toLong)
+    val millis2 = nos / NANOS_IN_MILLI
     Math.addExact(millis1, millis2)
   }
 

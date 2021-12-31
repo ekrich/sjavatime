@@ -652,7 +652,13 @@ class DurationTest extends TemporalAmountTest[Duration] {
     // See https://bugs.openjdk.java.net/browse/JDK-8184233
     if (!executingInJVMOnJDK8) {
       assertEquals(-1L, ofNanos(-1000001).toMillis)
-      assertEquals(0L, ofNanos(-1).toMillis)
+      assertEquals(0L, ofNanos(-1).toMillis())
+      assertEquals(-10L, ofNanos(-10000001).toMillis)
+    } else {
+      // Remove when Java 8 is dropped
+      assertEquals(-2L, ofNanos(-1000001).toMillis)
+      assertEquals(-1L, ofNanos(-1).toMillis())
+      assertEquals(-11L, ofNanos(-10000001).toMillis)
     }
     assertEquals(-1L, ofNanos(-1000000).toMillis)
     assertEquals(0L, ZERO.toMillis)
