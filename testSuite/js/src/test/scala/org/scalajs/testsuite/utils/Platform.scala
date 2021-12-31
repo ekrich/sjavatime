@@ -15,13 +15,8 @@ object Platform {
    */
   final val executingInJVM = false
 
-  final val executingInJVMOnJDK6 = false
+  final val executingInJVMOnJDK8 = false
 
-  final val executingInJVMOnJDK7OrLower = false
+  final val executingInJVMOnHigherThanJDK8 = false
 
-  // Members that are only accessible from testSuite/js
-  // (i.e. do no link on the JVM).
-
-  def areTypedArraysSupported: Boolean =
-    js.typeOf(js.constructorOf[js.typedarray.ArrayBuffer]) != "undefined"
 }

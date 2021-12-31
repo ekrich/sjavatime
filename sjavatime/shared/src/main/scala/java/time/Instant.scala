@@ -108,20 +108,20 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
         throw new UnsupportedTemporalTypeException("Unit must be a multiple of a standard day")
 
       val extraNanos = (seconds % SECONDS_IN_DAY) * NANOS_IN_SECOND + nanos
-      val extraNanosPerUnit = (extraNanos / unitNanos) * unitNanos
+      val extraNanosPerUnit = Math.floorDiv(extraNanos, unitNanos) * unitNanos
       plusNanos(extraNanosPerUnit - extraNanos)
     }
   }
 
   def plus(amount: Long, unit: TemporalUnit): Instant = unit match {
     case NANOS     => plusNanos(amount)
-    case MICROS    => plusNanos(Math.multiplyExact(amount, NANOS_IN_MICRO))
+    case MICROS    => plusNanos(Math.multiplyExact(amount, NANOS_IN_MICRO.toLong))
     case MILLIS    => plusMillis(amount)
     case SECONDS   => plusSeconds(amount)
-    case MINUTES   => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_MINUTE))
-    case HOURS     => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_HOUR))
-    case HALF_DAYS => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY) / 2)
-    case DAYS      => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY))
+    case MINUTES   => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_MINUTE.toLong))
+    case HOURS     => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_HOUR.toLong))
+    case HALF_DAYS => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY.toLong) / 2)
+    case DAYS      => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY.toLong))
 
     case _: ChronoUnit =>
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
@@ -132,7 +132,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
   def plusSeconds(secs: Long): Instant = plus(secs, 0)
 
   def plusMillis(millis: Long): Instant =
-    plusNanos(Math.multiplyExact(millis, NANOS_IN_MILLI))
+    plusNanos(Math.multiplyExact(millis, NANOS_IN_MILLI.toLong))
 
   def plusNanos(nans: Long): Instant = plus(0, nans)
 
@@ -140,8 +140,8 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
     if (secs == 0 && nans == 0) {
       this
     } else {
-      val secondsFromNanos = Math.floorDiv(nans, NANOS_IN_SECOND)
-      val remainingNanos = Math.floorMod(nans, NANOS_IN_SECOND)
+      val secondsFromNanos = Math.floorDiv(nans, NANOS_IN_SECOND.toLong)
+      val remainingNanos = Math.floorMod(nans, NANOS_IN_SECOND.toLong)
       val additionalSecs = Math.addExact(secs, secondsFromNanos)
       ofEpochSecond(
           Math.addExact(seconds, additionalSecs),
@@ -175,7 +175,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
     def nanosUntil: Long = {
       val secsDiff: Long = Math.subtractExact(endInstant.seconds, seconds)
-      val nanosBase: Long = Math.multiplyExact(secsDiff, NANOS_IN_SECOND)
+      val nanosBase: Long = Math.multiplyExact(secsDiff, NANOS_IN_SECOND.toLong)
       Math.addExact(nanosBase, endInstant.nanos - nanos)
     }
 
@@ -256,7 +256,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
     def dateTime(epochSecond: Long): (LocalDate, LocalTime) = {
       val epochDay = toEpochDay(epochSecond)
-      val secondsOfDay = Math.floorMod(epochSecond, SECONDS_IN_DAY).toInt
+      val secondsOfDay = Math.floorMod(epochSecond, SECONDS_IN_DAY.toLong).toInt
       (LocalDate.ofEpochDay(epochDay), LocalTime.ofSecondOfDay(secondsOfDay).withNano(nanos))
     }
 
@@ -272,7 +272,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       else years.toString
     }
 
-    val monthSegement = "%02d".format(date.getMonthValue())
+    val monthSegment = "%02d".format(date.getMonthValue())
     val daySegment = "%02d".format(date.getDayOfMonth())
 
     val timePart = {
@@ -281,7 +281,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       else timeStr
     }
 
-    val dateSegment = s"$yearSegment-$monthSegement-$daySegment"
+    val dateSegment = s"$yearSegment-$monthSegment-$daySegment"
     s"${dateSegment}T${timePart}Z"
   }
 
@@ -328,22 +328,22 @@ object Instant {
 
   def ofEpochSecond(epochSecond: Long, nanos: Long): Instant = {
     val adjustedSeconds = Math.addExact(epochSecond,
-        Math.floorDiv(nanos, NANOS_IN_SECOND))
-    val adjustedNanos = Math.floorMod(nanos, NANOS_IN_SECOND).toInt
+        Math.floorDiv(nanos, NANOS_IN_SECOND.toLong))
+    val adjustedNanos = Math.floorMod(nanos, NANOS_IN_SECOND.toLong).toInt
     new Instant(adjustedSeconds, adjustedNanos)
   }
 
   def ofEpochMilli(epochMilli: Long): Instant = {
     val seconds = toEpochSecond(epochMilli)
-    val nanos = Math.floorMod(epochMilli, MILLIS_IN_SECOND)
+    val nanos = Math.floorMod(epochMilli, MILLIS_IN_SECOND.toLong)
     new Instant(seconds, nanos.toInt * NANOS_IN_MILLI)
   }
 
   private[time] def toEpochSecond(epochMilli: Long): Long =
-    Math.floorDiv(epochMilli, MILLIS_IN_SECOND)
+    Math.floorDiv(epochMilli, MILLIS_IN_SECOND.toLong)
 
   private[time] def toEpochDay(epochSecond: Long): Long =
-    Math.floorDiv(epochSecond, SECONDS_IN_DAY)
+    Math.floorDiv(epochSecond, SECONDS_IN_DAY.toLong)
 
   def from(temporal: TemporalAccessor): Instant = temporal match {
     case temporal: Instant => temporal

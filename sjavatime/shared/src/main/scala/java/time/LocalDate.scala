@@ -35,7 +35,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   }
 
   private lazy val dayOfWeek =
-    Math.floorMod(epochDay + 3, 7).toInt + 1
+    Math.floorMod(epochDay + 3, 7L).toInt + 1
 
   private def prolepticMonth = year.toLong * 12 + getMonthValue() - 1
 
@@ -82,7 +82,8 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
   def getChronology(): IsoChronology = iso
 
-  override def getEra(): Era = if (year > 0) IsoEra.CE else IsoEra.BCE
+  // Return type was changed from Era (Java 8) to IsoEra (Java 11)
+  override def getEra(): IsoEra = if (year > 0) IsoEra.CE else IsoEra.BCE
 
   def getYear(): Int = year
 
@@ -138,8 +139,8 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
       case PROLEPTIC_MONTH =>
         requireDateTime(value >= -11999999988L && value <= 11999999999L, msg)
-        val year = Math.floorDiv(value, 12).toInt
-        val month = Math.floorMod(value, 12).toInt + 1
+        val year = Math.floorDiv(value, 12L).toInt
+        val month = Math.floorMod(value, 12L).toInt + 1
         val day = dayOfMonth min Month.of(month).length(iso.isLeapYear(year))
         LocalDate.of(year, month, day)
 
@@ -194,15 +195,15 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
     case YEARS  => plusYears(amount)
 
     case DECADES =>
-      val years = Math.multiplyExact(amount, 10)
+      val years = Math.multiplyExact(amount, 10L)
       plusYears(years)
 
     case CENTURIES =>
-      val years = Math.multiplyExact(amount, 100)
+      val years = Math.multiplyExact(amount, 100L)
       plusYears(years)
 
     case MILLENNIA =>
-      val years = Math.multiplyExact(amount, 1000)
+      val years = Math.multiplyExact(amount, 1000L)
       plusYears(years)
 
     case ERAS =>
@@ -226,8 +227,8 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   }
 
   def plusMonths(months: Long): LocalDate = {
-    val month1 = getMonthValue() + Math.floorMod(months, 12).toInt
-    val year1 = year + Math.floorDiv(months, 12) +
+    val month1 = getMonthValue() + Math.floorMod(months, 12L).toInt
+    val year1 = year + Math.floorDiv(months, 12L) +
         (if (month1 > 12) 1 else 0)
     requireDateTime(year1 >= Year.MIN_VALUE && year1 <= Year.MAX_VALUE,
         s"Invalid value for year: $year1")
@@ -237,7 +238,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   }
 
   def plusWeeks(weeks: Long): LocalDate =
-    plusDays(Math.multiplyExact(weeks, 7))
+    plusDays(Math.multiplyExact(weeks, 7L))
 
   def plusDays(days: Long): LocalDate = {
     val epochDay1 = Math.addExact(epochDay, days)
@@ -411,8 +412,8 @@ object LocalDate {
   }
 
   def ofEpochDay(epochDay: Long): LocalDate = {
-    val quot = Math.floorDiv(epochDay, daysInFourHundredYears)
-    val rem = Math.floorMod(epochDay, daysInFourHundredYears).toInt
+    val quot = Math.floorDiv(epochDay, daysInFourHundredYears.toLong)
+    val rem = Math.floorMod(epochDay, daysInFourHundredYears.toLong).toInt
     val (year1, start) = daysBeforeYears.takeWhile(_._2 <= rem).last
     val year2 = year1 + quot * 400
     requireDateTime(year2 >= Year.MIN_VALUE && year2 <= Year.MAX_VALUE,

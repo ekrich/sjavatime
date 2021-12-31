@@ -354,9 +354,9 @@ class LocalDateTest extends TemporalTest[LocalDate] {
       testDateTime(d.plus(n, WEEKS))(d.plusWeeks(n))
       testDateTime(d.plus(n, MONTHS))(d.plusMonths(n))
       testDateTime(d.plus(n, YEARS))(d.plusYears(n))
-      testDateTime(d.plus(n, DECADES))(d.plusYears(Math.multiplyExact(n, 10)))
-      testDateTime(d.plus(n, CENTURIES))(d.plusYears(Math.multiplyExact(n, 100)))
-      testDateTime(d.plus(n, MILLENNIA))(d.plusYears(Math.multiplyExact(n, 1000)))
+      testDateTime(d.plus(n, DECADES))(d.plusYears(Math.multiplyExact(n, 10L)))
+      testDateTime(d.plus(n, CENTURIES))(d.plusYears(Math.multiplyExact(n, 100L)))
+      testDateTime(d.plus(n, MILLENNIA))(d.plusYears(Math.multiplyExact(n, 1000L)))
       testDateTime(d.plus(n, ERAS))(d.`with`(ERA, Math.addExact(n, d.get(ERA))))
     }
   }
