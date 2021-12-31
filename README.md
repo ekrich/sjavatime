@@ -7,7 +7,11 @@
 included in JDK8 for Scala.js and Scala Native projects. This project was forked from
 [scala-js-java-time](https://github.com/scala-js/scala-js-java-time) which is deprecated.
 
-Now the library supports both Scala.js and [Scala Native](https://scala-native.readthedocs.io/).
+Now the library supports both [Scala.js](https://www.scala-js.org/) and [Scala Native](https://scala-native.readthedocs.io/).
+
+The library is an incomplete implementation of Java's `java.time`. Please refer to the
+[Javadoc](https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html) for API info.
+
 
 ## Other choices
 This project is ready today and cross compiled for all current Scala versions on Scala.js and Scala Native.
@@ -42,7 +46,7 @@ lazy val myCross = crossProject
   )
 ```
 
-**Requirement**: you must use a host JDK8 to *build* your project, i.e., to
+**Requirement**: You must use a host JDK 8, 11 or 17 to *build* your project, i.e., to
 launch sbt. `sjavatime` does not work on earlier JDKs.
 
 ## Linking errors
@@ -64,6 +68,7 @@ Follow the [contributing guide](./CONTRIBUTING.md).
 
 ## Versions
 
+Release [1.1.6](https://github.com/ekrich/sjavatime/releases/tag/v1.1.6) - (2021-12-30)<br/>
 Release [1.1.5](https://github.com/ekrich/sjavatime/releases/tag/v1.1.5) - (2021-05-13)<br/>
 Release [1.1.4](https://github.com/ekrich/sjavatime/releases/tag/v1.1.4) - (2021-05-12)<br/>
 Release [1.1.3](https://github.com/ekrich/sjavatime/releases/tag/v1.1.3) - (2021-04-01)<br/>
