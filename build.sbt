@@ -9,6 +9,7 @@ val versionsJS     = versionsJVM
 val versionsNative = versionsBase
 
 ThisBuild / scalaVersion := scala213
+ThisBuild / versionScheme := Some("early-semver")
 
 inThisBuild(
   List(
