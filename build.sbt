@@ -10,6 +10,7 @@ val versionsNative = versionsBase
 
 ThisBuild / scalaVersion := scala213
 ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / resolvers += Resolver.sonatypeRepo("snapshots")
 
 inThisBuild(
   List(
