@@ -14,6 +14,3 @@ addSbtPlugin("org.portable-scala" % "sbt-scala-native-crossproject" % crossVer)
 // includes sbt-dynver sbt-pgp sbt-sonatype sbt-git
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")
 
-// Workaround until Scala.js 1.8.0 released
-// See https://github.com/scala-js/scala-js-js-envs/issues/12
-libraryDependencies += "org.scala-js" %% "scalajs-env-nodejs" % "1.2.1"
