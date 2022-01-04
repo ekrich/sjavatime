@@ -52,6 +52,10 @@ val depSettings = Def.setting {
   }
 }
 
+lazy val disabledDocsSettings = Def.settings(
+    Compile / doc / sources := Nil
+  )
+
 val commonSettings: Seq[Setting[_]] = Seq(
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature") ++ depSettings.value
 )
@@ -77,6 +81,7 @@ lazy val root = (project in file("."))
 lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .crossType(CrossType.Full)
   .settings(commonSettings)
+  .settings(disabledDocsSettings)
   .settings(
     Test / test := {},
     Compile / packageBin / mappings ~= {
@@ -96,8 +101,8 @@ lazy val sjavatimeJS     = sjavatime.js
 lazy val sjavatimeNative = sjavatime.native
 
 lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
-  .settings(commonSettings: _*)
-  .settings(skipPublish: _*)
+  .settings(commonSettings)
+  .settings(skipPublish)
   .settings(
     testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v")
   )
