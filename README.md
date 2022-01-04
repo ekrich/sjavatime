@@ -21,6 +21,17 @@ The following projects could be considered as alternatives, the second one for S
 * [scala-java-time](https://github.com/cquiroz/scala-java-time) (recommended): More complete but not ported to Scala Native `0.4.0` yet.
 * [scalajs-jsjoda](https://github.com/zoepepper/scalajs-jsjoda): implementation of `java.time` on top of the JavaScript library [js-joda](https://github.com/js-joda/js-joda)
 
+## Cross Build Versions
+
+| Scala Version          | Scala.js (1.x)        | Native (0.4.x) |
+| ---------------------- | :-------------------: | :------------: |
+| 2.11.x                 |          ✅           |       ✅       |
+| 2.12.x                 |          ✅           |       ✅       |
+| 2.13.x                 |          ✅           |       ✅       |
+| 3.x.x                  |          ✅           |       ✅       |
+
+Note: Scala 3 support on Scala Native 0.4.3-RC1 or greater.
+
 ## Usage
 [![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_native0.4_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_native0.4_2.13)
 
@@ -68,6 +79,7 @@ Follow the [contributing guide](./CONTRIBUTING.md).
 
 ## Versions
 
+Release [1.1.7](https://github.com/ekrich/sjavatime/releases/tag/v1.1.7) - (2022-01-04)<br/>
 Release [1.1.6](https://github.com/ekrich/sjavatime/releases/tag/v1.1.6) - (2021-12-30)<br/>
 Release [1.1.5](https://github.com/ekrich/sjavatime/releases/tag/v1.1.5) - (2021-05-13)<br/>
 Release [1.1.4](https://github.com/ekrich/sjavatime/releases/tag/v1.1.4) - (2021-05-12)<br/>

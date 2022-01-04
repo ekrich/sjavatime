@@ -6,7 +6,7 @@ val scala300 = "3.1.0"
 val versionsBase   = Seq(scala212, scala211, scala213)
 val versionsJVM    = versionsBase :+ scala300
 val versionsJS     = versionsJVM
-val versionsNative = versionsBase
+val versionsNative = versionsJVM
 
 ThisBuild / scalaVersion := scala213
 ThisBuild / versionScheme := Some("early-semver")
