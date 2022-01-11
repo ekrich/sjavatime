@@ -19,14 +19,18 @@ private[time] object PlatformSpecific extends PlatformCommon {
   def localTime(): LocalTime = {
     val now = Instant.now()
     val epochSeconds = now.getEpochSecond()
+    // UTC to local time - private api
+    val offset = scalanative.runtime.time.scalanative_time_zone_offset()
+    val offsetSeconds = epochSeconds + offset
     val nanos = now.getNano()
-    // sec/yr, sec/day, sec/hr, sec/min
-    val secPerDay = ((epochSeconds % 31536000) % 86400)
+    // sec/yr, sec/day 
+    val secPerDay = ((offsetSeconds % 31536000) % 86400)
+    // sec/hr
     val currentHours = Math.floor((secPerDay / 3600).toDouble).toInt
     val secPerHour = secPerDay % 3600
+    // sec/min
     val currentMinutes = Math.floor((secPerHour / 60).toDouble).toInt
     val currentSeconds = Math.floor((secPerHour % 60).toDouble).toInt
-    // this would need a timezone offset - currently UTC
     LocalTime.of(currentHours, currentMinutes, currentSeconds, nanos)
   }
 
