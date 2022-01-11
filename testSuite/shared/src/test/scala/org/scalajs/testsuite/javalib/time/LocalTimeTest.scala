@@ -494,6 +494,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
 
   @Test def test_now(): Unit = {
     val tmNow = now()
+    println(s"Now: $tmNow")
     assert(tmNow != null)
   }
 
