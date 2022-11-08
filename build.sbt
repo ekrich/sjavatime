@@ -1,7 +1,7 @@
 val scala211 = "2.11.12"
 val scala212 = "2.12.17"
 val scala213 = "2.13.10"
-val scala300 = "3.2.0"
+val scala300 = "3.2.1"
 
 val versionsBase   = Seq(scala212, scala211, scala213)
 val versionsJVM    = versionsBase :+ scala300
