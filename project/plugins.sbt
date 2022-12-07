@@ -3,7 +3,7 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 
 // versions
 val crossVer           = "1.2.0"
-val scalaJSVersion     = "1.11.0"
+val scalaJSVersion     = "1.12.0"
 val scalaNativeVersion = "0.4.7"
 
 // Scala.js support
