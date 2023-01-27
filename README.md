@@ -14,7 +14,7 @@ The library is an incomplete implementation of Java's `java.time`. Please refer 
 
 
 ## Other choices
-This project is ready today and cross compiled for all current Scala versions on Scala.js and Scala Native.
+This project is ready today and cross compiled for all current Scala versions on Scala.js and Scala Native. This project was initial started because no alternative existed to support `sconfig`. `sconfig` uses provided so you are not locked into a `java.time` provider.
 
 The following projects could be considered as alternatives, the second one for Scala.js only:
 
@@ -25,7 +25,6 @@ The following projects could be considered as alternatives, the second one for S
 
 | Scala Version          | Scala.js (1.x)        | Native (0.4.x) |
 | ---------------------- | :-------------------: | :------------: |
-| 2.11.x                 |          ✅           |       ✅       |
 | 2.12.x                 |          ✅           |       ✅       |
 | 2.13.x                 |          ✅           |       ✅       |
 | 3.x.x                  |          ✅           |       ✅       |

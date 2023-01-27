@@ -1,9 +1,9 @@
-val scala211 = "2.11.12"
+
 val scala212 = "2.12.17"
 val scala213 = "2.13.10"
 val scala300 = "3.2.1"
 
-val versionsBase   = Seq(scala212, scala211, scala213)
+val versionsBase   = Seq(scala212, scala213)
 val versionsJVM    = versionsBase :+ scala300
 val versionsJS     = versionsJVM
 val versionsNative = versionsJVM
@@ -45,7 +45,6 @@ inThisBuild(
 val depSettings = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((3, _))  => Nil
-    case Some((2, 11)) => Seq("-target:jvm-1.8")
     case Some((2, 12)) => Seq("-target:jvm-1.8", "-Xsource:3")
     case Some((2, 13)) => Seq("-Xsource:3")
     case _             => Nil
