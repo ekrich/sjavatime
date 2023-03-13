@@ -44,7 +44,7 @@ inThisBuild(
 )
 val depSettings = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((3, _))  => Seq("-rewrite", "-source", "3.2-migration")
+    case Some((3, _))  => Nil
     case Some((2, 12)) => Seq("-target:jvm-1.8", "-Xsource:3")
     case Some((2, 13)) => Seq("-Xsource:3")
     case _             => Nil

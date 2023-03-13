@@ -443,7 +443,7 @@ object LocalDate {
   def parse(text: CharSequence): LocalDate = {
     try {
       val pattern = """(^[-+]?)(\d*)-(\d*)-(\d*)""".r
-      val pattern(sign, yearSegment, monthSegment, daySegment) = text
+      val pattern(sign, yearSegment, monthSegment, daySegment) = text: @unchecked
 
       val year = parseSegment(sign + yearSegment, "year")
       val month = parseSegment(monthSegment, "month")

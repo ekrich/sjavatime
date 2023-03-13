@@ -389,7 +389,7 @@ object Instant {
     try {
       val pattern = """(^[-+]?)(\d*)-(\d*)-(\d*)T(\d*):(\d*):(\d*).?(\d*)Z""".r
       val pattern(sign, yearSegment, monthSegment, daySegment,
-          hourSegment, minutesSegment, secondsSegment, nanosecondsSegment) = text
+          hourSegment, minutesSegment, secondsSegment, nanosecondsSegment) = text: @unchecked
 
       val year = parseSegment(sign + yearSegment, "year")
       val month = parseSegment(monthSegment, "month")
