@@ -1,5 +1,5 @@
 // To test snapshots
-resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
 // versions
 val crossVer           = "1.2.0"
