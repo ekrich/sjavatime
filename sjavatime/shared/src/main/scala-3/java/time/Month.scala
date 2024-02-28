@@ -3,7 +3,8 @@ package java.time
 import java.{lang => jl}
 import java.time.temporal._
 
-enum Month(value: Int, defaultLength: Int) extends jl.Enum[Month] with TemporalAccessor
+enum Month(value: Int, defaultLength: Int) extends jl.Enum[Month]
+    with TemporalAccessor
     with TemporalAdjuster {
 
   case JANUARY extends Month(1, 31)
@@ -71,7 +72,8 @@ enum Month(value: Int, defaultLength: Int) extends jl.Enum[Month] with TemporalA
     of((ordinal - offset.toInt) % 12 + 1)
   }
 
-  def length(leapYear: Boolean): Int = if (leapYear) maxLength() else minLength()
+  def length(leapYear: Boolean): Int =
+    if (leapYear) maxLength() else minLength()
 
   def minLength(): Int = defaultLength
 

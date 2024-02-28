@@ -16,7 +16,7 @@ trait TemporalUnit {
       temporal.plus(1, this)
       true
     } catch {
-      case _: DateTimeException => false
+      case _: DateTimeException   => false
       case _: ArithmeticException => true
     }
   }

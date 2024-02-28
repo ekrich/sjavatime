@@ -26,7 +26,8 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
       assert(!accessor.isSupported(null))
   }
 
-  def expectedRangeFor(accessor: TempAcc, field: TemporalField): ValueRange = field.range()
+  def expectedRangeFor(accessor: TempAcc, field: TemporalField): ValueRange =
+    field.range()
 
   @Test def range(): Unit = {
     for {
@@ -37,7 +38,8 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
         val expected = expectedRangeFor(accessor, field)
         assertEquals(expected, accessor.range(field))
       } else {
-        assertThrows(classOf[UnsupportedTemporalTypeException], accessor.range(field))
+        assertThrows(classOf[UnsupportedTemporalTypeException],
+            accessor.range(field))
       }
     }
   }
@@ -52,7 +54,8 @@ abstract class TemporalAccessorTest[TempAcc <: TemporalAccessor] {
       else if (accessor.isSupported(field))
         assertThrows(classOf[DateTimeException], accessor.get(field))
       else
-        assertThrows(classOf[UnsupportedTemporalTypeException], accessor.get(field))
+        assertThrows(classOf[UnsupportedTemporalTypeException],
+            accessor.get(field))
     }
   }
 

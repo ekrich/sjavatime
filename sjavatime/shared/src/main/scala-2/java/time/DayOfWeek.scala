@@ -12,9 +12,9 @@ final class DayOfWeek private (name: String, value: Int)
   // def getDisplayName(style: TextStyle, locale: ju.Locale): String
 
   def isSupported(field: TemporalField): Boolean = field match {
-    case _: ChronoField  => field == ChronoField.DAY_OF_WEEK
-    case null            => false
-    case _               => field.isSupportedBy(this)
+    case _: ChronoField => field == ChronoField.DAY_OF_WEEK
+    case null           => false
+    case _              => field.isSupportedBy(this)
   }
 
   // Implemented by TemporalAccessor

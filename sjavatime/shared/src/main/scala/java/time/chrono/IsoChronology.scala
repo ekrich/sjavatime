@@ -4,18 +4,21 @@ import java.time.{Period, LocalDate}
 import java.time.temporal.{ValueRange, ChronoField, TemporalAccessor}
 import java.{util => ju}
 
-final class IsoChronology private () extends AbstractChronology with Serializable {
+final class IsoChronology private () extends AbstractChronology
+    with Serializable {
   def getId(): String = "ISO"
 
   def getCalendarType(): String = "iso8601"
 
-  override def date(era: Era, yearOfEra: Int, month: Int, dayOfMonth: Int): LocalDate =
+  override def date(
+      era: Era, yearOfEra: Int, month: Int, dayOfMonth: Int): LocalDate =
     date(prolepticYear(era, yearOfEra), month, dayOfMonth)
 
   def date(prolepticYear: Int, month: Int, dayOfMonth: Int): LocalDate =
     LocalDate.of(prolepticYear, month, dayOfMonth)
 
-  override def dateYearDay(era: Era, yearOfEra: Int, dayOfYear: Int): LocalDate =
+  override def dateYearDay(
+      era: Era, yearOfEra: Int, dayOfYear: Int): LocalDate =
     dateYearDay(prolepticYear(era, yearOfEra), dayOfYear)
 
   def dateYearDay(prolepticYear: Int, dayOfYear: Int): LocalDate =

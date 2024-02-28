@@ -36,7 +36,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     unit == CENTURIES || unit == MILLENNIA || unit == ERAS
   }
 
-  override def expectedRangeFor(accessor: YearMonth, field: TemporalField): ValueRange = {
+  override def expectedRangeFor(
+      accessor: YearMonth, field: TemporalField): ValueRange = {
     field match {
       case YEAR_OF_ERA =>
         if (accessor.getYear <= 0) ValueRange.of(1, 1000000000)
@@ -131,7 +132,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       ym1 <- samples
       ym2 <- samples
     } {
-      testDateTime(ym1.`with`(PROLEPTIC_MONTH, ym2.getLong(PROLEPTIC_MONTH)))(ym2)
+      testDateTime(ym1.`with`(PROLEPTIC_MONTH, ym2.getLong(PROLEPTIC_MONTH)))(
+          ym2)
     }
 
     for (ym <- samples) {
@@ -140,15 +142,21 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       assertThrows(classOf[DateTimeException], ym.`with`(YEAR, 1000000000L))
       assertThrows(classOf[DateTimeException], ym.`with`(YEAR, Long.MaxValue))
 
-      assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, Long.MinValue))
+      assertThrows(classOf[DateTimeException],
+          ym.`with`(MONTH_OF_YEAR, Long.MinValue))
       assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, 0L))
       assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, 13L))
-      assertThrows(classOf[DateTimeException], ym.`with`(MONTH_OF_YEAR, Long.MaxValue))
+      assertThrows(classOf[DateTimeException],
+          ym.`with`(MONTH_OF_YEAR, Long.MaxValue))
 
-      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, Long.MinValue))
-      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, -11999999989L))
-      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, 12000000000L))
-      assertThrows(classOf[DateTimeException], ym.`with`(PROLEPTIC_MONTH, Long.MaxValue))
+      assertThrows(classOf[DateTimeException],
+          ym.`with`(PROLEPTIC_MONTH, Long.MinValue))
+      assertThrows(classOf[DateTimeException],
+          ym.`with`(PROLEPTIC_MONTH, -11999999989L))
+      assertThrows(classOf[DateTimeException],
+          ym.`with`(PROLEPTIC_MONTH, 12000000000L))
+      assertThrows(classOf[DateTimeException],
+          ym.`with`(PROLEPTIC_MONTH, Long.MaxValue))
 
       assertThrows(classOf[DateTimeException], ym.`with`(ERA, Long.MinValue))
       assertThrows(classOf[DateTimeException], ym.`with`(ERA, -1L))
@@ -195,13 +203,16 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   }
 
   @Test def plus(): Unit = {
-    for (ym <- samples;n <- sampleLongs) {
+    for (ym <- samples; n <- sampleLongs) {
       testDateTime(ym.plus(n, YEARS))(ym.plusYears(n))
       testDateTime(ym.plus(n, MONTHS))(ym.plusMonths(n))
       testDateTime(ym.plus(n, DECADES))(ym.plusYears(Math.multiplyExact(n, 10L)))
-      testDateTime(ym.plus(n, CENTURIES))(ym.plusYears(Math.multiplyExact(n, 100L)))
-      testDateTime(ym.plus(n, MILLENNIA))(ym.plusYears(Math.multiplyExact(n, 1000L)))
-      testDateTime(ym.plus(n, ERAS))(ym.`with`(ERA, Math.addExact(n, ym.getLong(ERA))))
+      testDateTime(ym.plus(n, CENTURIES))(
+          ym.plusYears(Math.multiplyExact(n, 100L)))
+      testDateTime(ym.plus(n, MILLENNIA))(
+          ym.plusYears(Math.multiplyExact(n, 1000L)))
+      testDateTime(ym.plus(n, ERAS))(
+          ym.`with`(ERA, Math.addExact(n, ym.getLong(ERA))))
     }
   }
 
@@ -290,7 +301,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
 
     val someDate = LocalDate.of(2015, 1, 1)
     for (ym <- samples) {
-      testDateTime(ym.adjustInto(someDate))(LocalDate.of(ym.getYear, ym.getMonthValue, 1))
+      testDateTime(ym.adjustInto(someDate))(
+          LocalDate.of(ym.getYear, ym.getMonthValue, 1))
     }
   }
 
@@ -332,7 +344,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       ym <- samples
       day <- 1 to ym.lengthOfMonth()
     } {
-      assertEquals(LocalDate.of(ym.getYear, ym.getMonthValue, day), ym.atDay(day))
+      assertEquals(LocalDate.of(ym.getYear, ym.getMonthValue, day),
+          ym.atDay(day))
     }
 
     for (ym <- samples) {
@@ -344,7 +357,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   @Test def atEndOfMonth(): Unit = {
     for (ym <- samples) {
       val endOfMonth = ym.lengthOfMonth()
-      assertEquals(LocalDate.of(ym.getYear, ym.getMonthValue, endOfMonth), ym.atEndOfMonth())
+      assertEquals(LocalDate.of(ym.getYear, ym.getMonthValue, endOfMonth),
+          ym.atEndOfMonth())
     }
   }
 

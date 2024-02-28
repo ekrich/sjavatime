@@ -9,10 +9,10 @@ object AssertThrows {
       code: => U
   ): T = {
     Assert.assertThrows(
-      expectedThrowable,
-      new ThrowingRunnable {
-        def run(): Unit = code
-      }
+        expectedThrowable,
+        new ThrowingRunnable {
+          def run(): Unit = code
+        }
     )
   }
 }

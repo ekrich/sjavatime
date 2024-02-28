@@ -229,7 +229,7 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   def plusMonths(months: Long): LocalDate = {
     val month1 = getMonthValue() + Math.floorMod(months, 12L).toInt
     val year1 = year + Math.floorDiv(months, 12L) +
-        (if (month1 > 12) 1 else 0)
+      (if (month1 > 12) 1 else 0)
     requireDateTime(year1 >= Year.MIN_VALUE && year1 <= Year.MAX_VALUE,
         s"Invalid value for year: $year1")
     val month2 = Month.of(if (month1 > 12) month1 - 12 else month1)
@@ -284,10 +284,12 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
 
       case YEARS =>
         val dyears = other.getYear() - year
-        if ((other.getMonthValue(), other.getDayOfMonth()) < (getMonthValue(), dayOfMonth) &&
+        if ((other.getMonthValue(),
+                other.getDayOfMonth()) < (getMonthValue(), dayOfMonth) &&
             dyears > 0)
           dyears - 1
-        else if ((other.getMonthValue(), other.getDayOfMonth()) > (getMonthValue(), dayOfMonth) &&
+        else if ((other.getMonthValue(),
+                other.getDayOfMonth()) > (getMonthValue(), dayOfMonth) &&
             dyears < 0)
           dyears + 1
         else
@@ -343,7 +345,6 @@ final class LocalDate private (year: Int, month: Month, dayOfMonth: Int)
   // Not implemented
   // def atTime(time: OffsetTime): OffsetDateTime
 
-
   // TODO
   // def atStartOfDay(): LocalDateTime
 
@@ -378,10 +379,11 @@ object LocalDate {
 
   private final val iso = IsoChronology.INSTANCE
 
-  private val daysBeforeYears = Iterator.iterate(1970 -> 0) { case (year, day) =>
-    if (iso.isLeapYear(year)) (year + 1) -> (day + 366)
-    else (year + 1) -> (day + 365)
-  }.take(400).toVector
+  private val daysBeforeYears =
+    Iterator.iterate(1970 -> 0) { case (year, day) =>
+      if (iso.isLeapYear(year)) (year + 1) -> (day + 366)
+      else (year + 1) -> (day + 365)
+    }.take(400).toVector
 
   private final val daysInFourHundredYears = 146097
 
@@ -443,7 +445,8 @@ object LocalDate {
   def parse(text: CharSequence): LocalDate = {
     try {
       val pattern = """(^[-+]?)(\d*)-(\d*)-(\d*)""".r
-      val pattern(sign, yearSegment, monthSegment, daySegment) = text: @unchecked
+      val pattern(sign, yearSegment, monthSegment, daySegment) =
+        text: @unchecked
 
       val year = parseSegment(sign + yearSegment, "year")
       val month = parseSegment(monthSegment, "month")

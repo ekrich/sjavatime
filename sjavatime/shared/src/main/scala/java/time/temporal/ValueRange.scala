@@ -44,9 +44,9 @@ final class ValueRange private (minSmallest: Long, minLargest: Long,
 
   override def toString(): String = {
     val prefix = minSmallest.toString +
-        (if (minSmallest == minLargest) "" else "/" + minLargest)
+      (if (minSmallest == minLargest) "" else "/" + minLargest)
     val suffix = maxSmallest.toString +
-        (if (maxSmallest == maxLargest) "" else "/" + maxLargest)
+      (if (maxSmallest == maxLargest) "" else "/" + maxLargest)
     prefix + " - " + suffix
   }
 
@@ -74,6 +74,6 @@ object ValueRange {
     new ValueRange(min, min, maxSmallest, maxLargest)
 
   def of(minSmallest: Long, minLargest: Long,
-         maxSmallest: Long, maxLargest: Long): ValueRange =
+      maxSmallest: Long, maxLargest: Long): ValueRange =
     new ValueRange(minSmallest, minLargest, maxSmallest, maxLargest)
 }

@@ -31,8 +31,10 @@ class IsoChronologyTest {
       month <- months
       day <- days
     } {
-      testDateTime(iso.date(IsoEra.CE, year, month, day))(LocalDate.of(year, month, day))
-      testDateTime(iso.date(IsoEra.BCE, 1 - year, month, day))(LocalDate.of(year, month, day))
+      testDateTime(iso.date(IsoEra.CE, year, month, day))(
+          LocalDate.of(year, month, day))
+      testDateTime(iso.date(IsoEra.BCE, 1 - year, month, day))(
+          LocalDate.of(year, month, day))
       testDateTime(iso.date(year, month, day))(LocalDate.of(year, month, day))
       assertThrows(classOf[ClassCastException], iso.date(null, year, month, day))
     }
@@ -48,8 +50,10 @@ class IsoChronologyTest {
       year <- years
       day <- days
     } {
-      testDateTime(iso.dateYearDay(IsoEra.CE, year, day))(LocalDate.ofYearDay(year, day))
-      testDateTime(iso.dateYearDay(IsoEra.BCE, 1 - year, day))(LocalDate.ofYearDay(year, day))
+      testDateTime(iso.dateYearDay(IsoEra.CE, year, day))(
+          LocalDate.ofYearDay(year, day))
+      testDateTime(iso.dateYearDay(IsoEra.BCE, 1 - year, day))(
+          LocalDate.ofYearDay(year, day))
       testDateTime(iso.dateYearDay(year, day))(LocalDate.ofYearDay(year, day))
       assertThrows(classOf[ClassCastException], iso.dateYearDay(null, year, day))
     }
@@ -57,7 +61,7 @@ class IsoChronologyTest {
 
   @Test def test_dateEpochDay(): Unit = {
     for (day <- Seq(Long.MinValue, -365243219163L, -365243219162L, -1L, 0L,
-        1L, 365241780471L, 365241780472L, Long.MaxValue)) {
+            1L, 365241780471L, 365241780472L, Long.MaxValue)) {
       testDateTime(iso.dateEpochDay(day))(LocalDate.ofEpochDay(day))
     }
   }
@@ -68,11 +72,11 @@ class IsoChronologyTest {
 
   @Test def test_isLeapYear(): Unit = {
     for (year <- Seq(Int.MinValue, -400, -104, -96, -4, 0, 4, 1896, 1904,
-        1996, 2000, 2004, 2147483644)) {
+            1996, 2000, 2004, 2147483644)) {
       assert(iso.isLeapYear(year))
     }
     for (year <- Seq(-2147483647, -100, -99, -1, 1, 1900, 1999, 2001, 2002,
-        2003, 2005, Int.MaxValue)) {
+            2003, 2005, Int.MaxValue)) {
       assert(!iso.isLeapYear(year))
     }
   }
@@ -114,7 +118,8 @@ class IsoChronologyTest {
       months <- monthss
       days <- dayss
     } {
-      assertEquals(Period.of(years, months, days), iso.period(years, months, days))
+      assertEquals(Period.of(years, months, days),
+          iso.period(years, months, days))
     }
   }
 

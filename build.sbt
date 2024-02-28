@@ -1,11 +1,10 @@
-
 val scala212 = "2.12.19"
-val scala213 = "2.13.12"
+val scala213 = "2.13.13"
 val scala300 = "3.3.1"
 
-val versionsBase   = Seq(scala212, scala213)
-val versionsJVM    = versionsBase :+ scala300
-val versionsJS     = versionsJVM
+val versionsBase = Seq(scala212, scala213)
+val versionsJVM = versionsBase :+ scala300
+val versionsJS = versionsJVM
 val versionsNative = versionsJVM
 
 ThisBuild / scalaVersion := scala213
@@ -13,34 +12,34 @@ ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
 inThisBuild(
-  List(
-    description := "A version of java.time library for Scala.js and Scala Native",
-    organization := "org.ekrich",
-    homepage := Some(url("https://github.com/ekrich/sjavatime")),
-    licenses := List(
-      "BSD 3-Clause" ->
-        url("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")),
-    developers := List(
-      // for this fork
-      Developer(id = "ekrich",
+    List(
+        description := "A version of java.time library for Scala.js and Scala Native",
+        organization := "org.ekrich",
+        homepage := Some(url("https://github.com/ekrich/sjavatime")),
+        licenses := List(
+            "BSD 3-Clause" ->
+              url("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")),
+        developers := List(
+            // for this fork
+            Developer(id = "ekrich",
                 name = "Eric K Richardson",
                 email = "ekrichardson@gmail.com",
                 url = url("http://github.ekrich.org/")),
-      // original developers
-      Developer(id = "sjrd",
+            // original developers
+            Developer(id = "sjrd",
                 name = "Sébastien Doeraene",
                 email = "",
                 url = url("https://github.com/sjrd/")),
-      Developer(id = "gzm0",
+            Developer(id = "gzm0",
                 name = "Tobias Schlatter",
                 email = "",
                 url = url("https://github.com/gzm0/")),
-      Developer(id = "nicolasstucki",
+            Developer(id = "nicolasstucki",
                 name = "Nicolas Stucki",
                 email = "",
                 url = url("https://github.com/nicolasstucki/"))
+        )
     )
-  )
 )
 val depSettings = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -53,28 +52,29 @@ val depSettings = Def.setting {
 
 lazy val disabledDocsSettings = Def.settings(
     Compile / doc / sources := Nil
-  )
+)
 
 val commonSettings: Seq[Setting[_]] = Seq(
-  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature") ++ depSettings.value
+    scalacOptions ++= Seq("-unchecked", "-deprecation",
+        "-feature") ++ depSettings.value
 )
 
 lazy val root = (project in file("."))
   .settings(
-    name := "sjavatime-root",
-    crossScalaVersions := Nil,
-    doc / aggregate := false,
-    doc := (sjavatimeJS / Compile / doc).value,
-    packageDoc / aggregate := false,
-    packageDoc := (sjavatimeJS / Compile / packageDoc).value
+      name := "sjavatime-root",
+      crossScalaVersions := Nil,
+      doc / aggregate := false,
+      doc := (sjavatimeJS / Compile / doc).value,
+      packageDoc / aggregate := false,
+      packageDoc := (sjavatimeJS / Compile / packageDoc).value
   )
   .settings(skipPublish: _*)
   .aggregate(
-    sjavatimeJS,
-    sjavatimeNative,
-    testSuiteJVM,
-    testSuiteJS,
-    testSuiteNative
+      sjavatimeJS,
+      sjavatimeNative,
+      testSuiteJVM,
+      testSuiteJS,
+      testSuiteNative
   )
 
 lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
@@ -82,63 +82,63 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .settings(commonSettings)
   .settings(disabledDocsSettings)
   .settings(
-    Test / test := {},
-    Compile / packageBin / mappings ~= {
-      _.filter(!_._2.endsWith(".class"))
-    }
+      Test / test := {},
+      Compile / packageBin / mappings ~= {
+        _.filter(!_._2.endsWith(".class"))
+      }
   )
   .jsSettings(
-    crossScalaVersions := versionsJS
+      crossScalaVersions := versionsJS
   )
   .nativeSettings(
-    Compile / run := {},
-    crossScalaVersions := versionsNative,
-    logLevel := Level.Info // Info or Debug
+      Compile / run := {},
+      crossScalaVersions := versionsNative,
+      logLevel := Level.Info // Info or Debug
   )
 
-lazy val sjavatimeJS     = sjavatime.js
+lazy val sjavatimeJS = sjavatime.js
 lazy val sjavatimeNative = sjavatime.native
 
 lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(commonSettings)
   .settings(skipPublish)
   .settings(
-    testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v")
+      testOptions += Tests.Argument(TestFrameworks.JUnit, "-a", "-s", "-v")
   )
   .jvmSettings(
-    name := "java.time testSuite on JVM",
-    crossScalaVersions := versionsJVM,
-    libraryDependencies +=
-      "com.github.sbt" % "junit-interface" % "0.13.3" % Test
+      name := "java.time testSuite on JVM",
+      crossScalaVersions := versionsJVM,
+      libraryDependencies +=
+        "com.github.sbt" % "junit-interface" % "0.13.3" % Test
   )
   .jsSettings(
-    name := "java.time testSuite on JS",
-    crossScalaVersions := versionsJS,
-    scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
+      name := "java.time testSuite on JS",
+      crossScalaVersions := versionsJS,
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
   )
   .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
   .jsConfigure(_.dependsOn(sjavatimeJS))
   .nativeSettings(
-    name := "java.time testSuite on Native",
-    crossScalaVersions := versionsNative,
-    addCompilerPlugin(
-      "org.scala-native" % "junit-plugin" % nativeVersion cross CrossVersion.full
-    ),
-    libraryDependencies += "org.scala-native" %%% "junit-runtime" % nativeVersion
+      name := "java.time testSuite on Native",
+      crossScalaVersions := versionsNative,
+      addCompilerPlugin(
+          "org.scala-native" % "junit-plugin" % nativeVersion cross CrossVersion.full
+      ),
+      libraryDependencies += "org.scala-native" %%% "junit-runtime" % nativeVersion
   )
   .nativeConfigure(_.dependsOn(sjavatimeNative))
 
-lazy val testSuiteJS     = testSuite.js
+lazy val testSuiteJS = testSuite.js
 lazy val testSuiteNative = testSuite.native
-lazy val testSuiteJVM    = testSuite.jvm
+lazy val testSuiteJVM = testSuite.jvm
 
 val skipPublish = Seq(
-  // no artifacts in this project
-  publishArtifact := false,
-  // make-pom has a more specific publishArtifact setting already
-  // so needs specific override
-  makePom / publishArtifact := false,
-  // no docs to publish
-  packageDoc / publishArtifact := false,
-  publish / skip := true
+    // no artifacts in this project
+    publishArtifact := false,
+    // make-pom has a more specific publishArtifact setting already
+    // so needs specific override
+    makePom / publishArtifact := false,
+    // no docs to publish
+    packageDoc / publishArtifact := false,
+    publish / skip := true
 )

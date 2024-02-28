@@ -65,7 +65,7 @@ final class Duration private (seconds: Long, nanos: Int)
   }
 
   def plus(amount: Long, unit: TemporalUnit): Duration = {
-   if (!unit.isDurationEstimated() || unit == DAYS)
+    if (!unit.isDurationEstimated() || unit == DAYS)
       plus(unit.getDuration().multipliedBy(amount))
     else
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
@@ -117,7 +117,8 @@ final class Duration private (seconds: Long, nanos: Int)
       } catch {
         case _: ArithmeticException =>
           val prodNanos = BigInt(normalizedNanos) * multiplicand
-          ((prodNanos / NANOS_IN_SECOND).toLong, (prodNanos % NANOS_IN_SECOND).toInt)
+          ((prodNanos / NANOS_IN_SECOND).toLong,
+              (prodNanos % NANOS_IN_SECOND).toInt)
       }
     }
     val prodSeconds = Math.multiplyExact(normalizedSeconds, multiplicand)
@@ -297,12 +298,12 @@ object Duration {
       val nanos = start.until(end, ChronoUnit.NANOS)
       Duration.ofNanos(nanos)
     } catch {
-      case _:DateTimeException | _:ArithmeticException =>
+      case _: DateTimeException | _: ArithmeticException =>
         val seconds = start.until(end, ChronoUnit.SECONDS)
         val nanos = {
           try {
             end.get(ChronoField.NANO_OF_SECOND) -
-                start.get(ChronoField.NANO_OF_SECOND)
+              start.get(ChronoField.NANO_OF_SECOND)
           } catch {
             case _: DateTimeException => 0
           }

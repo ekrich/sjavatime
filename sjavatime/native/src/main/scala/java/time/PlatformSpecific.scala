@@ -23,7 +23,7 @@ private[time] object PlatformSpecific extends PlatformCommon {
     val offset = scalanative.runtime.time.scalanative_time_zone_offset()
     val offsetSeconds = epochSeconds + offset
     val nanos = now.getNano()
-    // sec/yr, sec/day 
+    // sec/yr, sec/day
     val secPerDay = ((offsetSeconds % 31536000) % 86400)
     // sec/hr
     val currentHours = Math.floor((secPerDay / 3600).toDouble).toInt

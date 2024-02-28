@@ -22,8 +22,9 @@ final class MonthDay private (month: Int, day: Int)
   }
 
   override def range(field: TemporalField): ValueRange = field match {
-    case DAY_OF_MONTH => ValueRange.of(1, getMonth().minLength(), getMonth().maxLength())
-    case _            => super.range(field)
+    case DAY_OF_MONTH => ValueRange.of(1, getMonth().minLength(),
+          getMonth().maxLength())
+    case _ => super.range(field)
   }
 
   // Implemented by TemporalAccessor

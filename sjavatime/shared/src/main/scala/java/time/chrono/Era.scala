@@ -6,9 +6,9 @@ trait Era extends TemporalAccessor with TemporalAdjuster {
   def getValue(): Int
 
   def isSupported(field: TemporalField): Boolean = field match {
-    case _: ChronoField  => field == ChronoField.ERA
-    case null            => false
-    case _               => field.isSupportedBy(this)
+    case _: ChronoField => field == ChronoField.ERA
+    case null           => false
+    case _              => field.isSupportedBy(this)
   }
 
   // Implemented by TemporalAccessor

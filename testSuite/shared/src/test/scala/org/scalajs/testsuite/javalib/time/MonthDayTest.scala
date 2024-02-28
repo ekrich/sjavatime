@@ -1,7 +1,12 @@
 package org.scalajs.testsuite.javalib.time
 
 import java.time.chrono.IsoChronology
-import java.time.temporal.{TemporalField, UnsupportedTemporalTypeException, ValueRange, ChronoField}
+import java.time.temporal.{
+  TemporalField,
+  UnsupportedTemporalTypeException,
+  ValueRange,
+  ChronoField
+}
 import java.time.{DateTimeException, LocalDate, Month, MonthDay}
 
 import org.junit.Test
@@ -16,9 +21,12 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   final val max = MonthDay.of(Month.DECEMBER, 31)
   final val leapMonth = MonthDay.of(Month.FEBRUARY, 29)
 
-  val samples = Month.values().map(month => (month, month.minLength(), month.maxLength())).flatMap {
+  val samples = Month.values().map(month =>
+    (month, month.minLength(), month.maxLength())
+  ).flatMap {
     case (month, minDay, maxDay) =>
-      if (minDay != maxDay) Seq(MonthDay.of(month, 1), MonthDay.of(month, minDay), MonthDay.of(month, maxDay))
+      if (minDay != maxDay) Seq(MonthDay.of(month, 1),
+          MonthDay.of(month, minDay), MonthDay.of(month, maxDay))
       else Seq(MonthDay.of(month, 1), MonthDay.of(month, minDay))
   }.toSeq
 
@@ -28,10 +36,12 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
   override def isSupported(field: ChronoField): Boolean =
     field == ChronoField.MONTH_OF_YEAR || field == ChronoField.DAY_OF_MONTH
 
-  override def expectedRangeFor(accessor: MonthDay, field: TemporalField): ValueRange = {
+  override def expectedRangeFor(
+      accessor: MonthDay, field: TemporalField): ValueRange = {
     field match {
       case DAY_OF_MONTH =>
-        ValueRange.of(1, accessor.getMonth.minLength(), accessor.getMonth.maxLength())
+        ValueRange.of(1, accessor.getMonth.minLength(),
+            accessor.getMonth.maxLength())
 
       case _ =>
         super.expectedRangeFor(accessor, field)
@@ -106,7 +116,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     for (t <- samples) {
       assertThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MinValue))
       assertThrows(classOf[DateTimeException], t.withDayOfMonth(Int.MaxValue))
-      assertThrows(classOf[DateTimeException], t.withDayOfMonth(t.getMonth.maxLength() + 1))
+      assertThrows(classOf[DateTimeException],
+          t.withDayOfMonth(t.getMonth.maxLength() + 1))
     }
   }
 
@@ -120,7 +131,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     }
 
     val nonLeapYearDate = LocalDate.of(2015, 1, 1)
-    assertEquals(leapMonth.adjustInto(nonLeapYearDate), LocalDate.of(2015, 2, 28))
+    assertEquals(leapMonth.adjustInto(nonLeapYearDate),
+        LocalDate.of(2015, 2, 28))
   }
 
   @Test def atYear(): Unit = {
@@ -129,7 +141,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
       y <- years
       t <- samples if !(t.getMonthValue == 2 && t.getDayOfMonth == 29)
     } {
-      assertEquals(LocalDate.of(y, t.getMonthValue, t.getDayOfMonth), t.atYear(y))
+      assertEquals(LocalDate.of(y, t.getMonthValue, t.getDayOfMonth),
+          t.atYear(y))
     }
 
     val invalidYears = Seq(Int.MinValue, -1000000000, 1000000000, Int.MaxValue)
@@ -180,8 +193,10 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
 
   @Test def ofMonth(): Unit = {
     assertThrows(classOf[NullPointerException], MonthDay.of(null, 1))
-    assertThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MinValue))
-    assertThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, Int.MaxValue))
+    assertThrows(classOf[DateTimeException],
+        MonthDay.of(Month.JANUARY, Int.MinValue))
+    assertThrows(classOf[DateTimeException],
+        MonthDay.of(Month.JANUARY, Int.MaxValue))
     assertThrows(classOf[DateTimeException], MonthDay.of(Month.JANUARY, 32))
     assertThrows(classOf[DateTimeException], MonthDay.of(Month.FEBRUARY, 30))
 
@@ -202,7 +217,8 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     assertEquals(max, MonthDay.from(max))
 
     val now = LocalDate.now()
-    assertEquals(MonthDay.of(now.getMonthValue, now.getDayOfMonth), MonthDay.from(now))
+    assertEquals(MonthDay.of(now.getMonthValue, now.getDayOfMonth),
+        MonthDay.from(now))
   }
 
 }
