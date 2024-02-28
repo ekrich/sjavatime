@@ -94,7 +94,8 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
       for (n <- Seq(0, 30, 59))
         testDateTime(t.`with`(SECOND_OF_MINUTE, n))(t.withSecond(n))
       for (n <- Seq(0, 60, 86399))
-        testDateTime(t.`with`(SECOND_OF_DAY, n))(ofSecondOfDay(n).withNano(t.getNano))
+        testDateTime(t.`with`(SECOND_OF_DAY, n))(
+            ofSecondOfDay(n).withNano(t.getNano))
       for (n <- Seq(0, 30, 59))
         testDateTime(t.`with`(MINUTE_OF_HOUR, n))(t.withMinute(n))
       for (n <- Seq(0, 60, 1439)) {
@@ -438,7 +439,7 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
     assertEquals(86399999999999L, MIN.until(MAX, NANOS))
     assertEquals(86399999999L, MIN.until(MAX, MICROS))
     assertEquals(86399999L, MIN.until(MAX, MILLIS))
-    assertEquals(86399L, MIN.until(MAX, SECONDS) )
+    assertEquals(86399L, MIN.until(MAX, SECONDS))
     assertEquals(1439L, MIN.until(MAX, MINUTES))
     assertEquals(23L, MIN.until(MAX, HOURS))
     assertEquals(1L, MIN.until(MAX, HALF_DAYS))

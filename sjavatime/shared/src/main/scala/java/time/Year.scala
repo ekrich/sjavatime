@@ -5,7 +5,8 @@ import java.time.temporal._
 
 /** Created by alonsodomin on 24/12/2015. */
 final class Year private (year: Int)
-    extends TemporalAccessor with Temporal with TemporalAdjuster with Comparable[Year]
+    extends TemporalAccessor with Temporal with TemporalAdjuster
+    with Comparable[Year]
     with java.io.Serializable {
 
   import Preconditions._
@@ -13,7 +14,8 @@ final class Year private (year: Int)
   import ChronoField._
   import ChronoUnit._
 
-  requireDateTime(year >= MIN_VALUE && year <= MAX_VALUE, s"Invalid year value: $year")
+  requireDateTime(year >= MIN_VALUE && year <= MAX_VALUE,
+      s"Invalid year value: $year")
 
   def getValue(): Int = year
 
@@ -89,7 +91,7 @@ final class Year private (year: Int)
     case CENTURIES => plusYears(Math.multiplyExact(amount, 100L))
     case MILLENNIA => plusYears(Math.multiplyExact(amount, 1000L))
 
-    case ERAS      =>
+    case ERAS =>
       val era = get(ERA)
       `with`(ERA, Math.addExact(era, amount))
 

@@ -309,7 +309,7 @@ class PeriodTest extends TemporalAmountTest[Period] {
 
   @Test def test_normalized(): Unit = {
     val ps = samples1 ++ Seq(of(1, -1, 0), of(-1, 1, 0)) ++
-        Seq(of(1, -25, 1), of(-1, 25, -1), of(1, 13, 1), of(-1, -13, -1))
+      Seq(of(1, -25, 1), of(-1, 25, -1), of(1, 13, 1), of(-1, -13, -1))
     for (p <- ps) {
       val p1 = p.normalized
       val years = p1.getYears
@@ -340,17 +340,17 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(ZERO.addTo(t), t)
 
     assertEquals(Period.of(1999999998, 11, 30).addTo(LocalDate.MIN),
-      LocalDate.MAX)
+        LocalDate.MAX)
     assertEquals(Period.of(-1999999998, -11, -30).addTo(LocalDate.MAX),
-      LocalDate.MIN)
+        LocalDate.MIN)
     assertEquals(Period.of(1, 0, 1).addTo(LocalDate.of(2011, 2, 28)),
-      LocalDate.of(2012, 2, 29))
+        LocalDate.of(2012, 2, 29))
     assertEquals(Period.of(-1, 0, -1).addTo(LocalDate.of(2012, 2, 29)),
-      LocalDate.of(2011, 2, 27))
+        LocalDate.of(2011, 2, 27))
     assertEquals(oneYear.addTo(LocalDate.of(2012, 2, 29)),
-      LocalDate.of(2013, 2, 28))
+        LocalDate.of(2013, 2, 28))
     assertEquals(Period.of(-1, 0, 1).addTo(LocalDate.of(2013, 2, 28)),
-      LocalDate.of(2012, 2, 29))
+        LocalDate.of(2012, 2, 29))
 
     for (p <- Seq(oneYear, oneMonth, oneYear, pmin, pmax))
       assertThrows(classOf[DateTimeException], p.addTo(LocalDate.MAX))
@@ -372,17 +372,17 @@ class PeriodTest extends TemporalAmountTest[Period] {
       assertEquals(ZERO.subtractFrom(t), t)
 
     assertEquals(Period.of(-1999999998, -11, -30).subtractFrom(LocalDate.MIN),
-      LocalDate.MAX)
+        LocalDate.MAX)
     assertEquals(Period.of(1999999998, 11, 30).subtractFrom(LocalDate.MAX),
-      LocalDate.MIN)
+        LocalDate.MIN)
     assertEquals(Period.of(-1, 0, -1).subtractFrom(LocalDate.of(2011, 2, 28)),
-      LocalDate.of(2012, 2, 29))
+        LocalDate.of(2012, 2, 29))
     assertEquals(Period.of(1, 0, 1).subtractFrom(LocalDate.of(2012, 2, 29)),
-      LocalDate.of(2011, 2, 27))
+        LocalDate.of(2011, 2, 27))
     assertEquals(oneYear.negated.subtractFrom(LocalDate.of(2012, 2, 29)),
-      LocalDate.of(2013, 2, 28))
+        LocalDate.of(2013, 2, 28))
     assertEquals(Period.of(1, 0, -1).subtractFrom(LocalDate.of(2013, 2, 28)),
-      LocalDate.of(2012, 2, 29))
+        LocalDate.of(2012, 2, 29))
 
     for (p <- Seq(oneYear.negated, oneMonth.negated, oneYear.negated, pmin, pmax))
       assertThrows(classOf[DateTimeException], p.subtractFrom(LocalDate.MAX))

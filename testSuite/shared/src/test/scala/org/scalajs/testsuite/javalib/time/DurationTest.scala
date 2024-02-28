@@ -593,8 +593,10 @@ class DurationTest extends TemporalAmountTest[Duration] {
     assertEquals(dmax.subtractFrom(t), LocalTime.of(20, 29, 52, 1))
     assertEquals(ZERO.subtractFrom(d), d)
 
-    assertThrows(classOf[UnsupportedTemporalTypeException], oneNano.subtractFrom(d))
-    assertThrows(classOf[UnsupportedTemporalTypeException], oneSecond.subtractFrom(d))
+    assertThrows(classOf[UnsupportedTemporalTypeException],
+        oneNano.subtractFrom(d))
+    assertThrows(classOf[UnsupportedTemporalTypeException],
+        oneSecond.subtractFrom(d))
   }
 
   @Test def test_toDays(): Unit = {

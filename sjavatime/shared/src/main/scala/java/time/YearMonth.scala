@@ -43,7 +43,7 @@ final class YearMonth private (year: Int, month: Int)
     case PROLEPTIC_MONTH => prolepticMonth
     case ERA             => if (year < 1) 0 else 1
 
-    case _: ChronoField  =>
+    case _: ChronoField =>
       throw new UnsupportedTemporalTypeException("Unsupported field: " + field)
 
     case _ => field.getFrom(this)
@@ -78,8 +78,8 @@ final class YearMonth private (year: Int, month: Int)
 
       case YEAR_OF_ERA =>
         val isoYear = YEAR.checkValidIntValue(
-          if (year < 1) 1 - value
-          else value
+            if (year < 1) 1 - value
+            else value
         )
         withYearMonth(isoYear, month)
 
@@ -90,7 +90,8 @@ final class YearMonth private (year: Int, month: Int)
         plusMonths(value - getLong(PROLEPTIC_MONTH))
 
       case ERA =>
-        requireDateTime(value >= 0 && value <= 1, s"Invalid value for ERA: $value")
+        requireDateTime(value >= 0 && value <= 1,
+            s"Invalid value for ERA: $value")
         val era = getLong(ERA)
         if (value == era) this
         else withYearMonth(YEAR.checkValidIntValue(1 - year), month)
@@ -234,7 +235,7 @@ object YearMonth {
 
   def from(temporal: TemporalAccessor): YearMonth = temporal match {
     case temporal: YearMonth => temporal
-    case _                   => of(temporal.get(YEAR), temporal.get(MONTH_OF_YEAR))
+    case _ => of(temporal.get(YEAR), temporal.get(MONTH_OF_YEAR))
   }
 
   // Not implemented

@@ -94,11 +94,13 @@ object ChronoField {
   final val DAY_OF_WEEK = new ChronoField("DayOfWeek", 15,
       ValueRange.of(1, 7), DAYS, WEEKS, isDateBasedFlag)
 
-  final val ALIGNED_DAY_OF_WEEK_IN_MONTH = new ChronoField("AlignedDayOfWeekInMonth",
-      16, ValueRange.of(1, 7), DAYS, WEEKS, isDateBasedFlag)
+  final val ALIGNED_DAY_OF_WEEK_IN_MONTH =
+    new ChronoField("AlignedDayOfWeekInMonth",
+        16, ValueRange.of(1, 7), DAYS, WEEKS, isDateBasedFlag)
 
-  final val ALIGNED_DAY_OF_WEEK_IN_YEAR = new ChronoField("AlignedDayOfWeekInYear",
-      17, ValueRange.of(1, 7), DAYS, WEEKS, isDateBasedFlag)
+  final val ALIGNED_DAY_OF_WEEK_IN_YEAR =
+    new ChronoField("AlignedDayOfWeekInYear",
+        17, ValueRange.of(1, 7), DAYS, WEEKS, isDateBasedFlag)
 
   final val DAY_OF_MONTH = new ChronoField("DayOfMonth", 18,
       ValueRange.of(1, 28, 31), DAYS, MONTHS, isDateBasedFlag)
@@ -107,7 +109,8 @@ object ChronoField {
       ValueRange.of(1, 365, 366), DAYS, YEARS, isDateBasedFlag)
 
   final val EPOCH_DAY = new ChronoField("EpochDay", 20,
-      ValueRange.of(-365249999634L, 365249999634L), DAYS, FOREVER, isDateBasedFlag)
+      ValueRange.of(-365249999634L, 365249999634L), DAYS, FOREVER,
+      isDateBasedFlag)
 
   final val ALIGNED_WEEK_OF_MONTH = new ChronoField("AlignedWeekOfMonth", 21,
       ValueRange.of(1, 4, 5), WEEKS, MONTHS, isDateBasedFlag)
@@ -119,13 +122,15 @@ object ChronoField {
       ValueRange.of(1, 12), MONTHS, YEARS, isDateBasedFlag)
 
   final val PROLEPTIC_MONTH = new ChronoField("ProlepticMonth", 24,
-      ValueRange.of(-11999999988L, 11999999999L), MONTHS, FOREVER, isDateBasedFlag)
+      ValueRange.of(-11999999988L, 11999999999L), MONTHS, FOREVER,
+      isDateBasedFlag)
 
   final val YEAR_OF_ERA = new ChronoField("YearOfEra", 25,
       ValueRange.of(1, 999999999, 1000000000), YEARS, ERAS, isDateBasedFlag)
 
   final val YEAR = new ChronoField("Year", 26,
-      ValueRange.of(Year.MIN_VALUE, Year.MAX_VALUE), YEARS, FOREVER, isDateBasedFlag)
+      ValueRange.of(Year.MIN_VALUE, Year.MAX_VALUE), YEARS, FOREVER,
+      isDateBasedFlag)
 
   final val ERA = new ChronoField("Era", 27, ValueRange.of(0, 1), ERAS, FOREVER,
       isDateBasedFlag)
@@ -142,7 +147,8 @@ object ChronoField {
       CLOCK_HOUR_OF_AMPM, HOUR_OF_DAY, CLOCK_HOUR_OF_DAY,
       AMPM_OF_DAY, DAY_OF_WEEK, ALIGNED_DAY_OF_WEEK_IN_MONTH,
       ALIGNED_DAY_OF_WEEK_IN_YEAR, DAY_OF_MONTH, DAY_OF_YEAR, EPOCH_DAY,
-      ALIGNED_WEEK_OF_MONTH, ALIGNED_WEEK_OF_YEAR, MONTH_OF_YEAR, PROLEPTIC_MONTH,
+      ALIGNED_WEEK_OF_MONTH, ALIGNED_WEEK_OF_YEAR, MONTH_OF_YEAR,
+      PROLEPTIC_MONTH,
       YEAR_OF_ERA, YEAR, ERA, INSTANT_SECONDS, OFFSET_SECONDS)
 
   def values(): Array[ChronoField] = fields.clone()

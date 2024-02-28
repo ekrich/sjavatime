@@ -13,12 +13,15 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
   import ChronoUnit._
 
   private val totalNanos = (nano.toLong + NANOS_IN_SECOND.toLong * second +
-      NANOS_IN_MINUTE * minute + NANOS_IN_HOUR * hour)
+    NANOS_IN_MINUTE * minute + NANOS_IN_HOUR * hour)
 
   requireDateTime(hour >= 0 && hour <= 23, s"Invalid value for hour: $hour")
-  requireDateTime(minute >= 0 && minute <= 59, s"Invalid value for minute: $minute")
-  requireDateTime(second >= 0 && second <= 59, s"Invalid value for second: $second")
-  requireDateTime(nano >= 0 && nano <= 999999999, s"Invalid value for nanoOfSecond $nano")
+  requireDateTime(minute >= 0 && minute <= 59,
+      s"Invalid value for minute: $minute")
+  requireDateTime(second >= 0 && second <= 59,
+      s"Invalid value for second: $second")
+  requireDateTime(nano >= 0 && nano <= 999999999,
+      s"Invalid value for nanoOfSecond $nano")
 
   def isSupported(field: TemporalField): Boolean = field match {
     case _: ChronoField => field.isTimeBased()
@@ -114,7 +117,8 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
 
       case MINUTE_OF_DAY =>
         requireDateTime(value >= 0 && value <= MINUTES_IN_DAY, msg)
-        ofNanoOfDay(value * NANOS_IN_MINUTE + second.toLong * NANOS_IN_SECOND + nano)
+        ofNanoOfDay(
+            value * NANOS_IN_MINUTE + second.toLong * NANOS_IN_SECOND + nano)
 
       case HOUR_OF_AMPM =>
         requireDateTime(value >= 0 && value <= 11, msg)
@@ -138,7 +142,8 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
         new LocalTime(hour % 12 + value.toInt * 12, minute, second, nano)
 
       case _: ChronoField =>
-        throw new UnsupportedTemporalTypeException(s"Field not supported: $field")
+        throw new UnsupportedTemporalTypeException(
+            s"Field not supported: $field")
 
       case _ => field.adjustInto(this, value)
     }
@@ -293,14 +298,14 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
   override def toString(): String = {
     val prefix = f"$hour%02d:$minute%02d"
     val nanoPart = nano match {
-      case 0 => ""
+      case 0                        => ""
       case _ if nano % 1000000 == 0 => f".${nano / 1000000}%03d"
-      case _ if nano % 1000 == 0 => f".${nano / 1000}%06d"
-      case _ => f".$nano%09d"
+      case _ if nano % 1000 == 0    => f".${nano / 1000}%06d"
+      case _                        => f".$nano%09d"
     }
     val secondPart = second match {
       case 0 if nanoPart.isEmpty => ""
-      case _ => f":$second%02d"
+      case _                     => f":$second%02d"
     }
     prefix + secondPart + nanoPart
   }
@@ -338,14 +343,14 @@ object LocalTime {
 
   def ofSecondOfDay(secondOfDay: Long): LocalTime = {
     requireDateTime(secondOfDay >= 0 && secondOfDay < SECONDS_IN_DAY,
-      s"Invalid value for secondOfDay: $secondOfDay")
+        s"Invalid value for secondOfDay: $secondOfDay")
 
     ofNanoOfDay(secondOfDay * 1000000000)
   }
 
   def ofNanoOfDay(nanoOfDay: Long): LocalTime = {
     requireDateTime(nanoOfDay >= 0 && nanoOfDay < NANOS_IN_DAY,
-      s"Invalid value for nanoOfDay: $nanoOfDay")
+        s"Invalid value for nanoOfDay: $nanoOfDay")
 
     val nano = nanoOfDay % NANOS_IN_SECOND
     val seconds = nanoOfDay / NANOS_IN_SECOND

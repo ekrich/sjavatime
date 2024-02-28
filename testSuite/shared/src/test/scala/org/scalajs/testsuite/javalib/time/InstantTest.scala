@@ -2,7 +2,11 @@ package org.scalajs.testsuite.javalib.time
 
 import java.time._
 import java.time.format.DateTimeParseException
-import java.time.temporal.{UnsupportedTemporalTypeException, ChronoUnit, ChronoField}
+import java.time.temporal.{
+  UnsupportedTemporalTypeException,
+  ChronoUnit,
+  ChronoField
+}
 
 import org.junit.Test
 import org.junit.Assert.assertEquals
@@ -23,7 +27,7 @@ class InstantTest extends TemporalTest[Instant] {
 
   def isSupported(field: ChronoField): Boolean =
     field == INSTANT_SECONDS || field == NANO_OF_SECOND || field == MICRO_OF_SECOND ||
-      field == MILLI_OF_SECOND
+    field == MILLI_OF_SECOND
 
   def isSupported(unit: ChronoUnit): Boolean =
     unit.isTimeBased || unit == DAYS
@@ -72,16 +76,20 @@ class InstantTest extends TemporalTest[Instant] {
   @Test def `with`(): Unit = {
     for (i <- samples) {
       for (value <- Seq(0L, 999L, 999999L, 999999999L)) {
-        assertEquals(value, i.`with`(NANO_OF_SECOND, value).getLong(NANO_OF_SECOND))
+        assertEquals(value,
+            i.`with`(NANO_OF_SECOND, value).getLong(NANO_OF_SECOND))
       }
       for (value <- Seq(0L, 999L, 999999L)) {
-        assertEquals(value, i.`with`(MICRO_OF_SECOND, value).getLong(MICRO_OF_SECOND))
+        assertEquals(value,
+            i.`with`(MICRO_OF_SECOND, value).getLong(MICRO_OF_SECOND))
       }
       for (value <- Seq(0L, 500L, 999L)) {
-        assertEquals(value, i.`with`(MILLI_OF_SECOND, value).getLong(MILLI_OF_SECOND))
+        assertEquals(value,
+            i.`with`(MILLI_OF_SECOND, value).getLong(MILLI_OF_SECOND))
       }
       for (value <- Seq(-31557014167219200L, -1L, 0L, 1L, 31557014167219200L))
-        testDateTime(i.`with`(INSTANT_SECONDS, value).getLong(INSTANT_SECONDS))(value)
+        testDateTime(i.`with`(INSTANT_SECONDS, value).getLong(INSTANT_SECONDS))(
+            value)
 
       for (n <- Seq(Long.MinValue, -1L, 1000000000L, Long.MaxValue))
         assertThrows(classOf[DateTimeException], i.`with`(NANO_OF_SECOND, n))
@@ -89,7 +97,8 @@ class InstantTest extends TemporalTest[Instant] {
         assertThrows(classOf[DateTimeException], i.`with`(MICRO_OF_SECOND, n))
       for (n <- Seq(Long.MinValue, -1L, 1000L, Long.MaxValue))
         assertThrows(classOf[DateTimeException], i.`with`(MILLI_OF_SECOND, n))
-      for (n <- Seq(Long.MinValue, -31557014167219201L, 31557014167219201L, Long.MaxValue))
+      for (n <- Seq(Long.MinValue, -31557014167219201L, 31557014167219201L,
+              Long.MaxValue))
         assertThrows(classOf[DateTimeException], i.`with`(INSTANT_SECONDS, n))
     }
   }
@@ -108,31 +117,45 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.MIN, Instant.MIN.truncatedTo(SECONDS))
     assertEquals(Instant.MIN, Instant.MIN.truncatedTo(DAYS))
 
-    assertEquals(Instant.ofEpochSecond(31556889864403199L, 999999000), Instant.MAX.truncatedTo(MICROS))
-    assertEquals(Instant.ofEpochSecond(31556889864403199L, 999000000), Instant.MAX.truncatedTo(MILLIS))
-    assertEquals(Instant.ofEpochSecond(31556889864403199L), Instant.MAX.truncatedTo(SECONDS))
-    assertEquals(Instant.ofEpochSecond(31556889864316800L), Instant.MAX.truncatedTo(DAYS))
+    assertEquals(Instant.ofEpochSecond(31556889864403199L, 999999000),
+        Instant.MAX.truncatedTo(MICROS))
+    assertEquals(Instant.ofEpochSecond(31556889864403199L, 999000000),
+        Instant.MAX.truncatedTo(MILLIS))
+    assertEquals(Instant.ofEpochSecond(31556889864403199L),
+        Instant.MAX.truncatedTo(SECONDS))
+    assertEquals(Instant.ofEpochSecond(31556889864316800L),
+        Instant.MAX.truncatedTo(DAYS))
 
     assertEquals(somePositiveInstant, somePositiveInstant.truncatedTo(MICROS))
     assertEquals(somePositiveInstant, somePositiveInstant.truncatedTo(MILLIS))
-    assertEquals(Instant.ofEpochSecond(928392983L), somePositiveInstant.truncatedTo(SECONDS))
-    assertEquals(Instant.ofEpochSecond(928368000L), somePositiveInstant.truncatedTo(DAYS))
+    assertEquals(Instant.ofEpochSecond(928392983L),
+        somePositiveInstant.truncatedTo(SECONDS))
+    assertEquals(Instant.ofEpochSecond(928368000L),
+        somePositiveInstant.truncatedTo(DAYS))
     // Round down when less than Instant.EPOCH - fixed JDK9+
     // See https://bugs.openjdk.java.net/browse/JDK-8184233
     if (!executingInJVMOnJDK8) {
-      assertEquals(Instant.ofEpochSecond(-83827873287L, 88936000), someNegativeInstant.truncatedTo(MICROS))
-      assertEquals(Instant.ofEpochSecond(-83827873287L, 88000000), someNegativeInstant.truncatedTo(MILLIS))
-      assertEquals(Instant.ofEpochSecond(-83827873287L), someNegativeInstant.truncatedTo(SECONDS))
-      assertEquals(Instant.ofEpochSecond(-83827958400L), someNegativeInstant.truncatedTo(DAYS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 88936000),
+          someNegativeInstant.truncatedTo(MICROS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 88000000),
+          someNegativeInstant.truncatedTo(MILLIS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L),
+          someNegativeInstant.truncatedTo(SECONDS))
+      assertEquals(Instant.ofEpochSecond(-83827958400L),
+          someNegativeInstant.truncatedTo(DAYS))
     } else {
       // Remove when Java 8 support is dropped
-      assertEquals(Instant.ofEpochSecond(-83827873287L, 88937000), someNegativeInstant.truncatedTo(MICROS))
-      assertEquals(Instant.ofEpochSecond(-83827873287L, 89000000), someNegativeInstant.truncatedTo(MILLIS))
-      assertEquals(Instant.ofEpochSecond(-83827873286L), someNegativeInstant.truncatedTo(SECONDS))
-      assertEquals(Instant.ofEpochSecond(-83827872000L), someNegativeInstant.truncatedTo(DAYS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 88937000),
+          someNegativeInstant.truncatedTo(MICROS))
+      assertEquals(Instant.ofEpochSecond(-83827873287L, 89000000),
+          someNegativeInstant.truncatedTo(MILLIS))
+      assertEquals(Instant.ofEpochSecond(-83827873286L),
+          someNegativeInstant.truncatedTo(SECONDS))
+      assertEquals(Instant.ofEpochSecond(-83827872000L),
+          someNegativeInstant.truncatedTo(DAYS))
     }
 
-    for (i <- samples;u <- dateBasedUnits.filter(_ != DAYS))
+    for (i <- samples; u <- dateBasedUnits.filter(_ != DAYS))
       assertThrows(classOf[UnsupportedTemporalTypeException], i.truncatedTo(u))
   }
 
@@ -159,19 +182,26 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(1), Instant.EPOCH.plusSeconds(1))
     assertEquals(Instant.ofEpochSecond(-1), Instant.EPOCH.plusSeconds(-1))
 
-    assertEquals(Instant.ofEpochSecond(-31557014167219199L), Instant.MIN.plusSeconds(1))
+    assertEquals(Instant.ofEpochSecond(-31557014167219199L),
+        Instant.MIN.plusSeconds(1))
     assertThrows(classOf[DateTimeException], Instant.MIN.plusSeconds(-1))
     assertEquals(Instant.EPOCH, Instant.MIN.plusSeconds(31557014167219200L))
 
     assertThrows(classOf[DateTimeException], Instant.MAX.plusSeconds(1))
-    assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999), Instant.MAX.plusSeconds(-1))
-    assertEquals(Instant.ofEpochSecond(0, 999999999), Instant.MAX.plusSeconds(-31556889864403199L))
+    assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
+        Instant.MAX.plusSeconds(-1))
+    assertEquals(Instant.ofEpochSecond(0, 999999999),
+        Instant.MAX.plusSeconds(-31556889864403199L))
 
-    assertEquals(Instant.ofEpochSecond(928392984L, 942000000), somePositiveInstant.plusSeconds(1))
-    assertEquals(Instant.ofEpochSecond(928392982L, 942000000), somePositiveInstant.plusSeconds(-1))
+    assertEquals(Instant.ofEpochSecond(928392984L, 942000000),
+        somePositiveInstant.plusSeconds(1))
+    assertEquals(Instant.ofEpochSecond(928392982L, 942000000),
+        somePositiveInstant.plusSeconds(-1))
 
-    assertEquals(Instant.ofEpochSecond(-83827873286L, 88936253), someNegativeInstant.plusSeconds(1))
-    assertEquals(Instant.ofEpochSecond(-83827873288L, 88936253), someNegativeInstant.plusSeconds(-1))
+    assertEquals(Instant.ofEpochSecond(-83827873286L, 88936253),
+        someNegativeInstant.plusSeconds(1))
+    assertEquals(Instant.ofEpochSecond(-83827873288L, 88936253),
+        someNegativeInstant.plusSeconds(-1))
   }
 
   @Test def plusMillis(): Unit = {
@@ -193,11 +223,15 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
         Instant.MAX.plusMillis(-1000))
 
-    assertEquals(Instant.ofEpochSecond(928392983L, 943000000), somePositiveInstant.plusMillis(1))
-    assertEquals(Instant.ofEpochSecond(928392983L, 941000000), somePositiveInstant.plusMillis(-1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 943000000),
+        somePositiveInstant.plusMillis(1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 941000000),
+        somePositiveInstant.plusMillis(-1))
 
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 89936253), someNegativeInstant.plusMillis(1))
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 87936253), someNegativeInstant.plusMillis(-1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 89936253),
+        someNegativeInstant.plusMillis(1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 87936253),
+        someNegativeInstant.plusMillis(-1))
   }
 
   @Test def plusNanos(): Unit = {
@@ -205,7 +239,8 @@ class InstantTest extends TemporalTest[Instant] {
       assertEquals(i, i.plusNanos(0))
 
     assertEquals(Instant.ofEpochSecond(0, 1), Instant.EPOCH.plusNanos(1))
-    assertEquals(Instant.ofEpochSecond(-1, 999999999), Instant.EPOCH.plusNanos(-1))
+    assertEquals(Instant.ofEpochSecond(-1, 999999999),
+        Instant.EPOCH.plusNanos(-1))
 
     assertEquals(Instant.ofEpochSecond(-31557014167219200L, 1),
         Instant.MIN.plusNanos(1))
@@ -219,11 +254,15 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
         Instant.MAX.plusNanos(-1000000000))
 
-    assertEquals(Instant.ofEpochSecond(928392983L, 942000001), somePositiveInstant.plusNanos(1))
-    assertEquals(Instant.ofEpochSecond(928392983L, 941999999), somePositiveInstant.plusNanos(-1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 942000001),
+        somePositiveInstant.plusNanos(1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 941999999),
+        somePositiveInstant.plusNanos(-1))
 
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936254), someNegativeInstant.plusNanos(1))
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936252), someNegativeInstant.plusNanos(-1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936254),
+        someNegativeInstant.plusNanos(1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936252),
+        someNegativeInstant.plusNanos(-1))
   }
 
   @Test def minusSeconds(): Unit = {
@@ -234,18 +273,25 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(Instant.ofEpochSecond(1), Instant.EPOCH.minusSeconds(-1))
 
     assertThrows(classOf[DateTimeException], Instant.MIN.minusSeconds(1))
-    assertEquals(Instant.ofEpochSecond(-31557014167219199L), Instant.MIN.minusSeconds(-1))
+    assertEquals(Instant.ofEpochSecond(-31557014167219199L),
+        Instant.MIN.minusSeconds(-1))
     assertEquals(Instant.EPOCH, Instant.MIN.minusSeconds(-31557014167219200L))
 
-    assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999), Instant.MAX.minusSeconds(1))
+    assertEquals(Instant.ofEpochSecond(31556889864403198L, 999999999),
+        Instant.MAX.minusSeconds(1))
     assertThrows(classOf[DateTimeException], Instant.MAX.minusSeconds(-1))
-    assertEquals(Instant.ofEpochSecond(0, 999999999), Instant.MAX.minusSeconds(31556889864403199L))
+    assertEquals(Instant.ofEpochSecond(0, 999999999),
+        Instant.MAX.minusSeconds(31556889864403199L))
 
-    assertEquals(Instant.ofEpochSecond(928392982L, 942000000), somePositiveInstant.minusSeconds(1))
-    assertEquals(Instant.ofEpochSecond(928392984L, 942000000), somePositiveInstant.minusSeconds(-1))
+    assertEquals(Instant.ofEpochSecond(928392982L, 942000000),
+        somePositiveInstant.minusSeconds(1))
+    assertEquals(Instant.ofEpochSecond(928392984L, 942000000),
+        somePositiveInstant.minusSeconds(-1))
 
-    assertEquals(Instant.ofEpochSecond(-83827873288L, 88936253), someNegativeInstant.minusSeconds(1))
-    assertEquals(Instant.ofEpochSecond(-83827873286L, 88936253), someNegativeInstant.minusSeconds(-1))
+    assertEquals(Instant.ofEpochSecond(-83827873288L, 88936253),
+        someNegativeInstant.minusSeconds(1))
+    assertEquals(Instant.ofEpochSecond(-83827873286L, 88936253),
+        someNegativeInstant.minusSeconds(-1))
   }
 
   @Test def minusMillis(): Unit = {
@@ -267,18 +313,23 @@ class InstantTest extends TemporalTest[Instant] {
         Instant.MAX.minusMillis(1000))
     assertThrows(classOf[DateTimeException], Instant.MAX.minusMillis(-1))
 
-    assertEquals(Instant.ofEpochSecond(928392983L, 941000000), somePositiveInstant.minusMillis(1))
-    assertEquals(Instant.ofEpochSecond(928392983L, 943000000), somePositiveInstant.minusMillis(-1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 941000000),
+        somePositiveInstant.minusMillis(1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 943000000),
+        somePositiveInstant.minusMillis(-1))
 
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 87936253), someNegativeInstant.minusMillis(1))
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 89936253), someNegativeInstant.minusMillis(-1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 87936253),
+        someNegativeInstant.minusMillis(1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 89936253),
+        someNegativeInstant.minusMillis(-1))
   }
 
   @Test def minusNanos(): Unit = {
     for (i <- samples)
       assertEquals(i, i.minusNanos(0))
 
-    assertEquals(Instant.ofEpochSecond(-1, 999999999), Instant.EPOCH.minusNanos(1))
+    assertEquals(Instant.ofEpochSecond(-1, 999999999),
+        Instant.EPOCH.minusNanos(1))
     assertEquals(Instant.ofEpochSecond(0, 1), Instant.EPOCH.minusNanos(-1))
 
     assertThrows(classOf[DateTimeException], Instant.MIN.minusNanos(1))
@@ -293,11 +344,15 @@ class InstantTest extends TemporalTest[Instant] {
         Instant.MAX.minusNanos(1000000000))
     assertThrows(classOf[DateTimeException], Instant.MAX.minusNanos(-1))
 
-    assertEquals(Instant.ofEpochSecond(928392983L, 941999999), somePositiveInstant.minusNanos(1))
-    assertEquals(Instant.ofEpochSecond(928392983L, 942000001), somePositiveInstant.minusNanos(-1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 941999999),
+        somePositiveInstant.minusNanos(1))
+    assertEquals(Instant.ofEpochSecond(928392983L, 942000001),
+        somePositiveInstant.minusNanos(-1))
 
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936252), someNegativeInstant.minusNanos(1))
-    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936254), someNegativeInstant.minusNanos(-1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936252),
+        someNegativeInstant.minusNanos(1))
+    assertEquals(Instant.ofEpochSecond(-83827873287L, 88936254),
+        someNegativeInstant.minusNanos(-1))
   }
 
   @Test def adjustInto(): Unit = {
@@ -317,9 +372,12 @@ class InstantTest extends TemporalTest[Instant] {
   }
 
   @Test def until(): Unit = {
-    assertThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, NANOS))
-    assertThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MICROS))
-    assertThrows(classOf[ArithmeticException], Instant.MIN.until(Instant.MAX, MILLIS))
+    assertThrows(classOf[ArithmeticException],
+        Instant.MIN.until(Instant.MAX, NANOS))
+    assertThrows(classOf[ArithmeticException],
+        Instant.MIN.until(Instant.MAX, MICROS))
+    assertThrows(classOf[ArithmeticException],
+        Instant.MIN.until(Instant.MAX, MILLIS))
 
     assertEquals(31557014167219200L, Instant.MIN.until(Instant.EPOCH, SECONDS))
     assertEquals(525950236120320L, Instant.MIN.until(Instant.EPOCH, MINUTES))
@@ -339,11 +397,16 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(1460970000731L, Instant.MIN.until(Instant.MAX, HALF_DAYS))
     assertEquals(730485000365L, Instant.MIN.until(Instant.MAX, DAYS))
 
-    assertEquals(84756266270854L, someNegativeInstant.until(somePositiveInstant, MILLIS))
-    assertEquals(84756266270L, someNegativeInstant.until(somePositiveInstant, SECONDS))
-    assertEquals(1412604437L, someNegativeInstant.until(somePositiveInstant, MINUTES))
-    assertEquals(23543407L, someNegativeInstant.until(somePositiveInstant, HOURS))
-    assertEquals(1961950L, someNegativeInstant.until(somePositiveInstant, HALF_DAYS))
+    assertEquals(84756266270854L,
+        someNegativeInstant.until(somePositiveInstant, MILLIS))
+    assertEquals(84756266270L,
+        someNegativeInstant.until(somePositiveInstant, SECONDS))
+    assertEquals(1412604437L,
+        someNegativeInstant.until(somePositiveInstant, MINUTES))
+    assertEquals(23543407L,
+        someNegativeInstant.until(somePositiveInstant, HOURS))
+    assertEquals(1961950L,
+        someNegativeInstant.until(somePositiveInstant, HALF_DAYS))
     assertEquals(980975L, someNegativeInstant.until(somePositiveInstant, DAYS))
   }
 
@@ -384,13 +447,16 @@ class InstantTest extends TemporalTest[Instant] {
   @Test def toStringOutput(): Unit = {
     assertEquals("1970-01-01T00:00:00Z", Instant.EPOCH.toString)
     assertEquals("-1000000000-01-01T00:00:00Z", Instant.MIN.toString)
-    assertEquals("-999999999-01-01T00:00:00Z", Instant.MIN.plus(366, DAYS).toString)
+    assertEquals("-999999999-01-01T00:00:00Z",
+        Instant.MIN.plus(366, DAYS).toString)
 
     // https://github.com/scala-js/scala-js-java-time/issues/23
-    assertEquals("1970-01-01T00:10:00.100Z", Instant.EPOCH.plus(10, MINUTES).plusMillis(100).toString)
+    assertEquals("1970-01-01T00:10:00.100Z",
+        Instant.EPOCH.plus(10, MINUTES).plusMillis(100).toString)
 
     assertEquals("+1000000000-12-31T23:59:59.999999999Z", Instant.MAX.toString)
-    assertEquals("+999999999-12-31T23:59:59.999999999Z", Instant.MAX.minus(366, DAYS).toString)
+    assertEquals("+999999999-12-31T23:59:59.999999999Z",
+        Instant.MAX.minus(366, DAYS).toString)
 
     assertEquals("1999-06-03T06:56:23.942Z", somePositiveInstant.toString)
     assertEquals("-0687-08-07T23:38:33.088936253Z", someNegativeInstant.toString)
@@ -406,9 +472,11 @@ class InstantTest extends TemporalTest[Instant] {
 
     assertEquals(Instant.MIN, Instant.ofEpochSecond(-31557014167219200L))
     assertEquals(Instant.MIN, Instant.ofEpochSecond(-31557014167219200L, 0))
-    assertEquals(Instant.MAX, Instant.ofEpochSecond(31556889864403199L, 999999999))
+    assertEquals(Instant.MAX,
+        Instant.ofEpochSecond(31556889864403199L, 999999999))
 
-    assertThrows(classOf[DateTimeException], Instant.ofEpochSecond(-31557014167219200L, Long.MinValue))
+    assertThrows(classOf[DateTimeException],
+        Instant.ofEpochSecond(-31557014167219200L, Long.MinValue))
 
     val limits = Seq(-31557014167219200L, 31557014167219200L)
     val invalidNanos = Seq(Long.MinValue, -1L, 1000000000L, Long.MaxValue)
@@ -441,28 +509,41 @@ class InstantTest extends TemporalTest[Instant] {
   @Test def parse(): Unit = {
     assertEquals(Instant.EPOCH, Instant.parse("1970-01-01T00:00:00Z"))
     assertEquals(Instant.MIN, Instant.parse("-1000000000-01-01T00:00:00Z"))
-    assertEquals(Instant.MIN.plus(366, DAYS), Instant.parse("-999999999-01-01T00:00:00Z"))
+    assertEquals(Instant.MIN.plus(366, DAYS),
+        Instant.parse("-999999999-01-01T00:00:00Z"))
 
     // https://github.com/scala-js/scala-js-java-time/issues/23
-    assertEquals(Instant.EPOCH.plus(10, MINUTES).plusMillis(100), Instant.parse("1970-01-01T00:10:00.100Z"))
+    assertEquals(Instant.EPOCH.plus(10, MINUTES).plusMillis(100),
+        Instant.parse("1970-01-01T00:10:00.100Z"))
 
-    assertEquals(Instant.MAX, Instant.parse("+1000000000-12-31T23:59:59.999999999Z"))
-    assertEquals(Instant.MAX.minus(366, DAYS), Instant.parse("+999999999-12-31T23:59:59.999999999Z"))
+    assertEquals(Instant.MAX,
+        Instant.parse("+1000000000-12-31T23:59:59.999999999Z"))
+    assertEquals(Instant.MAX.minus(366, DAYS),
+        Instant.parse("+999999999-12-31T23:59:59.999999999Z"))
 
     assertEquals(somePositiveInstant, Instant.parse("1999-06-03T06:56:23.942Z"))
-    assertEquals(someNegativeInstant, Instant.parse("-0687-08-07T23:38:33.088936253Z"))
+    assertEquals(someNegativeInstant,
+        Instant.parse("-0687-08-07T23:38:33.088936253Z"))
 
     val charSequence: CharSequence = "1999-06-03T06:56:23.942Z"
     assertEquals(somePositiveInstant, Instant.parse(charSequence))
 
-    assertThrows(classOf[DateTimeParseException], Instant.parse("+1000000001-12-31T23:59:59.999999999Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("-0687-99-07T23:38:33.088936253Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("-ABCD-08-07T23:38:33.088936253Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T13:56:90.942Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T13:65:23.942Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-03T25:56:23.942Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-06-99T13:56:23.942Z"))
-    assertThrows(classOf[DateTimeParseException], Instant.parse("1999-99-03T13:56:23.942Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("+1000000001-12-31T23:59:59.999999999Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("-0687-99-07T23:38:33.088936253Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("-ABCD-08-07T23:38:33.088936253Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("1999-06-03T13:56:90.942Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("1999-06-03T13:65:23.942Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("1999-06-03T25:56:23.942Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("1999-06-99T13:56:23.942Z"))
+    assertThrows(classOf[DateTimeParseException],
+        Instant.parse("1999-99-03T13:56:23.942Z"))
   }
 
 }

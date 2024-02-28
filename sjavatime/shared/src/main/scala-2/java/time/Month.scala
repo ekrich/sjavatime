@@ -46,7 +46,8 @@ final class Month private (name: String, value: Int, defaultLength: Int)
     of((ordinal - offset.toInt) % 12 + 1)
   }
 
-  def length(leapYear: Boolean): Int = if (leapYear) maxLength() else minLength()
+  def length(leapYear: Boolean): Int =
+    if (leapYear) maxLength() else minLength()
 
   def minLength(): Int = defaultLength
 
