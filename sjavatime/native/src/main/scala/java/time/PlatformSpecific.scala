@@ -1,5 +1,12 @@
 package java.time
 
+import scala.scalanative.unsafe.extern
+import scala.scalanative.unsafe.CLongLong
+
+@extern object UseFFI {
+  def scalanative_time_zone_offset(): CLongLong = extern
+}
+
 private[time] object PlatformSpecific extends PlatformCommon {
 
   def localDate(): LocalDate = {
@@ -20,7 +27,7 @@ private[time] object PlatformSpecific extends PlatformCommon {
     val now = Instant.now()
     val epochSeconds = now.getEpochSecond()
     // UTC to local time - private api
-    val offset = scalanative.runtime.time.scalanative_time_zone_offset()
+    val offset = UseFFI.scalanative_time_zone_offset()
     val offsetSeconds = epochSeconds + offset
     val nanos = now.getNano()
     // sec/yr, sec/day
