@@ -24,7 +24,7 @@ The following projects could be considered as alternatives, the second one for S
 
 ## Cross Build Versions
 
-| Scala Version          | Scala.js (1.x)        | Native (0.5.0-RC1) |
+| Scala Version          | Scala.js (1.x)        | Native (0.5.x) |
 | ---------------------- | :-------------------: | :----------------: |
 | 2.12.x                 |          ✅           |         ✅         |
 | 2.13.x                 |          ✅           |         ✅         |
@@ -78,6 +78,7 @@ Follow the [contributing guide](./CONTRIBUTING.md).
 
 ## Versions
 
+Release [1.3.0](https://github.com/ekrich/sjavatime/releases/tag/v1.3.0) - (2024-04-11)<br/>
 Release [1.2.0](https://github.com/ekrich/sjavatime/releases/tag/v1.2.0) - (2024-02-28)<br/>
 Release [1.1.9](https://github.com/ekrich/sjavatime/releases/tag/v1.1.9) - (2022-01-25)<br/>
 Release [1.1.8](https://github.com/ekrich/sjavatime/releases/tag/v1.1.8) - (2022-01-11)<br/>
