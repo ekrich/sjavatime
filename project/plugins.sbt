@@ -4,7 +4,7 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 // versions
 val crossVer           = "1.3.2"
 val scalaJSVersion     = "1.16.0"
-val scalaNativeVersion = "0.5.0"
+val scalaNativeVersion = "0.5.1"
 
 // Scala.js support
 addSbtPlugin("org.scala-js"       % "sbt-scalajs"              % scalaJSVersion)
