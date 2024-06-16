@@ -37,7 +37,9 @@ class YearMonthTest extends TemporalTest[YearMonth] {
   }
 
   override def expectedRangeFor(
-      accessor: YearMonth, field: TemporalField): ValueRange = {
+      accessor: YearMonth,
+      field: TemporalField
+  ): ValueRange = {
     field match {
       case YEAR_OF_ERA =>
         if (accessor.getYear <= 0) ValueRange.of(1, 1000000000)
@@ -133,7 +135,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       ym2 <- samples
     } {
       testDateTime(ym1.`with`(PROLEPTIC_MONTH, ym2.getLong(PROLEPTIC_MONTH)))(
-          ym2)
+          ym2
+      )
     }
 
     for (ym <- samples) {
@@ -208,11 +211,14 @@ class YearMonthTest extends TemporalTest[YearMonth] {
       testDateTime(ym.plus(n, MONTHS))(ym.plusMonths(n))
       testDateTime(ym.plus(n, DECADES))(ym.plusYears(Math.multiplyExact(n, 10L)))
       testDateTime(ym.plus(n, CENTURIES))(
-          ym.plusYears(Math.multiplyExact(n, 100L)))
+          ym.plusYears(Math.multiplyExact(n, 100L))
+      )
       testDateTime(ym.plus(n, MILLENNIA))(
-          ym.plusYears(Math.multiplyExact(n, 1000L)))
+          ym.plusYears(Math.multiplyExact(n, 1000L))
+      )
       testDateTime(ym.plus(n, ERAS))(
-          ym.`with`(ERA, Math.addExact(n, ym.getLong(ERA))))
+          ym.`with`(ERA, Math.addExact(n, ym.getLong(ERA)))
+      )
     }
   }
 
@@ -302,7 +308,8 @@ class YearMonthTest extends TemporalTest[YearMonth] {
     val someDate = LocalDate.of(2015, 1, 1)
     for (ym <- samples) {
       testDateTime(ym.adjustInto(someDate))(
-          LocalDate.of(ym.getYear, ym.getMonthValue, 1))
+          LocalDate.of(ym.getYear, ym.getMonthValue, 1)
+      )
     }
   }
 

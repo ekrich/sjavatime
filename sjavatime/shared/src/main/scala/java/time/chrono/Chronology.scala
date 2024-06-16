@@ -10,7 +10,11 @@ trait Chronology extends Comparable[Chronology] {
   def getCalendarType(): String
 
   def date(
-      era: Era, yearOfEra: Int, month: Int, dayOfMonth: Int): ChronoLocalDate =
+      era: Era,
+      yearOfEra: Int,
+      month: Int,
+      dayOfMonth: Int
+  ): ChronoLocalDate =
     date(prolepticYear(era, yearOfEra), month, dayOfMonth)
 
   def date(prolepticYear: Int, month: Int, dayOfMonth: Int): ChronoLocalDate

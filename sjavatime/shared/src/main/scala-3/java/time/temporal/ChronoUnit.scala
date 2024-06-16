@@ -30,16 +30,24 @@ enum ChronoUnit(duration: Duration,
   case YEARS extends ChronoUnit(Duration.OneYear, ChronoUnit.isDateBasedFlag)
 
   case DECADES extends ChronoUnit(
-          Duration.OneYear.multipliedBy(10), ChronoUnit.isDateBasedFlag)
+          Duration.OneYear.multipliedBy(10),
+          ChronoUnit.isDateBasedFlag
+      )
 
   case CENTURIES extends ChronoUnit(
-          Duration.OneYear.multipliedBy(100), ChronoUnit.isDateBasedFlag)
+          Duration.OneYear.multipliedBy(100),
+          ChronoUnit.isDateBasedFlag
+      )
 
   case MILLENNIA extends ChronoUnit(
-          Duration.OneYear.multipliedBy(1000), ChronoUnit.isDateBasedFlag)
+          Duration.OneYear.multipliedBy(1000),
+          ChronoUnit.isDateBasedFlag
+      )
 
   case ERAS extends ChronoUnit(
-          Duration.OneYear.multipliedBy(1000000000), ChronoUnit.isDateBasedFlag)
+          Duration.OneYear.multipliedBy(1000000000),
+          ChronoUnit.isDateBasedFlag
+      )
 
   case FOREVER extends ChronoUnit(Duration.Max, 0)
 

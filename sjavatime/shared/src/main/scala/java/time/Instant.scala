@@ -92,7 +92,8 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
       case _: ChronoField =>
         throw new UnsupportedTemporalTypeException(
-            s"Field not supported: $field")
+            s"Field not supported: $field"
+        )
 
       case _ => field.adjustInto(this, value)
     }
@@ -109,7 +110,8 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       val unitNanos = duration.toNanos()
       if ((NANOS_IN_DAY % unitNanos) != 0)
         throw new UnsupportedTemporalTypeException(
-            "Unit must be a multiple of a standard day")
+            "Unit must be a multiple of a standard day"
+        )
 
       val extraNanos = (seconds % SECONDS_IN_DAY) * NANOS_IN_SECOND + nanos
       val extraNanosPerUnit = Math.floorDiv(extraNanos, unitNanos) * unitNanos

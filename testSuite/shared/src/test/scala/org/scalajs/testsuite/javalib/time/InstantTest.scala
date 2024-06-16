@@ -89,7 +89,8 @@ class InstantTest extends TemporalTest[Instant] {
       }
       for (value <- Seq(-31557014167219200L, -1L, 0L, 1L, 31557014167219200L))
         testDateTime(i.`with`(INSTANT_SECONDS, value).getLong(INSTANT_SECONDS))(
-            value)
+            value
+        )
 
       for (n <- Seq(Long.MinValue, -1L, 1000000000L, Long.MaxValue))
         assertThrows(classOf[DateTimeException], i.`with`(NANO_OF_SECOND, n))

@@ -95,7 +95,8 @@ class LocalTimeTest extends TemporalTest[LocalTime] {
         testDateTime(t.`with`(SECOND_OF_MINUTE, n))(t.withSecond(n))
       for (n <- Seq(0, 60, 86399))
         testDateTime(t.`with`(SECOND_OF_DAY, n))(
-            ofSecondOfDay(n).withNano(t.getNano))
+            ofSecondOfDay(n).withNano(t.getNano)
+        )
       for (n <- Seq(0, 30, 59))
         testDateTime(t.`with`(MINUTE_OF_HOUR, n))(t.withMinute(n))
       for (n <- Seq(0, 60, 1439)) {

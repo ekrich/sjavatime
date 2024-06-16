@@ -36,7 +36,9 @@ class YearTest extends TemporalTest[Year] {
     field == YEAR_OF_ERA || field == YEAR || field == ERA
 
   override def expectedRangeFor(
-      accessor: Year, field: TemporalField): ValueRange = {
+      accessor: Year,
+      field: TemporalField
+  ): ValueRange = {
     field match {
       case YEAR_OF_ERA =>
         if (accessor.getValue() <= 0) ValueRange.of(1, MAX_VALUE + 1)

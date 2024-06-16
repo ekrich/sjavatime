@@ -32,9 +32,11 @@ class IsoChronologyTest {
       day <- days
     } {
       testDateTime(iso.date(IsoEra.CE, year, month, day))(
-          LocalDate.of(year, month, day))
+          LocalDate.of(year, month, day)
+      )
       testDateTime(iso.date(IsoEra.BCE, 1 - year, month, day))(
-          LocalDate.of(year, month, day))
+          LocalDate.of(year, month, day)
+      )
       testDateTime(iso.date(year, month, day))(LocalDate.of(year, month, day))
       assertThrows(classOf[ClassCastException], iso.date(null, year, month, day))
     }
@@ -51,9 +53,11 @@ class IsoChronologyTest {
       day <- days
     } {
       testDateTime(iso.dateYearDay(IsoEra.CE, year, day))(
-          LocalDate.ofYearDay(year, day))
+          LocalDate.ofYearDay(year, day)
+      )
       testDateTime(iso.dateYearDay(IsoEra.BCE, 1 - year, day))(
-          LocalDate.ofYearDay(year, day))
+          LocalDate.ofYearDay(year, day)
+      )
       testDateTime(iso.dateYearDay(year, day))(LocalDate.ofYearDay(year, day))
       assertThrows(classOf[ClassCastException], iso.dateYearDay(null, year, day))
     }
