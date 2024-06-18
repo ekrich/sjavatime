@@ -118,7 +118,8 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
       case MINUTE_OF_DAY =>
         requireDateTime(value >= 0 && value <= MINUTES_IN_DAY, msg)
         ofNanoOfDay(
-            value * NANOS_IN_MINUTE + second.toLong * NANOS_IN_SECOND + nano)
+            value * NANOS_IN_MINUTE + second.toLong * NANOS_IN_SECOND + nano
+        )
 
       case HOUR_OF_AMPM =>
         requireDateTime(value >= 0 && value <= 11, msg)
@@ -143,7 +144,8 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
 
       case _: ChronoField =>
         throw new UnsupportedTemporalTypeException(
-            s"Field not supported: $field")
+            s"Field not supported: $field"
+        )
 
       case _ => field.adjustInto(this, value)
     }

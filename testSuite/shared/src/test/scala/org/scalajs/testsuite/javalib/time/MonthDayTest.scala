@@ -37,7 +37,9 @@ class MonthDayTest extends TemporalAccessorTest[MonthDay] {
     field == ChronoField.MONTH_OF_YEAR || field == ChronoField.DAY_OF_MONTH
 
   override def expectedRangeFor(
-      accessor: MonthDay, field: TemporalField): ValueRange = {
+      accessor: MonthDay,
+      field: TemporalField
+  ): ValueRange = {
     field match {
       case DAY_OF_MONTH =>
         ValueRange.of(1, accessor.getMonth.minLength(),

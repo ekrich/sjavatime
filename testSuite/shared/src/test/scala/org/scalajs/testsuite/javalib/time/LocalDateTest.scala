@@ -27,7 +27,9 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   def isSupported(field: ChronoField): Boolean = field.isDateBased
 
   override def expectedRangeFor(
-      accessor: LocalDate, field: TemporalField): ValueRange = {
+      accessor: LocalDate,
+      field: TemporalField
+  ): ValueRange = {
     field match {
       case DAY_OF_MONTH => ValueRange.of(1, accessor.lengthOfMonth)
       case DAY_OF_YEAR  => ValueRange.of(1, accessor.lengthOfYear)
@@ -170,13 +172,16 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     testDateTime(leapDate.`with`(DAY_OF_WEEK, 1))(of(2012, 2, 27))
     testDateTime(leapDate.`with`(DAY_OF_WEEK, 7))(of(2012, 3, 4))
     testDateTime(MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(
-        of(999999999, 12, 29))
+        of(999999999, 12, 29)
+    )
     testDateTime(MAX.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 3))(MAX)
     testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(MIN)
     testDateTime(MIN.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(
-        of(-999999999, 1, 7))
+        of(-999999999, 1, 7)
+    )
     testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(
-        of(2011, 2, 22))
+        of(2011, 2, 22)
+    )
     testDateTime(someDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(someDate)
     testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 1))(leapDate)
     testDateTime(leapDate.`with`(ALIGNED_DAY_OF_WEEK_IN_MONTH, 7))(of(2012, 3, 6))
@@ -221,9 +226,11 @@ class LocalDateTest extends TemporalTest[LocalDate] {
     testDateTime(MAX.`with`(PROLEPTIC_MONTH, 1))(of(0, 2, 29))
     testDateTime(MIN.`with`(PROLEPTIC_MONTH, -1))(of(-1, 12, 1))
     testDateTime(someDate.`with`(PROLEPTIC_MONTH, -11999999988L))(
-        of(-999999999, 1, 28))
+        of(-999999999, 1, 28)
+    )
     testDateTime(leapDate.`with`(PROLEPTIC_MONTH, 11999999999L))(
-        of(999999999, 12, 29))
+        of(999999999, 12, 29)
+    )
     testDateTime(MIN.`with`(YEAR_OF_ERA, 1000000000))(MIN)
     testDateTime(MIN.`with`(YEAR_OF_ERA, 1))(of(0, 1, 1))
     testDateTime(MAX.`with`(YEAR_OF_ERA, 999999999))(MAX)

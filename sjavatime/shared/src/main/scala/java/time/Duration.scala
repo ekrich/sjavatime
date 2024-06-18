@@ -142,7 +142,8 @@ final class Duration private (seconds: Long, nanos: Int)
         try {
           val total = Math.addExact(
               Math.multiplyExact(secondsRem, NANOS_IN_SECOND.toLong),
-              normalizedNanos)
+              normalizedNanos
+          )
           total / divisor
         } catch {
           case _: ArithmeticException =>
@@ -193,7 +194,9 @@ final class Duration private (seconds: Long, nanos: Int)
 
   def toNanos(): Long =
     Math.addExact(
-        Math.multiplyExact(seconds, NANOS_IN_SECOND.toLong), nanos)
+        Math.multiplyExact(seconds, NANOS_IN_SECOND.toLong),
+        nanos
+    )
 
   def compareTo(that: Duration): Int = {
     val secCmp = seconds.compareTo(that.getSeconds())

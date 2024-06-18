@@ -18,7 +18,8 @@ inThisBuild(
         homepage := Some(url("https://github.com/ekrich/sjavatime")),
         licenses := List(
             "BSD 3-Clause" ->
-              url("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")),
+              url("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")
+        ),
         developers := List(
             // for this fork
             Developer(id = "ekrich",

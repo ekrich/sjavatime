@@ -15,7 +15,8 @@ abstract class TemporalTest[Temp <: Temporal] extends TemporalAccessorTest[Temp]
       Long.MinValue, Int.MinValue.toLong, -1000000000L, -86400L,
       -3600L, -366L, -365L, -60L, -24L, -7L, -1L, 0L,
       1L, 7L, 24L, 60L, 365L, 366L, 3600L, 86400L, 1000000000L,
-      Int.MaxValue.toLong, Long.MaxValue)
+      Int.MaxValue.toLong, Long.MaxValue
+  )
 
   @Test def isSupported_TemporalUnit(): Unit = {
     for {

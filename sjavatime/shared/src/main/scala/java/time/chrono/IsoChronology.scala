@@ -11,14 +11,21 @@ final class IsoChronology private () extends AbstractChronology
   def getCalendarType(): String = "iso8601"
 
   override def date(
-      era: Era, yearOfEra: Int, month: Int, dayOfMonth: Int): LocalDate =
+      era: Era,
+      yearOfEra: Int,
+      month: Int,
+      dayOfMonth: Int
+  ): LocalDate =
     date(prolepticYear(era, yearOfEra), month, dayOfMonth)
 
   def date(prolepticYear: Int, month: Int, dayOfMonth: Int): LocalDate =
     LocalDate.of(prolepticYear, month, dayOfMonth)
 
   override def dateYearDay(
-      era: Era, yearOfEra: Int, dayOfYear: Int): LocalDate =
+      era: Era,
+      yearOfEra: Int,
+      dayOfYear: Int
+  ): LocalDate =
     dateYearDay(prolepticYear(era, yearOfEra), dayOfYear)
 
   def dateYearDay(prolepticYear: Int, dayOfYear: Int): LocalDate =
