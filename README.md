@@ -33,7 +33,7 @@ The following projects could be considered as alternatives, the second one for S
 Note: Scala 3 support on Scala Native `0.4.3-RC1` or greater. Scala Native `0.4.0` support up to version `1.1.9`.
 
 ## Usage
-[![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_native0.4_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_native0.4_2.13)
+[![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_native0.5_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_native0.5_2.13)
 
 Simply add the following line to your `sbt` settings:
 
