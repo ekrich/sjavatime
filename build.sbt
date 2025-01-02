@@ -85,7 +85,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .settings(
       Test / test := {},
       Compile / packageBin / mappings ~= {
-        _.filter(!_._2.endsWith(".class"))
+        _.filter(t => !t._2.endsWith(".class") || !t._2.endsWith(".tasty"))
       }
   )
   .jsSettings(
