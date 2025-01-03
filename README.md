@@ -69,8 +69,7 @@ classes and methods!
 
 ## License
 
-`sjavatime` is distributed under the
-[BSD 3-Clause license](./LICENSE.txt).
+`sjavatime` is distributed under the original [BSD 3-Clause license](./LICENSE.txt) from [EPFL/Scala Center](https://scala.epfl.ch/). Portions are derived from the [ThreeTen backport project](https://github.com/ThreeTen/threetenbp) also covered by their [BSD 3-Clause license](./LICENSE-THREETENBP.txt) which was ported to Scala in the [Scala Java Time](https://github.com/cquiroz/scala-java-time/) project which retains the original Three Ten Backport license included with this project and linked above.
 
 ## Contributing
 
