@@ -1,6 +1,7 @@
 package java.time
 
 import scala.scalajs.js
+import java.time.Constants.NANOS_IN_MILLI
 
 private[time] object PlatformSpecific extends PlatformCommon {
   def localDate(): LocalDate = {
@@ -16,7 +17,7 @@ private[time] object PlatformSpecific extends PlatformCommon {
 
   def localTime(): LocalTime = {
     val date = new js.Date()
-    val nano = date.getMilliseconds().toInt * 1000000
+    val nano = date.getMilliseconds().toInt * NANOS_IN_MILLI
     LocalTime.of(date.getHours().toInt, date.getMinutes().toInt,
         date.getSeconds().toInt, nano)
   }
