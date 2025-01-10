@@ -11,6 +11,8 @@ object Platform {
 
   def executingInJVMOnHigherThanJDK8 = jdkVersion > 8
 
+  def executingInJVMLessThan(version: Int) = jdkVersion < version
+
   private lazy val jdkVersion = {
     val v = System.getProperty("java.version")
     if (v.startsWith("1.")) Integer.parseInt(v.drop(2).takeWhile(_.isDigit))

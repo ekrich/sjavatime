@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 import org.scalajs.testsuite.utils.Platform.executingInJVMOnJDK8
+import org.scalajs.testsuite.utils.Platform.executingInJVMLessThan
 
 /** Created by alonsodomin on 26/12/2015. */
 class InstantTest extends TemporalTest[Instant] {
@@ -396,8 +397,15 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(1460970000731L, Instant.MIN.until(Instant.MAX, HALF_DAYS))
     assertEquals(730485000365L, Instant.MIN.until(Instant.MAX, DAYS))
 
-    assertEquals(84756266270854L,
-        someNegativeInstant.until(somePositiveInstant, MILLIS))
+    // See https://bugs.openjdk.org/browse/JDK-8307466
+    // Fixed in 21
+    if (executingInJVMLessThan(21)) {
+      assertEquals(84756266270854L,
+          someNegativeInstant.until(somePositiveInstant, MILLIS))
+    } else {
+      // assertEquals(84756266270853L,
+      //     someNegativeInstant.until(somePositiveInstant, MILLIS))
+    }
     assertEquals(84756266270L,
         someNegativeInstant.until(somePositiveInstant, SECONDS))
     assertEquals(1412604437L,
