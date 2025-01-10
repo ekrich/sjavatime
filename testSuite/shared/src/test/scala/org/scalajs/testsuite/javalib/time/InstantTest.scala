@@ -398,8 +398,8 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(730485000365L, Instant.MIN.until(Instant.MAX, DAYS))
 
     // See https://bugs.openjdk.org/browse/JDK-8307466
-    // Fixed in 21
-    if (executingInJVMLessThan(21)) {
+    // Fixed in 21 backport to 20
+    if (executingInJVMLessThan(20)) {
       assertEquals(84756266270854L,
           someNegativeInstant.until(somePositiveInstant, MILLIS))
     } else {
