@@ -356,9 +356,11 @@ class LocalDateTest extends TemporalTest[LocalDate] {
   }
 
   @Test def test_plus(): Unit = {
-    val values = Seq(Long.MinValue, Int.MinValue.toLong, -1000L, -366L, -365L,
+    val values = Seq(
+        Long.MinValue, Int.MinValue.toLong, -1000L, -366L, -365L,
         -100L, -12L, -10L, -7L, -1L, 0L, 1L, 7L, 10L, 12L, 100L,
-        365L, 366L, 1000L, Int.MaxValue.toLong, Long.MaxValue)
+        365L, 366L, 1000L, Int.MaxValue.toLong, Long.MaxValue
+    )
 
     for {
       d <- samples

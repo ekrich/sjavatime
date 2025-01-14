@@ -2,10 +2,7 @@ package org.scalajs.testsuite.javalib.time
 
 import java.time.chrono.IsoChronology
 import java.time.temporal.{
-  TemporalField,
-  UnsupportedTemporalTypeException,
-  ValueRange,
-  ChronoField
+  TemporalField, UnsupportedTemporalTypeException, ValueRange, ChronoField
 }
 import java.time.{DateTimeException, LocalDate, Month, MonthDay}
 
