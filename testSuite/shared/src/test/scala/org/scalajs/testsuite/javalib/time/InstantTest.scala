@@ -3,9 +3,7 @@ package org.scalajs.testsuite.javalib.time
 import java.time._
 import java.time.format.DateTimeParseException
 import java.time.temporal.{
-  UnsupportedTemporalTypeException,
-  ChronoUnit,
-  ChronoField
+  UnsupportedTemporalTypeException, ChronoUnit, ChronoField
 }
 
 import org.junit.Test
