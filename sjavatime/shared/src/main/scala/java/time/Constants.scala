@@ -49,5 +49,9 @@ private[time] object Constants {
 
   final val DAYS_IN_LEAP_YEAR = 366
 
+  final val SECONDS_IN_LEAP_YEAR = SECONDS_IN_DAY * DAYS_IN_LEAP_YEAR
+
   final val DAYS_IN_YEAR = 365
+
+  final val SECONDS_IN_YEAR = SECONDS_IN_DAY * DAYS_IN_YEAR
 }

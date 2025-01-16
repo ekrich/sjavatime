@@ -20,4 +20,6 @@ object Platform {
 
   final val executingInJVMOnHigherThanJDK8 = false
 
+  def executingInJVMLessThan(version: Int) = false
+
 }

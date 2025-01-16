@@ -3,6 +3,8 @@ package java.time
 import scala.scalanative.unsafe.extern
 import scala.scalanative.unsafe.CLongLong
 
+import java.time.Constants._
+
 @extern object UseFFI {
   def scalanative_time_zone_offset(): CLongLong = extern
 }
@@ -31,13 +33,16 @@ private[time] object PlatformSpecific extends PlatformCommon {
     val offsetSeconds = epochSeconds + offset
     val nanos = now.getNano()
     // sec/yr, sec/day
-    val secPerDay = ((offsetSeconds % 31536000) % 86400)
+    // Bug: this needs to adjust for leap year ?
+    val secPerDay = ((offsetSeconds % SECONDS_IN_YEAR) % SECONDS_IN_DAY)
     // sec/hr
-    val currentHours = Math.floor((secPerDay / 3600).toDouble).toInt
-    val secPerHour = secPerDay % 3600
+    val currentHours = Math.floor((secPerDay / SECONDS_IN_HOUR).toDouble).toInt
+    val secPerHour = secPerDay % SECONDS_IN_HOUR
     // sec/min
-    val currentMinutes = Math.floor((secPerHour / 60).toDouble).toInt
-    val currentSeconds = Math.floor((secPerHour % 60).toDouble).toInt
+    val currentMinutes =
+      Math.floor((secPerHour / SECONDS_IN_MINUTE).toDouble).toInt
+    val currentSeconds =
+      Math.floor((secPerHour % SECONDS_IN_MINUTE).toDouble).toInt
     LocalTime.of(currentHours, currentMinutes, currentSeconds, nanos)
   }
 
