@@ -358,7 +358,7 @@ object Instant {
 
   def from(temporal: TemporalAccessor): Instant = temporal match {
     case temporal: Instant => temporal
-    case _ =>
+    case _                 =>
       ofEpochSecond(temporal.getLong(INSTANT_SECONDS),
           temporal.getLong(NANO_OF_SECOND))
   }
