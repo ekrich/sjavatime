@@ -77,6 +77,7 @@ Follow the [contributing guide](./CONTRIBUTING.md).
 
 ## Versions
 
+Release [1.4.0](https://github.com/ekrich/sjavatime/releases/tag/v1.4.0) - (2025-06-09)<br/>
 Release [1.3.0](https://github.com/ekrich/sjavatime/releases/tag/v1.3.0) - (2024-04-11)<br/>
 Release [1.2.0](https://github.com/ekrich/sjavatime/releases/tag/v1.2.0) - (2024-02-28)<br/>
 Release [1.1.9](https://github.com/ekrich/sjavatime/releases/tag/v1.1.9) - (2022-01-25)<br/>
