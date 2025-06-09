@@ -9,7 +9,7 @@ val versionsNative = versionsJVM
 
 ThisBuild / scalaVersion := scala213
 ThisBuild / versionScheme := Some("early-semver")
-ThisBuild / resolvers ++= Resolver.sonatypeCentralSnapshots("snapshots")
+ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
 
 inThisBuild(
     List(
