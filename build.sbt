@@ -9,7 +9,6 @@ val versionsNative = versionsJVM
 
 ThisBuild / scalaVersion := scala213
 ThisBuild / versionScheme := Some("early-semver")
-ThisBuild / resolvers += Resolver.sonatypeCentralSnapshots
 
 inThisBuild(
     List(
@@ -42,11 +41,12 @@ inThisBuild(
         )
     )
 )
+
 val depSettings = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((3, _))  => Nil
+    case Some((3, _))  => Seq("-release:8") // 17 with next Scala LTS
     case Some((2, 12)) => Seq("-target:jvm-1.8", "-Xsource:3")
-    case Some((2, 13)) => Seq("-Xsource:3")
+    case Some((2, 13)) => Seq("-target:jvm-1.8", "-Xsource:3")
     case _             => Nil
   }
 }
