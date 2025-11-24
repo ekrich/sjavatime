@@ -13,7 +13,7 @@ jobs:
         java: [ '17', '21', '25' ]
     name: Test using Java ${{ matrix.java }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Setup Java
       uses: actions/setup-java@v5
       with:
