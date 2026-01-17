@@ -25,7 +25,8 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
   def isSupported(field: TemporalField): Boolean = field match {
     case _: ChronoField =>
-      field == INSTANT_SECONDS || field == NANO_OF_SECOND || field == MICRO_OF_SECOND ||
+      field == INSTANT_SECONDS || field == NANO_OF_SECOND ||
+      field == MICRO_OF_SECOND ||
       field == MILLI_OF_SECOND
 
     case null => false

@@ -12,7 +12,8 @@ final class LocalTime private (hour: Int, minute: Int, second: Int, nano: Int)
   import ChronoField._
   import ChronoUnit._
 
-  private val totalNanos = (nano.toLong + NANOS_IN_SECOND.toLong * second +
+  private val totalNanos =
+    (nano.toLong + NANOS_IN_SECOND.toLong * second +
     NANOS_IN_MINUTE * minute + NANOS_IN_HOUR * hour)
 
   requireDateTime(hour >= 0 && hour <= 23, s"Invalid value for hour: $hour")
