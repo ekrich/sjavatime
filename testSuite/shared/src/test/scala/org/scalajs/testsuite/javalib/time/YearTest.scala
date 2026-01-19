@@ -30,7 +30,8 @@ class YearTest extends TemporalTest[Year] {
   val monthDaySamples = Month.values().map(m => MonthDay.of(m, m.minLength()))
 
   override def isSupported(unit: ChronoUnit): Boolean =
-    unit == YEARS || unit == DECADES || unit == CENTURIES || unit == MILLENNIA || unit == ERAS
+    unit == YEARS || unit == DECADES || unit == CENTURIES ||
+    unit == MILLENNIA || unit == ERAS
 
   override def isSupported(field: ChronoField): Boolean =
     field == YEAR_OF_ERA || field == YEAR || field == ERA

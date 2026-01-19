@@ -12,7 +12,8 @@ ThisBuild / versionScheme := Some("early-semver")
 
 inThisBuild(
     List(
-        description := "A version of java.time library for Scala.js and Scala Native",
+        description :=
+          "A version of java.time library for Scala.js and Scala Native",
         organization := "org.ekrich",
         homepage := Some(url("https://github.com/ekrich/sjavatime")),
         licenses := List(
@@ -123,9 +124,11 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       name := "java.time testSuite on Native",
       crossScalaVersions := versionsNative,
       addCompilerPlugin(
-          "org.scala-native" % "junit-plugin" % nativeVersion cross CrossVersion.full
+          "org.scala-native" % "junit-plugin" % nativeVersion cross
+            CrossVersion.full
       ),
-      libraryDependencies += "org.scala-native" %%% "junit-runtime" % nativeVersion
+      libraryDependencies +=
+        "org.scala-native" %%% "junit-runtime" % nativeVersion
   )
   .nativeConfigure(_.dependsOn(sjavatimeNative))
 

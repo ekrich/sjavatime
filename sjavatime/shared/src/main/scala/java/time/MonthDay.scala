@@ -48,7 +48,8 @@ final class MonthDay private (month: Int, day: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: MonthDay =>
-      that.getMonthValue() == getMonthValue() && that.getDayOfMonth() == getDayOfMonth()
+      that.getMonthValue() == getMonthValue() &&
+      that.getDayOfMonth() == getDayOfMonth()
 
     case _ => false
   }

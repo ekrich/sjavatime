@@ -25,7 +25,8 @@ class InstantTest extends TemporalTest[Instant] {
       somePositiveInstant, someNegativeInstant)
 
   def isSupported(field: ChronoField): Boolean =
-    field == INSTANT_SECONDS || field == NANO_OF_SECOND || field == MICRO_OF_SECOND ||
+    field == INSTANT_SECONDS || field == NANO_OF_SECOND ||
+    field == MICRO_OF_SECOND ||
     field == MILLI_OF_SECOND
 
   def isSupported(unit: ChronoUnit): Boolean =

@@ -132,7 +132,8 @@ final class Period private (years: Int, months: Int, days: Int)
 
   override def equals(other: Any): Boolean = other match {
     case that: Period =>
-      years == that.getYears() && months == that.getMonths() && days == that.getDays()
+      years == that.getYears() && months == that.getMonths() &&
+      days == that.getDays()
 
     case _ => false
   }
