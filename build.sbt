@@ -9,9 +9,14 @@ val versionsNative = versionsJVM
 
 ThisBuild / scalaVersion := scala213
 ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / mimaReportSignatureProblems := true
 
 inThisBuild(
     List(
+        version := dynverGitDescribeOutput.value.mkVersion(versionFmt, ""),
+        dynver := sbtdynver.DynVer
+          .getGitDescribeOutput(new java.util.Date)
+          .mkVersion(versionFmt, ""),
         description :=
           "A version of java.time library for Scala.js and Scala Native",
         organization := "org.ekrich",
@@ -68,6 +73,13 @@ def targetJDKVersionString(jdkVersion: Int): String =
     case version => version.toString
   }
 
+// stable snapshot is not great for publish local
+def versionFmt(out: sbtdynver.GitDescribeOutput): String = {
+  val tag = out.ref.dropPrefix
+  if (out.isCleanAfterTag) tag
+  else s"$tag-${out.commitSuffix.distance}-${out.commitSuffix.sha}-SNAPSHOT"
+}
+
 val depSettings = Def.setting {
   val jdkVersion = targetJDKVersion(scalaVersion.value)
   val targetOpt =
@@ -115,6 +127,18 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
       Test / sources := Nil,
       Compile / packageBin / mappings ~= {
         _.filter(t => !t._2.endsWith(".class") || !t._2.endsWith(".tasty"))
+      }
+  )
+  .settings(
+      // mima settings
+      mimaFailOnNoPrevious := false,
+      mimaPreviousArtifacts := {
+        sbtdynver.DynVer
+          .getGitDescribeOutput(new java.util.Date)
+          .map { out =>
+            organization.value %% moduleName.value % out.ref.dropPrefix
+          }
+          .toSet
       }
   )
   .jsSettings(
