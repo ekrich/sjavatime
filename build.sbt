@@ -1,9 +1,9 @@
 val scala212 = "2.12.21"
 val scala213 = "2.13.18"
-val scala300 = "3.3.9"
+val scala3 = "3.9.0"
 
 val versionsBase = Seq(scala212, scala213)
-val versionsJVM = versionsBase :+ scala300
+val versionsJVM = versionsBase :+ scala3
 val versionsJS = versionsJVM
 val versionsNative = versionsJVM
 
@@ -43,13 +43,41 @@ inThisBuild(
     )
 )
 
-val depSettings = Def.setting {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((3, _))  => Seq("-release:8") // 17 with next Scala LTS
-    case Some((2, 12)) => Seq("-target:jvm-1.8", "-Xsource:3")
-    case Some((2, 13)) => Seq("-target:jvm-1.8", "-Xsource:3")
-    case _             => Nil
+// these functions from Scala Native
+def patchVersion(prefix: String, scalaVersion: String): Int =
+  scalaVersion.stripPrefix(prefix).takeWhile(_.isDigit).toInt
+
+def canUseRelease(scalaVersion: String) = CrossVersion
+  .partialVersion(scalaVersion)
+  .fold(false) {
+    case (2, 13) => patchVersion("2.13.", scalaVersion) > 8
+    case (3, _)  => true // since 3.1.2
+    case _       => false // unexpected version
   }
+
+def targetJDKVersion(scalaVersion: String): Int =
+  CrossVersion.partialVersion(scalaVersion) match {
+    case Some((3, minor)) if minor >= 8 => 17
+    case _                              => 8
+  }
+
+// Target version as a string, for -target flags - jdk 8 compatible
+def targetJDKVersionString(jdkVersion: Int): String =
+  jdkVersion match {
+    case 8       => "1.8"
+    case version => version.toString
+  }
+
+val depSettings = Def.setting {
+  val jdkVersion = targetJDKVersion(scalaVersion.value)
+  val targetOpt =
+    if (canUseRelease(scalaVersion.value)) Seq(s"-release:$jdkVersion")
+    else Seq(s"-target:jvm-${targetJDKVersionString(jdkVersion)}")
+  val sourceOpt = CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, _)) => Seq("-Xsource:3")
+    case _            => Nil
+  }
+  targetOpt ++ sourceOpt
 }
 
 lazy val disabledDocsSettings = Def.settings(
