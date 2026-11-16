@@ -3,6 +3,7 @@ package java.time
 import scala.scalajs.js
 import java.time.Constants.NANOS_IN_MILLI
 
+/** @internal */
 private[time] object PlatformSpecific extends PlatformCommon {
   def localDate(): LocalDate = {
     val d = new js.Date()
