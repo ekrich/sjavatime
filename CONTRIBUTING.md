@@ -20,7 +20,7 @@ Here are some command to help with testing since you may want to test specific p
 There is an alias to run the examples in `sbt`. All of the following are run via the `sbt` prompt. In order to run only one version of the test, set `sbt` to the version of Scala needed otherwise the default version of 2.13 will be used.
 
 ```sh
-sbt:sjavatime-root> ++3.3.6
+sbt:sjavatime-root> ++3.9.0
 ```
 
 Now when you run the command, that version of Scala will be used. Use the following to run `JVM` tests. Replace `JVM` with `Native` or `JS` to run the tests for that platform.
