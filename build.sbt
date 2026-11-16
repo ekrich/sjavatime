@@ -15,30 +15,30 @@ inThisBuild(
         description :=
           "A version of java.time library for Scala.js and Scala Native",
         organization := "org.ekrich",
-        homepage := Some(url("https://github.com/ekrich/sjavatime")),
+        homepage := Some(uri("https://github.com/ekrich/sjavatime")),
         licenses := List(
             "BSD 3-Clause" ->
-              url("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")
+              uri("https://github.com/ekrich/sjavatime/blob/master/LICENSE.txt")
         ),
         developers := List(
             // for this fork
             Developer(id = "ekrich",
                 name = "Eric K Richardson",
                 email = "ekrichardson@gmail.com",
-                url = url("http://github.ekrich.org/")),
+                url = uri("http://github.ekrich.org/")),
             // original developers
             Developer(id = "sjrd",
                 name = "Sébastien Doeraene",
                 email = "",
-                url = url("https://github.com/sjrd/")),
+                url = uri("https://github.com/sjrd/")),
             Developer(id = "gzm0",
                 name = "Tobias Schlatter",
                 email = "",
-                url = url("https://github.com/gzm0/")),
+                url = uri("https://github.com/gzm0/")),
             Developer(id = "nicolasstucki",
                 name = "Nicolas Stucki",
                 email = "",
-                url = url("https://github.com/nicolasstucki/"))
+                url = uri("https://github.com/nicolasstucki/"))
         )
     )
 )
@@ -56,7 +56,7 @@ lazy val disabledDocsSettings = Def.settings(
     Compile / doc / sources := Nil
 )
 
-val commonSettings: Seq[Setting[_]] = Seq(
+val commonSettings: Seq[Setting[?]] = Seq(
     scalacOptions ++= Seq("-unchecked", "-deprecation",
         "-feature") ++ depSettings.value
 )
@@ -70,7 +70,7 @@ lazy val root = (project in file("."))
       packageDoc / aggregate := false,
       packageDoc := (sjavatimeJS / Compile / packageDoc).value
   )
-  .settings(skipPublish: _*)
+  .settings(skipPublish*)
   .aggregate(
       sjavatimeJS,
       sjavatimeNative,
@@ -84,7 +84,7 @@ lazy val sjavatime = crossProject(JSPlatform, NativePlatform)
   .settings(commonSettings)
   .settings(disabledDocsSettings)
   .settings(
-      Test / test := {},
+      Test / sources := Nil,
       Compile / packageBin / mappings ~= {
         _.filter(t => !t._2.endsWith(".class") || !t._2.endsWith(".tasty"))
       }
@@ -124,11 +124,11 @@ lazy val testSuite = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       name := "java.time testSuite on Native",
       crossScalaVersions := versionsNative,
       addCompilerPlugin(
-          "org.scala-native" % "junit-plugin" % nativeVersion cross
-            CrossVersion.full
+          ("org.scala-native" % "junit-plugin" % nativeVersion)
+            .cross(CrossVersion.full)
       ),
       libraryDependencies +=
-        "org.scala-native" %%% "junit-runtime" % nativeVersion
+        "org.scala-native" %% "junit-runtime" % nativeVersion
   )
   .nativeConfigure(_.dependsOn(sjavatimeNative))
 
