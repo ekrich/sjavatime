@@ -30,7 +30,9 @@ The following projects could be considered as alternatives, the second one for S
 | 2.13.x                 |          ✅           |         ✅         |
 | 3.x.x                  |          ✅           |         ✅         |
 
-Note: Scala 3 support on Scala Native `0.4.3-RC1` or greater. Scala Native `0.4.0` support up to version `1.1.9`.
+Note: Scala 3 support on Scala Native `0.4.3-RC1` or greater.
+Note: Scala Native `0.4.0` support up to version `1.1.9`.
+Note: As of `1.6.0`, Scala 3 uses `3.9` or greater.
 
 ## Usage
 [![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_native0.5_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_native0.5_2.13)
@@ -38,10 +40,10 @@ Note: Scala 3 support on Scala Native `0.4.3-RC1` or greater. Scala Native `0.4.
 Simply add the following line to your `sbt` settings:
 
 ```scala
-libraryDependencies += "org.ekrich" %%% "sjavatime" % "x.y.z"
+libraryDependencies += "org.ekrich" %% "sjavatime" % "x.y.z"
 ```
 
-To use in `sbt`, replace `x.y.z` with the version from Maven Central badge above.
+To use in `sbt 2`, replace `x.y.z` with the version from Maven Central badge above. Note `sbt 1` needs `%%%`.
 All available versions can be seen at the [Maven Repository](https://mvnrepository.com/artifact/org.ekrich/sjavatime).
 
 If you have a `crossProject`, the setting must be used only in the JS and/or Native part:
@@ -50,14 +52,14 @@ If you have a `crossProject`, the setting must be used only in the JS and/or Nat
 lazy val myCross = crossProject
   ...
   .jsSettings(
-    libraryDependencies += "org.ekrich" %%% "sjavatime" % "x.y.z"
+    libraryDependencies += "org.ekrich" %% "sjavatime" % "x.y.z"
   )
   .nativeSettings(
-    libraryDependencies += "org.ekrich" %%% "sjavatime" % "x.y.z"
+    libraryDependencies += "org.ekrich" %% "sjavatime" % "x.y.z"
   )
 ```
 
-**Requirement**: You must use a host JDK 8, 11 or 17 to *build* your project, i.e., to
+**Requirement**: You must use a host JDK 17 or later to *build* your project, i.e., to
 launch sbt. `sjavatime` does not work on earlier JDKs.
 
 ## Linking errors
