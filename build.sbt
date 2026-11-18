@@ -14,9 +14,10 @@ ThisBuild / mimaReportSignatureProblems := true
 inThisBuild(
     List(
         version := dynverGitDescribeOutput.value.mkVersion(versionFmt, ""),
-        dynver := sbtdynver.DynVer
-          .getGitDescribeOutput(new java.util.Date)
-          .mkVersion(versionFmt, ""),
+        dynver :=
+          sbtdynver.DynVer
+            .getGitDescribeOutput(new java.util.Date)
+            .mkVersion(versionFmt, ""),
         description :=
           "A version of java.time library for Scala.js and Scala Native",
         organization := "org.ekrich",
@@ -110,7 +111,7 @@ lazy val root = (project in file("."))
       packageDoc / aggregate := false,
       packageDoc := (sjavatimeJS / Compile / packageDoc).value
   )
-  .settings(skipPublish*)
+  .settings(skipPublish *)
   .aggregate(
       sjavatimeJS,
       sjavatimeNative,

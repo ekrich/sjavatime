@@ -1,0 +1,12 @@
+name: Check Lint
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+jobs:
+  check-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - run: java -version
+      - run: scripts/scalafmt --test
