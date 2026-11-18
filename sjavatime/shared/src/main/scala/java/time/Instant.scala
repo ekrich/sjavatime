@@ -258,8 +258,11 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
   // def atZone(zone: ZoneId): ZonedDateTime
 
   def toEpochMilli(): Long = {
-    val millis: Long = Math.multiplyExact(seconds, MILLIS_IN_SECOND)
-    millis + nanos / NANOS_IN_MILLI
+    val ms = nanos / NANOS_IN_MILLI
+    if (seconds < 0)
+      Math.addExact(Math.multiplyExact(seconds + 1, MILLIS_IN_SECOND), ms - 1000)
+    else
+      Math.addExact(Math.multiplyExact(seconds, MILLIS_IN_SECOND), ms)
   }
 
   def compareTo(that: Instant): Int = {
