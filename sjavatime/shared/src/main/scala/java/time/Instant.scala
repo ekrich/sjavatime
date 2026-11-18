@@ -121,15 +121,15 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
   def plus(amount: Long, unit: TemporalUnit): Instant = unit match {
     case NANOS   => plusNanos(amount)
-    case MICROS  => plusNanos(Math.multiplyExact(amount, NANOS_IN_MICRO.toLong))
+    case MICROS  => plusNanos(Math.multiplyExact(amount, NANOS_IN_MICRO))
     case MILLIS  => plusMillis(amount)
     case SECONDS => plusSeconds(amount)
     case MINUTES =>
-      plusSeconds(Math.multiplyExact(amount, SECONDS_IN_MINUTE.toLong))
-    case HOURS => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_HOUR.toLong))
+      plusSeconds(Math.multiplyExact(amount, SECONDS_IN_MINUTE))
+    case HOURS     => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_HOUR))
     case HALF_DAYS =>
-      plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY.toLong) / 2)
-    case DAYS => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY.toLong))
+      plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY) / 2)
+    case DAYS => plusSeconds(Math.multiplyExact(amount, SECONDS_IN_DAY))
 
     case _: ChronoUnit =>
       throw new UnsupportedTemporalTypeException(s"Unit not supported: $unit")
@@ -140,7 +140,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
   def plusSeconds(secs: Long): Instant = plus(secs, 0)
 
   def plusMillis(millis: Long): Instant =
-    plusNanos(Math.multiplyExact(millis, NANOS_IN_MILLI.toLong))
+    plusNanos(Math.multiplyExact(millis, NANOS_IN_MILLI))
 
   def plusNanos(nans: Long): Instant = plus(0, nans)
 
@@ -148,8 +148,8 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
     if (secs == 0 && nans == 0) {
       this
     } else {
-      val secondsFromNanos = Math.floorDiv(nans, NANOS_IN_SECOND.toLong)
-      val remainingNanos = Math.floorMod(nans, NANOS_IN_SECOND.toLong)
+      val secondsFromNanos = Math.floorDiv(nans, NANOS_IN_SECOND)
+      val remainingNanos = Math.floorMod(nans, NANOS_IN_SECOND)
       val additionalSecs = Math.addExact(secs, secondsFromNanos)
       ofEpochSecond(
           Math.addExact(seconds, additionalSecs),
@@ -183,7 +183,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
     def nanosUntil: Long = {
       val secsDiff: Long = Math.subtractExact(endInstant.seconds, seconds)
-      val nanosBase: Long = Math.multiplyExact(secsDiff, NANOS_IN_SECOND.toLong)
+      val nanosBase: Long = Math.multiplyExact(secsDiff, NANOS_IN_SECOND)
       Math.addExact(nanosBase, endInstant.nanos - nanos)
     }
 
@@ -214,7 +214,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
         secsDiff += 1
         nanosDiff -= NANOS_IN_SECOND
       }
-      Math.addExact(Math.multiplyExact(secsDiff, 1000L),
+      Math.addExact(Math.multiplyExact(secsDiff, 1000),
           nanosDiff / NANOS_IN_MILLI)
     }
 
@@ -230,7 +230,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
         secsDiff += 1
         nanosDiff -= NANOS_IN_SECOND
       }
-      Math.addExact(Math.multiplyExact(secsDiff, 1000000L),
+      Math.addExact(Math.multiplyExact(secsDiff, 1000000),
           nanosDiff / NANOS_IN_MICRO)
     }
 
@@ -258,16 +258,16 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
   // def atZone(zone: ZoneId): ZonedDateTime
 
   def toEpochMilli(): Long = {
-    val millis: Long = Math.multiplyExact(seconds, MILLIS_IN_SECOND.toLong)
+    val millis: Long = Math.multiplyExact(seconds, MILLIS_IN_SECOND)
     millis + nanos / NANOS_IN_MILLI
   }
 
   def compareTo(that: Instant): Int = {
-    val cmp = seconds compareTo that.seconds
+    val cmp = seconds.compareTo(that.seconds)
     if (cmp != 0) {
       cmp
     } else {
-      nanos compareTo that.nanos
+      nanos.compareTo(that.nanos)
     }
   }
 
@@ -297,7 +297,7 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
 
     def dateTime(epochSecond: Long): (LocalDate, LocalTime) = {
       val epochDay = toEpochDay(epochSecond)
-      val secondsOfDay = Math.floorMod(epochSecond, SECONDS_IN_DAY.toLong).toInt
+      val secondsOfDay = Math.floorMod(epochSecond, SECONDS_IN_DAY).toInt
       (LocalDate.ofEpochDay(epochDay),
           LocalTime.ofSecondOfDay(secondsOfDay).withNano(nanos))
     }
@@ -371,22 +371,22 @@ object Instant {
 
   def ofEpochSecond(epochSecond: Long, nanos: Long): Instant = {
     val adjustedSeconds = Math.addExact(epochSecond,
-        Math.floorDiv(nanos, NANOS_IN_SECOND.toLong))
-    val adjustedNanos = Math.floorMod(nanos, NANOS_IN_SECOND.toLong).toInt
+        Math.floorDiv(nanos, NANOS_IN_SECOND))
+    val adjustedNanos = Math.floorMod(nanos, NANOS_IN_SECOND).toInt
     new Instant(adjustedSeconds, adjustedNanos)
   }
 
   def ofEpochMilli(epochMilli: Long): Instant = {
     val seconds = toEpochSecond(epochMilli)
-    val nanos = Math.floorMod(epochMilli, MILLIS_IN_SECOND.toLong)
+    val nanos = Math.floorMod(epochMilli, MILLIS_IN_SECOND)
     new Instant(seconds, nanos.toInt * NANOS_IN_MILLI)
   }
 
   private[time] def toEpochSecond(epochMilli: Long): Long =
-    Math.floorDiv(epochMilli, MILLIS_IN_SECOND.toLong)
+    Math.floorDiv(epochMilli, MILLIS_IN_SECOND)
 
   private[time] def toEpochDay(epochSecond: Long): Long =
-    Math.floorDiv(epochSecond, SECONDS_IN_DAY.toLong)
+    Math.floorDiv(epochSecond, SECONDS_IN_DAY)
 
   def from(temporal: TemporalAccessor): Instant = temporal match {
     case temporal: Instant => temporal

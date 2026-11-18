@@ -141,7 +141,7 @@ final class Duration private (seconds: Long, nanos: Int)
       val nanos = {
         try {
           val total = Math.addExact(
-              Math.multiplyExact(secondsRem, NANOS_IN_SECOND.toLong),
+              Math.multiplyExact(secondsRem, NANOS_IN_SECOND),
               normalizedNanos
           )
           total / divisor
@@ -187,14 +187,14 @@ final class Duration private (seconds: Long, nanos: Int)
       } else {
         (seconds, nanos)
       }
-    val millis1 = Math.multiplyExact(secs, MILLIS_IN_SECOND.toLong)
+    val millis1 = Math.multiplyExact(secs, MILLIS_IN_SECOND)
     val millis2 = nos / NANOS_IN_MILLI
     Math.addExact(millis1, millis2)
   }
 
   def toNanos(): Long =
     Math.addExact(
-        Math.multiplyExact(seconds, NANOS_IN_SECOND.toLong),
+        Math.multiplyExact(seconds, NANOS_IN_SECOND),
         nanos
     )
 
