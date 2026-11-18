@@ -30,9 +30,9 @@ The following projects could be considered as alternatives, the second one for S
 | 2.13.x                 |          ✅           |         ✅         |
 | 3.x.x                  |          ✅           |         ✅         |
 
-Note: Scala 3 support on Scala Native `0.4.3-RC1` or greater.
-Note: Scala Native `0.4.0` support up to version `1.1.9`.
-Note: As of `1.6.0`, Scala 3 uses `3.9` or greater.
+- Note: Scala 3 support on Scala Native `0.4.3-RC1` or greater.
+- Note: Scala Native `0.4.0` support up to version `1.1.9`.
+- Note: As of `1.6.0`, Scala 3 uses `3.9` or greater.
 
 ## Usage
 [![Maven Central](https://img.shields.io/maven-central/v/org.ekrich/sjavatime_native0.5_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/org.ekrich/sjavatime_native0.5_2.13)
@@ -79,6 +79,7 @@ Follow the [contributing guide](./CONTRIBUTING.md).
 
 ## Versions
 
+Release [1.6.0](https://github.com/ekrich/sjavatime/releases/tag/v1.6.0) - (2026-11-18)<br/>
 Release [1.5.0](https://github.com/ekrich/sjavatime/releases/tag/v1.5.0) - (2025-10-13)<br/>
 Release [1.4.0](https://github.com/ekrich/sjavatime/releases/tag/v1.4.0) - (2025-06-09)<br/>
 Release [1.3.0](https://github.com/ekrich/sjavatime/releases/tag/v1.3.0) - (2024-04-11)<br/>
