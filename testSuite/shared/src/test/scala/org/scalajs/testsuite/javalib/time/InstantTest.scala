@@ -548,6 +548,18 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(0L, Instant.EPOCH.toEpochMilli)
     assertEquals(928392983942L, somePositiveInstant.toEpochMilli)
     assertEquals(-83827873286912L, someNegativeInstant.toEpochMilli)
+
+    assertEquals(Long.MinValue,
+        Instant.ofEpochSecond(-9223372036854776L, 192000000).toEpochMilli)
+    assertThrows(classOf[ArithmeticException],
+        Instant.ofEpochSecond(-9223372036854776L, 191999999).toEpochMilli)
+    assertEquals(-9223372036854775500L,
+        Instant.ofEpochSecond(-9223372036854776L, 500000000).toEpochMilli)
+
+    assertEquals(Long.MaxValue,
+        Instant.ofEpochSecond(9223372036854775L, 807000000).toEpochMilli)
+    assertThrows(classOf[ArithmeticException],
+        Instant.ofEpochSecond(9223372036854775L, 808000000).toEpochMilli)
   }
 
   @Test def toStringOutput(): Unit = {
