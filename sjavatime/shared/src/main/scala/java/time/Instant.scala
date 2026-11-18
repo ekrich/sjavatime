@@ -263,11 +263,11 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
   }
 
   def compareTo(that: Instant): Int = {
-    val cmp = seconds compareTo that.seconds
+    val cmp = seconds.compareTo(that.seconds)
     if (cmp != 0) {
       cmp
     } else {
-      nanos compareTo that.nanos
+      nanos.compareTo(that.nanos)
     }
   }
 
