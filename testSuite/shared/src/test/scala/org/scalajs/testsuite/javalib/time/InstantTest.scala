@@ -12,7 +12,13 @@ import org.scalajs.testsuite.utils.AssertThrows.assertThrows
 import org.scalajs.testsuite.utils.Platform.executingInJVMOnJDK8
 import org.scalajs.testsuite.utils.Platform.executingInJVMLessThan
 
-/** Created by alonsodomin on 26/12/2015. */
+/** Tests named IssueJDK_nnnnnnn refer to
+ *  https://bugs.openjdk.org/browse/JDK-nnnnnnn
+ *
+ *  The JVM guards (executingInJVMLessThan) only exist so the JVM run passes on
+ *  older JDKs (17) as well as 21 and 25. On Scala.js and Scala Native the
+ *  guards are always false, so the correct (fixed) values are expected.
+ */
 class InstantTest extends TemporalTest[Instant] {
   import DateTimeTestUtil._
   import ChronoField._
@@ -398,15 +404,6 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(1460970000731L, Instant.MIN.until(Instant.MAX, HALF_DAYS))
     assertEquals(730485000365L, Instant.MIN.until(Instant.MAX, DAYS))
 
-    // See https://bugs.openjdk.org/browse/JDK-8307466
-    // Fixed in 21 backport to 20
-    if (executingInJVMLessThan(20)) {
-      assertEquals(84756266270854L,
-          someNegativeInstant.until(somePositiveInstant, MILLIS))
-    } else {
-      // assertEquals(84756266270853L,
-      //     someNegativeInstant.until(somePositiveInstant, MILLIS))
-    }
     assertEquals(84756266270L,
         someNegativeInstant.until(somePositiveInstant, SECONDS))
     assertEquals(1412604437L,
@@ -416,6 +413,107 @@ class InstantTest extends TemporalTest[Instant] {
     assertEquals(1961950L,
         someNegativeInstant.until(somePositiveInstant, HALF_DAYS))
     assertEquals(980975L, someNegativeInstant.until(somePositiveInstant, DAYS))
+  }
+
+  // Fixed in 21 backport to 20
+  @Test def until_IssueJDK_8307466(): Unit = {
+    // The example from the JDK ticket
+    val t1 = Instant.parse("2023-05-03T10:00:00.000999Z")
+    val t2 = Instant.parse("2023-05-03T10:00:01.000Z")
+    val t3 = Instant.parse("2023-05-03T10:00:01.001Z")
+
+    if (executingInJVMLessThan(20)) {
+      assertEquals(84756266270854L,
+          someNegativeInstant.until(somePositiveInstant, MILLIS))
+
+      assertEquals(0L, t1.until(t1, MILLIS))
+      assertEquals(1000L, t1.until(t2, MILLIS))
+      assertEquals(1001L, t1.until(t3, MILLIS))
+      assertEquals(-1000L, t2.until(t1, MILLIS))
+      assertEquals(-1001L, t3.until(t1, MILLIS))
+      assertEquals(-1L, t3.until(t2, MILLIS))
+      assertEquals(1L, t2.until(t3, MILLIS))
+    } else {
+      assertEquals(84756266270853L,
+          someNegativeInstant.until(somePositiveInstant, MILLIS))
+
+      assertEquals(0L, t1.until(t1, MILLIS))
+      assertEquals(999L, t1.until(t2, MILLIS))
+      assertEquals(1000L, t1.until(t3, MILLIS))
+      assertEquals(-999L, t2.until(t1, MILLIS))
+      assertEquals(-1000L, t3.until(t1, MILLIS))
+      assertEquals(-1L, t3.until(t2, MILLIS))
+      assertEquals(1L, t2.until(t3, MILLIS))
+    }
+  }
+
+  // JDK-8307578: the seconds difference must be adjusted when the seconds
+  // and nanos differences have opposite signs (carry/borrow), for both
+  // MILLIS and MICROS.
+  @Test def until_IssueJDK_8307578(): Unit = {
+    // seconds diff = 1, nanos diff = -123_456_789, total 0.876543211 s
+    val a = Instant.ofEpochSecond(0, 123456789)
+    val b = Instant.ofEpochSecond(1, 0)
+
+    if (executingInJVMLessThan(20)) {
+      assertEquals(877L, a.until(b, MILLIS))
+      assertEquals(-877L, b.until(a, MILLIS))
+    } else {
+      assertEquals(876L, a.until(b, MILLIS))
+      assertEquals(-876L, b.until(a, MILLIS))
+    }
+    assertEquals(876543L, a.until(b, MICROS))
+    assertEquals(-876543L, b.until(a, MICROS))
+
+    // same, before the epoch
+    val c = Instant.ofEpochSecond(-10, 123456789)
+    val d = Instant.ofEpochSecond(-9, 0)
+
+    if (executingInJVMLessThan(20)) {
+      assertEquals(877L, c.until(d, MILLIS))
+      assertEquals(-877L, d.until(c, MILLIS))
+    } else {
+      assertEquals(876L, c.until(d, MILLIS))
+      assertEquals(-876L, d.until(c, MILLIS))
+    }
+    assertEquals(876543L, c.until(d, MICROS))
+    assertEquals(-876543L, d.until(c, MICROS))
+
+    // Control: seconds and nanos differences have the same sign, no carry
+    val e = Instant.ofEpochSecond(0, 500000000)
+    val f = Instant.ofEpochSecond(2, 700000000)
+    assertEquals(2200L, e.until(f, MILLIS))
+    assertEquals(-2200L, f.until(e, MILLIS))
+    assertEquals(2200000L, e.until(f, MICROS))
+    assertEquals(-2200000L, f.until(e, MICROS))
+  }
+
+  // JDK-8273369: MICROS must not overflow when the span is more than
+  // Long.MAX_VALUE nanoseconds but fits in Long microseconds. Fixed in 18.
+  @Test def until_IssueJDK_8273369(): Unit = {
+    // 13919292800 s is 1.39e19 ns (over Long.MAX_VALUE) but only 1.39e16 us
+    val start = Instant.EPOCH.minusSeconds(12219292800L)
+    val end = Instant.EPOCH.plusSeconds(1700000000L)
+
+    if (executingInJVMLessThan(18)) {
+      assertThrows(classOf[ArithmeticException], start.until(end, MICROS))
+      assertThrows(classOf[ArithmeticException], end.until(start, MICROS))
+    } else {
+      assertEquals(13919292800000000L, start.until(end, MICROS))
+      assertEquals(-13919292800000000L, end.until(start, MICROS))
+    }
+
+    // with a carry: nanos diff = -250_000_000
+    val start2 = start.plusNanos(500000000)
+    val end2 = Instant.ofEpochSecond(1700000000L, 250000000)
+
+    if (executingInJVMLessThan(18)) {
+      assertThrows(classOf[ArithmeticException], start2.until(end2, MICROS))
+      assertThrows(classOf[ArithmeticException], end2.until(start2, MICROS))
+    } else {
+      assertEquals(13919292799750000L, start2.until(end2, MICROS))
+      assertEquals(-13919292799750000L, end2.until(start2, MICROS))
+    }
   }
 
   @Test def compareTo(): Unit = {
