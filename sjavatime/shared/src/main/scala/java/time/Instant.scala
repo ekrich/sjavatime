@@ -218,9 +218,25 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
           nanosDiff / NANOS_IN_MILLI)
     }
 
+    // Same adjustment as millisUntil, and the total nanos are never formed so
+    // spans over Long.MaxValue nanoseconds do not overflow, see JDK-8273369
+    def microsUntil: Long = {
+      var secsDiff: Long = Math.subtractExact(endInstant.seconds, seconds)
+      var nanosDiff: Long = (endInstant.nanos - nanos).toLong
+      if (secsDiff > 0 && nanosDiff < 0) {
+        secsDiff -= 1
+        nanosDiff += NANOS_IN_SECOND
+      } else if (secsDiff < 0 && nanosDiff > 0) {
+        secsDiff += 1
+        nanosDiff -= NANOS_IN_SECOND
+      }
+      Math.addExact(Math.multiplyExact(secsDiff, 1000000L),
+          nanosDiff / NANOS_IN_MICRO)
+    }
+
     unit match {
       case NANOS     => nanosUntil
-      case MICROS    => nanosUntil / NANOS_IN_MICRO
+      case MICROS    => microsUntil
       case MILLIS    => millisUntil
       case SECONDS   => secondsUntil
       case MINUTES   => secondsUntil / SECONDS_IN_MINUTE
