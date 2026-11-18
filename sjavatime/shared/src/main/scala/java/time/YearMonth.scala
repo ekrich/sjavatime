@@ -110,9 +110,9 @@ final class YearMonth private (year: Int, month: Int)
   def plus(amount: Long, unit: TemporalUnit): YearMonth = unit match {
     case MONTHS    => plusMonths(amount)
     case YEARS     => plusYears(amount)
-    case DECADES   => plusYears(Math.multiplyExact(amount, 10L))
-    case CENTURIES => plusYears(Math.multiplyExact(amount, 100L))
-    case MILLENNIA => plusYears(Math.multiplyExact(amount, 1000L))
+    case DECADES   => plusYears(Math.multiplyExact(amount, 10))
+    case CENTURIES => plusYears(Math.multiplyExact(amount, 100))
+    case MILLENNIA => plusYears(Math.multiplyExact(amount, 1000))
 
     case ERAS =>
       val era = getLong(ERA)
@@ -140,8 +140,8 @@ final class YearMonth private (year: Int, month: Int)
     } else {
       // Allowing the Long to overflow to align with JDK implementation
       val newProlepticMonth = prolepticMonth + months
-      val newYear = Math.floorDiv(newProlepticMonth, 12L)
-      val newMonth = Math.floorMod(newProlepticMonth, 12L) + 1
+      val newYear = Math.floorDiv(newProlepticMonth, 12)
+      val newMonth = Math.floorMod(newProlepticMonth, 12) + 1
       new YearMonth(
           YEAR.checkValidIntValue(newYear),
           MONTH_OF_YEAR.checkValidIntValue(newMonth)

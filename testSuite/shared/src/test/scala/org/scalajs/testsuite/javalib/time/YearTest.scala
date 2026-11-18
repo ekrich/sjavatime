@@ -168,9 +168,9 @@ class YearTest extends TemporalTest[Year] {
       v <- sampleLongs
     } {
       testDateTime(t.plus(v, YEARS))(t.plusYears(v))
-      testDateTime(t.plus(v, DECADES))(t.plusYears(Math.multiplyExact(v, 10L)))
-      testDateTime(t.plus(v, CENTURIES))(t.plusYears(Math.multiplyExact(v, 100L)))
-      testDateTime(t.plus(v, MILLENNIA))(t.plusYears(Math.multiplyExact(v, 1000L)))
+      testDateTime(t.plus(v, DECADES))(t.plusYears(Math.multiplyExact(v, 10)))
+      testDateTime(t.plus(v, CENTURIES))(t.plusYears(Math.multiplyExact(v, 100)))
+      testDateTime(t.plus(v, MILLENNIA))(t.plusYears(Math.multiplyExact(v, 1000)))
     }
   }
 
