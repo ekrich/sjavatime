@@ -7,7 +7,6 @@ import java.time.temporal._
 
 import scala.util.control.NonFatal
 
-/** Created by alonsodomin on 26/12/2015. */
 final class Instant private (private val seconds: Long, private val nanos: Int)
     extends TemporalAccessor with Temporal with TemporalAdjuster
     with Comparable[Instant] with java.io.Serializable {
@@ -202,11 +201,27 @@ final class Instant private (private val seconds: Long, private val nanos: Int)
       }
     }
 
+    // When the seconds and nanos differences have opposite signs, move one
+    // second into the nanos so the division truncates toward zero (whole
+    // milliseconds), see JDK-8307466
+    def millisUntil: Long = {
+      var secsDiff: Long = Math.subtractExact(endInstant.seconds, seconds)
+      var nanosDiff: Long = (endInstant.nanos - nanos).toLong
+      if (secsDiff > 0 && nanosDiff < 0) {
+        secsDiff -= 1
+        nanosDiff += NANOS_IN_SECOND
+      } else if (secsDiff < 0 && nanosDiff > 0) {
+        secsDiff += 1
+        nanosDiff -= NANOS_IN_SECOND
+      }
+      Math.addExact(Math.multiplyExact(secsDiff, 1000L),
+          nanosDiff / NANOS_IN_MILLI)
+    }
+
     unit match {
-      case NANOS  => nanosUntil
-      case MICROS => nanosUntil / NANOS_IN_MICRO
-      case MILLIS => Math.subtractExact(endInstant.toEpochMilli(),
-            toEpochMilli())
+      case NANOS     => nanosUntil
+      case MICROS    => nanosUntil / NANOS_IN_MICRO
+      case MILLIS    => millisUntil
       case SECONDS   => secondsUntil
       case MINUTES   => secondsUntil / SECONDS_IN_MINUTE
       case HOURS     => secondsUntil / SECONDS_IN_HOUR
