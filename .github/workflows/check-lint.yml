@@ -9,4 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: java -version
-      - run: scripts/scalafmt --test
+      - run: scripts/scalafmt --check
